@@ -1,6 +1,7 @@
 package com.example.transmagdalena.route;
 
 import com.example.transmagdalena.routeStop.RouteStop;
+import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,13 @@ public class Route {
 
     private String code;
 
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "origin_id")
+    private Stop origin;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "destination_id")
+    private Stop destination;
 
     @OneToMany(mappedBy = "route")
     private List<Trip> trips;
