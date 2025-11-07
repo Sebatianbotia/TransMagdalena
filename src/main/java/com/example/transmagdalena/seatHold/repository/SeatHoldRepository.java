@@ -11,8 +11,8 @@ import java.util.Optional;
 public interface SeatHoldRepository extends JpaRepository<SeatHold, Long> {
 
     @Query("""
-    select s from Seat s 
-     where s.number = :seatNumber and s.bus.id = :busId
+    select sh from SeatHold sh
+     where sh.seat.number = :seatNumber and sh.trip.id  = :tripId
  """)
-    Optional<Seat> findSeatByNumber(@Param("busId") Long tripId, @Param("seatNumber") Integer seatNumber);
+    Optional<SeatHold> findSeatHoldByNumber(@Param("seatNumber") Integer seatNumber, @Param("tripId") Long tripId);
 }
