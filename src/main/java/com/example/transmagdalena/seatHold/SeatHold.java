@@ -32,7 +32,7 @@ public class SeatHold {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seat_id")
-    private Seat seatHoldNumber;
+    private Seat seat;
 
     private OffsetDateTime expiresAt;
 

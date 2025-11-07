@@ -2,6 +2,7 @@ package com.example.transmagdalena.user;
 
 import com.example.transmagdalena.assignment.Assignment;
 import com.example.transmagdalena.seatHold.SeatHold;
+import com.example.transmagdalena.ticket.Ticket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,7 +27,7 @@ public class User {
     private String name;
     private String email;
 
-    private UserRols rols;
+    private UserRols rol;
 
     private String passwordHash;
 
@@ -40,6 +42,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<SeatHold> seatHolds;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Ticket> tickets;
+
+
 
     public void addDriverAssignment(Assignment assignment) {
         driverAssignments.add(assignment);

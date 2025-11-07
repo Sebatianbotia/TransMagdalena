@@ -2,6 +2,7 @@ package com.example.transmagdalena.ticket;
 
 import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
+import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,10 @@ public class Ticket {
     private Trip trip;
 
     private Integer seatNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "originId")
