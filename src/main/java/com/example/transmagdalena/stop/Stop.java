@@ -1,5 +1,7 @@
 package com.example.transmagdalena.stop;
 
+import com.example.transmagdalena.city.City;
+import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.ticket.Ticket;
 import jakarta.persistence.*;
@@ -24,8 +26,10 @@ public class Stop {
 
     private String name;
 
-    @Column(nullable = false)
-    private String city;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
+    private City city;
+
 
     private float lat;
 
@@ -42,6 +46,15 @@ public class Stop {
 
     @OneToMany(mappedBy = "destination")
     private Set<Ticket> destinationTickets;
+
+    @OneToMany(mappedBy = "origin")
+    private Set<Route> originRoutes;
+
+    @OneToMany(mappedBy = "destination")
+    private Set<Route> destinationRoutes;
+
+
+
 
 
 
