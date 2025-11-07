@@ -26,7 +26,7 @@ public class Ticket {
     @JoinColumn(name = "tripId")
     private Trip trip;
 
-    private Integer seatNumber;
+    private Integer seatNumber;//cambiar por seatHold
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
