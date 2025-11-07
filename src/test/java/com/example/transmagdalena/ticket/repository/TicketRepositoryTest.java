@@ -2,6 +2,8 @@ package com.example.transmagdalena.ticket.repository;
 
 import com.example.transmagdalena.AbstractRepositoryPSQL;
 import com.example.transmagdalena.ticket.Ticket;
+import com.example.transmagdalena.trip.Trip;
+import com.example.transmagdalena.trip.TripStatus;
 import com.example.transmagdalena.user.User;
 import com.example.transmagdalena.user.UserRols;
 import com.example.transmagdalena.user.repository.UserRepository;
@@ -57,6 +59,15 @@ class TicketRepositoryTest extends AbstractRepositoryPSQL {
 
 
 
+    }
+
+    @Test
+    @DisplayName("Encontrar stops de un viaje de un usuario")
+    void findTicketsByUser_IdAndStopOrder(){
+        User usuario = User.builder().name("Juan").email("aaaaa@gmail.com").phone("12325242").passwordHash("1234").build();
+        User usuarioSaved = userRepository.save(usuario);
+        Trip trip = Trip.builder().date(OffsetDateTime.now()).departureAt(OffsetDateTime.now().plusHours(12)).arrivalAt(OffsetDateTime.now().minusHours(12)).tripStatus(TripStatus.ARRIVED).build();
+        Ticket ticket = Ticket.builder().trip(trip).user(usuarioSaved).build();
     }
 
 
