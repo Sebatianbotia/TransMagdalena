@@ -14,16 +14,16 @@ import java.util.List;
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
     @Query("""
-select distinct t from Trip t 
+select distinct t from Trip t
 where exists (
 select rs.id from RouteStop rs
-join RouteStop rs2 on rs2.route = rs.route 
-where rs.origin = :origin and rs2.destination = :destination
+join RouteStop rs2 on rs2.route = rs.route
+where rs.origin.id = :origin and rs2.destination.id = :destination
 and rs2.stopOrder >= rs.stopOrder
 ) and t.bus.capacity >= (select count(*) from SeatHold sh where sh.trip = t)
 
 """)
-    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param("origin") String origin, @Param("destination") String destination,  Pageable pageable);
+    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param("origin") Long originId, @Param("destination") Long destinationId,  Pageable pageable);
 
     @Query("""
     select sh.seat.number from SeatHold sh
@@ -35,7 +35,7 @@ and rs2.stopOrder >= rs.stopOrder
 
     @Query("""
      select sh from SeatHold sh
-     where sh.trip.route.id = :routeId and sh.status = 1
+     where sh.trip.id = :tripId and sh.status = 1
 """)
-    List<SeatHold> findUnpaidSeatHolds(@Param("routeId") Long routeId);
+    List<SeatHold> findUnpaidSeatHolds(@Param("tripId") Long routeId);
 }

@@ -21,7 +21,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     where rs.stopOrder between (
     select f.stopOrder from RouteStop f
     where f.origin = t.origin
-    ) and (
+    ) AND (
     select ff.stopOrder from RouteStop ff
     where ff.destination = t.destination
     )
