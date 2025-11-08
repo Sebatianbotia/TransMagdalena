@@ -2,11 +2,15 @@ package com.example.transmagdalena.bus.mapper;
 
 
 import com.example.transmagdalena.bus.Bus;
+import com.example.transmagdalena.bus.DTO.BusDTO;
 import com.example.transmagdalena.bus.DTO.BusDTO.*;
 import com.example.transmagdalena.seat.Seat;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface BusMapper {
@@ -23,5 +27,14 @@ public interface BusMapper {
     busResponse toBusDTO(Bus entity);
 
     seatResponseDto toSeatDTO(Seat entity);
+
+    default Set<seatResponseDto> mapSeats(Set<Seat> seats) {
+        if (seats == null) {
+            return null;
+        }
+        return seats.stream()
+                .map(this::toSeatDTO)
+                .collect(Collectors.toSet());
+    }
 
 }
