@@ -1,0 +1,38 @@
+package com.example.transmagdalena.assignment;
+
+
+import com.example.transmagdalena.user.User;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.OffsetDateTime;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "assignments")
+public class Assignment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "driverId")
+    private User driver;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dispatcherId")
+    private User dispatcher;
+
+
+    private boolean checkList;
+
+    private OffsetDateTime assignedAt;
+
+}
