@@ -16,7 +16,16 @@ public class BusDTO {
         @NotNull
         int capacity,
         @NotBlank
-        String status
+        String status,
+        @NotNull
+        Set<seatCreateRequest> seats
+    ) implements Serializable {}
+
+    public record seatCreateRequest(
+            @NotNull
+            int number,
+            @NotNull
+            SeatType type
     ) implements Serializable {}
 
     public record busUpdateRequest(

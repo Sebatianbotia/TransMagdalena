@@ -1,0 +1,14 @@
+package com.example.transmagdalena.baggage.service;
+
+import com.example.transmagdalena.baggage.DTO.BaggageDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+public interface BaggageService {
+
+    BaggageDTO.baggageResponse save(BaggageDTO.baggageCreateRequest request);
+    BaggageDTO.baggageResponse get(Long id);
+    Page<BaggageDTO.baggageResponse> getAll(PageRequest pageRequest);
+    void delete(Long id);
+    BaggageDTO.baggageResponse update(BaggageDTO.baggageUpdateRequest request);
+}
