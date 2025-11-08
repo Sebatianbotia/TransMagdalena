@@ -28,14 +28,8 @@ public interface BusMapper {
     busResponse toBusDTO(Bus entity);
 
     seatResponseDto toSeatDTO(Seat entity);
+    //así debería funcionar, pruebalo por favor
+    Set<seatResponseDto> toSeatsDTO(Set<Seat> entity);
 
-    default Set<seatResponseDto> mapSeats(Set<Seat> seats) {
-        if (seats == null) {
-            return null;
-        }
-        return seats.stream()
-                .map(this::toSeatDTO)
-                .collect(Collectors.toSet());
-    }
 
 }

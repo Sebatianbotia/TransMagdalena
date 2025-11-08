@@ -8,7 +8,9 @@ import java.math.BigDecimal;
 public class RouteStopDTO {
     // Create
     public record fareRuleCreateRequest(@NotNull BigDecimal basePrice, @NotNull boolean isDynamicPricing) {}
-    public record routeStopCreateRequest(@NotNull int stopOrder, @NotNull Long originId, @NotNull Long destinationId,
+    public record routeStopCreateRequest(@NotNull int stopOrder,
+                                         @NotNull Long originId, //manejs la bidireccionalidad con el list de routestops en Stop(service)
+                                         @NotNull Long destinationId,//lo mismoa ca
                                          @NotNull Long routeId, fareRuleCreateRequest fareRule) implements Serializable {}
 
 

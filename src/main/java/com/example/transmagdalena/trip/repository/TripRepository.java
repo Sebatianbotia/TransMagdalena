@@ -34,6 +34,7 @@ and rs2.stopOrder >= rs.stopOrder and t.route = rs.route
     Page<Trip> findTripsByBus_Id(Pageable pageable, Long bus_id);
 
     @Query("""
+     
      select sh from SeatHold sh
      where sh.trip.id = :tripId and sh.status = 1
 """)

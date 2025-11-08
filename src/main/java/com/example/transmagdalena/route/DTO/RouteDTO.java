@@ -11,9 +11,9 @@ public class RouteDTO {
             @NotBlank
             String code,
             @NotNull
-            Long originId,
+            Long originId,//manejar la bidireccionalidad con la lista de stops en el service
             @NotNull
-            Long destinationId
+            Long destinationId//lo mismo acá
 
     ) implements Serializable {}
 

@@ -34,7 +34,7 @@ public class SeatHold {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
-    private OffsetDateTime expiresAt;
+    private OffsetDateTime expiresAt =  OffsetDateTime.now().plusMinutes(10);
 
     private SeatHoldStatus status;
 }
