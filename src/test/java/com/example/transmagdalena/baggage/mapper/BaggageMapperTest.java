@@ -38,7 +38,7 @@ class BaggageMapperTest {
         @Test
     void updateEntity(){
             Baggage baggage = Baggage.builder().id(1L).weight(12).tagCode("aaa").fee(new BigDecimal("120.3")).build();
-            var update = new BaggageDTO.baggageUpdateRequest(1L, 13, "aaa", new BigDecimal("13.2"));
+            var update = new BaggageDTO.baggageUpdateRequest(13, "aaa", new BigDecimal("13.2"));
             mapper.updateEntity(update,baggage);
 
             assertNotNull(baggage);

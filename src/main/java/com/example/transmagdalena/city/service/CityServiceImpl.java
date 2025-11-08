@@ -42,14 +42,27 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDTO.cityResponse get(Long id) {
-        City c = cityRepository.findById(id).orElseThrow(() -> new NotFoundException("City not found"));
-        return cityMapper.toDTO(c);
+        return cityMapper.toDTO(getObject(id));
     }
 
     @Override
-    public Page<CityDTO.cityResponse> getAll(Integer page, Integer elementsPage) {
-        PageRequest pageRequest = PageRequest.of(page, elementsPage);
+    public Page<CityDTO.cityResponse> getAll(PageRequest pageRequest) {
         Page<City> cities = cityRepository.findAll(pageRequest);
         return cities.map(e ->  cityMapper.toDTO(e));
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        var f = getObject(id);
+        boolean check = false;
+        if (f != null) {
+            cityRepository.delete(f);
+            check = true;
+        }
+        return check;
+    }
+
+    private City getObject(Long id) {
+        return cityRepository.findById(id).orElseThrow(() -> new NotFoundException("City not found"));
     }
 }
