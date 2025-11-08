@@ -1,5 +1,6 @@
 package com.example.transmagdalena.ticket;
 
+import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.user.User;
@@ -23,10 +24,12 @@ public class Ticket {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tripId")
+    @JoinColumn(name = "trip_id")
     private Trip trip;
 
-    private Integer seatNumber;//cambiar por seatHold
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seathold_id")
+    private SeatHold seatHold;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

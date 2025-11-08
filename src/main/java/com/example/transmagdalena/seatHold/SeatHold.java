@@ -1,6 +1,7 @@
 package com.example.transmagdalena.seatHold;
 
 import com.example.transmagdalena.seat.Seat;
+import com.example.transmagdalena.ticket.Ticket;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
@@ -37,4 +38,8 @@ public class SeatHold {
     private OffsetDateTime expiresAt;
 
     private SeatHoldStatus status;
+
+    @OneToOne(mappedBy = "seatHold")
+    private Ticket ticket;
+
 }
