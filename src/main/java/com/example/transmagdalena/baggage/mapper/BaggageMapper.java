@@ -6,6 +6,7 @@ import com.example.transmagdalena.baggage.Baggage;
 import com.example.transmagdalena.baggage.DTO.BaggageDTO.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface BaggageMapper {
@@ -13,7 +14,7 @@ public interface BaggageMapper {
     @Mapping(target = "id", ignore = true)
     Baggage toEntity(baggageCreateRequest createRequest);
     //update
-    void updateEntity(baggageUpdateRequest updateRequest, Baggage baggage);
+    void updateEntity(baggageUpdateRequest updateRequest, @MappingTarget Baggage baggage);
 
     baggageResponse toDto(Baggage baggage);
 

@@ -24,6 +24,7 @@ public interface BusMapper {
     @Mapping(target = "seats", ignore = true)
     void updateEntity(busCreateRequest updateRequest, @MappingTarget Bus bus);
 
+    @Mapping(target = "seats", source = "seats")
     busResponse toBusDTO(Bus entity);
 
     seatResponseDto toSeatDTO(Seat entity);
