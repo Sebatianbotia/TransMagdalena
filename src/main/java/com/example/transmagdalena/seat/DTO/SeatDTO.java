@@ -31,6 +31,7 @@ public class SeatDTO {
     ) implements Serializable {}
 
     public record seatResponse(
+            Long id,
             int number,
             SeatType type,
             busDto bus

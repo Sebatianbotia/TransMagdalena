@@ -12,11 +12,11 @@ import org.mapstruct.MappingTarget;
 public interface SeatMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "busId", ignore = true)
+    @Mapping(target = "bus", ignore = true)
     Seat toEntity(seatCreateRequest seatCreateRequest);
 
-    @Mapping(target = "busId", ignore = true)
-    void updateSeat(Seat seat, @MappingTarget SeatDTO seatDTO);
+    @Mapping(target = "bus", ignore = true)
+    void updateSeat(@MappingTarget Seat seat, SeatDTO.seatUpdateRequest seatDTO);
 
     seatResponse toSeatResponse(Seat seat);
 

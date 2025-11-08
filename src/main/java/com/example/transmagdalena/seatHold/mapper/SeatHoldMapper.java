@@ -14,16 +14,16 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface SeatHoldMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "tripId", ignore = true)//se maneja en el service
-    @Mapping(target = "seatId", ignore = true)
+    @Mapping(source = "userId", target = "user", ignore = true)
+    @Mapping(source = "tripId", target = "trip", ignore = true)//se maneja en el service
+    @Mapping(source = "seatId", target = "seat", ignore = true)
     SeatHold toEntity(seatHoldCreateRequest dto);
 
-    @Mapping(target = "userId", ignore = true)
-    @Mapping(target = "tripId", ignore = true)
-    @Mapping(target = "seatId", ignore = true)
+    @Mapping(source = "userId", target = "user", ignore = true)
+    @Mapping(source = "tripId", target = "trip", ignore = true)
+    @Mapping(source = "seatId", target = "seat",ignore = true)
     void updateEntity(seatHoldUpdateRequest request, @MappingTarget SeatHold entity);
+
 
 
     seatHoldResponse toDTO(SeatHold entity);

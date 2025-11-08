@@ -10,12 +10,11 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface StopMapper {
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "cityId", ignore = true)
+    @Mapping(source = "cityId", target = "city", ignore = true)
     Stop toEntity(stopCreateRequest request);
 
 
-    @Mapping(target = "cityId", ignore = true)
+    @Mapping(source = "cityId", target = "city", ignore = true)
     void updateStop(stopUpdateRequest request, @MappingTarget Stop stop);
 
     // response
