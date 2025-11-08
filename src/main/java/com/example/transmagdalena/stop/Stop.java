@@ -53,12 +53,4 @@ public class Stop {
     @OneToMany(mappedBy = "destination")
     private Set<Route> destinationRoutes;
 
-
-
-
-
-
-
-
-
 }

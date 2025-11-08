@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface routeMapper {
+public interface RouteMapper {
 
     Route toEntity(routeCreateRequest request);
     //update

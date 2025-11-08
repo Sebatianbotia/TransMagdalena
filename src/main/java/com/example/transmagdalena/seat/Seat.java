@@ -34,9 +34,4 @@ public class Seat {
     @OneToMany(mappedBy = "seat")
     private Set<SeatHold> seatHolds;
 
-
-
-
-
-
 }

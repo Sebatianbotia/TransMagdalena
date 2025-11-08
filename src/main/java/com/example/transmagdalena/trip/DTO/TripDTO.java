@@ -11,7 +11,7 @@ public class TripDTO {
 
     public record tripCreateRequest(@NotNull Long busId, @NotNull Long routeId, @NotNull OffsetDateTime date,
                                   @NotNull OffsetDateTime departureAt, @NotNull OffsetDateTime arrivalAt,
-                                  @NotNull TripStatus status
+                                  @NotNull TripStatus tripStatus
     ) implements Serializable {}
 
     public record busDTO(Long id,
@@ -24,5 +24,5 @@ public class TripDTO {
 
     public record tripResponse( Long id ,busDTO bus, routeDTO route, OffsetDateTime date,
                                 OffsetDateTime departureAt, OffsetDateTime arrivalAt,
-                                TripStatus status) implements Serializable {}
+                                TripStatus tripStatus) implements Serializable {}
 }

@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface CityMapper {
 
-    City toEntity(CityDTO dto);
+    City toEntity(CityDTO.cityCreateRequest dto);
     CityDTO.cityResponse toDTO(City city);
     void update(CityDTO.cityResponse response, @MappingTarget City city);
 }
