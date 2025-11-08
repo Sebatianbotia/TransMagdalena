@@ -35,8 +35,4 @@ public class Bus {
     @OneToMany(mappedBy = "bus")
     private Set<Seat> seats;
 
-
-
-
-
 }

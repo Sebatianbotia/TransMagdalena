@@ -1,5 +1,6 @@
 package com.example.transmagdalena.trip;
 
+import com.example.transmagdalena.assignment.Assignment;
 import com.example.transmagdalena.bus.Bus;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.seatHold.SeatHold;
@@ -49,6 +50,9 @@ public class Trip {
 
     @OneToMany(mappedBy = "trip")
     private Set<Ticket> tickets;
+
+    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)
+    private Set<Assignment> dispatcherAssignments;
 
 
 

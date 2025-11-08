@@ -1,6 +1,7 @@
 package com.example.transmagdalena.assignment;
 
 
+import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,11 @@ public class Assignment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dispatcherId")
     private User dispatcher;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tripId")
+    private Trip trip;
+
 
 
     private boolean checkList;

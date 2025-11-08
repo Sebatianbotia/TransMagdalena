@@ -23,7 +23,7 @@ and rs2.stopOrder >= rs.stopOrder and t.route = rs.route
 ) and t.bus.capacity >= (select count(*) from SeatHold sh where sh.trip = t)
 
 """)
-    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param("origin") String originId, @Param("destination") String destinationId,  Pageable pageable);
+    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param(" ") String originId, @Param("destination") String destinationId,  Pageable pageable);
 
     @Query("""
     select sh.seat.number from SeatHold sh
@@ -34,6 +34,7 @@ and rs2.stopOrder >= rs.stopOrder and t.route = rs.route
     Page<Trip> findTripsByBus_Id(Pageable pageable, Long bus_id);
 
     @Query("""
+     
      select sh from SeatHold sh
      where sh.trip.id = :tripId and sh.status = 1
 """)
