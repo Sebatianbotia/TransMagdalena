@@ -1,10 +1,12 @@
 package com.example.transmagdalena.bus.DTO;
 
 import com.example.transmagdalena.seat.SeatType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 public class BusDTO {
