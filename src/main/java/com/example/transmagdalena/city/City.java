@@ -22,9 +22,9 @@ public class City {
 
     private String name;
 
-    private String lat;
+    private float lat;
 
-    private String lon;
+    private float lon;
 
     @OneToMany(mappedBy = "city")
     private Set<Stop> stops;

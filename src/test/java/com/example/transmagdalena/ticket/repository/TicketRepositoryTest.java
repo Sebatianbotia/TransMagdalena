@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.OffsetDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,7 +116,7 @@ class TicketRepositoryTest extends AbstractRepositoryPSQL {
         RouteStop rs2 = RouteStop.builder().route(r1Saved).origin(stopSaved2).destination(stopSaved3).stopOrder(2).build();
         RouteStop rsSaved2 = routeStopRepository.save(rs2);
 
-        Set<RouteStop> routeStops = ticketRepository.findRouteStopsByUserId(usuarioSaved.getId(), tripSaved.getId());
+        List<RouteStop> routeStops = ticketRepository.findRouteStopsByUserId(usuarioSaved.getId(), tripSaved.getId());
 
         assertEquals(2, routeStops.size());
 

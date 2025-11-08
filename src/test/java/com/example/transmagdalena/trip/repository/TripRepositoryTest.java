@@ -80,7 +80,7 @@ class TripRepositoryTest extends AbstractRepositoryPSQL {
         RouteStop rs1Saved = routeStopRepository.save(rs1);
 
         Pageable pageable = PageRequest.of(0, 1);
-        Page<Trip> foundTrip = tripRepository.findAllTripsBetweenOriginAndDestination(stopSaved.getId(), stopSaved3.getId(), pageable);
+        Page<Trip> foundTrip = tripRepository.findAllTripsBetweenOriginAndDestination(stopSaved.getName(), stopSaved3.getName(), pageable);
 
         assertEquals(foundTrip.getContent().getFirst().getId(), tripSaved.getId());
 

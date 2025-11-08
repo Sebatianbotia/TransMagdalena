@@ -17,7 +17,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     // Busca las stops de las rutas (se usara para calcular los precios de cada ticket)
     @Query("""
-    Select rs.stopOrder from Ticket t
+    Select rs from Ticket t
     join RouteStop rs on rs.route = t.trip.route
     where rs.stopOrder between (
     select f.stopOrder from RouteStop f
@@ -28,6 +28,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     )
     and t.user.id = :userId and t.trip.id = :tripId
 """)
-    List<Integer> findRouteStopsByUserId(@Param(value = "userId") Long userId,
+    List<RouteStop> findRouteStopsByUserId(@Param(value = "userId") Long userId,
                                            @Param(value = "tripId") Long tripId);
 }

@@ -18,12 +18,12 @@ select distinct t from Trip t
 where exists (
 select rs.id from RouteStop rs
 join RouteStop rs2 on rs2.route = rs.route
-where rs.origin.id = :origin and rs2.destination.id = :destination
-and rs2.stopOrder >= rs.stopOrder
+where rs.origin.name = :origin and rs2.destination.name = :destination
+and rs2.stopOrder >= rs.stopOrder and t.route = rs.route
 ) and t.bus.capacity >= (select count(*) from SeatHold sh where sh.trip = t)
 
 """)
-    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param("origin") Long originId, @Param("destination") Long destinationId,  Pageable pageable);
+    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param("origin") String originId, @Param("destination") String destinationId,  Pageable pageable);
 
     @Query("""
     select sh.seat.number from SeatHold sh
