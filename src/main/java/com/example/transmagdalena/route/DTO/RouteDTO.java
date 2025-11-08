@@ -27,6 +27,7 @@ public class RouteDTO {
     ) implements Serializable {}
 
     public record routeResponse(
+            Long id,
             String code,
             stopDto origin,
             stopDto destination

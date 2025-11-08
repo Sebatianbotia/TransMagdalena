@@ -16,7 +16,9 @@ public class AssignmentDTO {
             @NotNull
             Long driverId,
             @NotNull
-            Boolean checklist
+            Boolean checkList,
+            @NotNull
+            OffsetDateTime assignedAt
     )implements Serializable {}
 
 
@@ -30,7 +32,7 @@ public class AssignmentDTO {
             @NotNull
             Long dispatcherId,
             @NotNull
-            Boolean checklist
+            Boolean checkList
     ) implements Serializable {}
 
     public record assignmentResponse(

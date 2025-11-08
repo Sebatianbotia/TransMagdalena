@@ -17,7 +17,6 @@ public interface AssignmentMapper {
     //To entity
     //se ignoran los campos con id, se van a manejar en el service (opcion mas limpia)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "assignedAt", ignore = true)
     @Mapping(target = "driver", ignore = true)
     @Mapping(target = "dispatcher", ignore = true)
     @Mapping(target = "trip", ignore = true)
@@ -28,13 +27,12 @@ public interface AssignmentMapper {
     @Mapping(target = "dispatcher", ignore = true)
     @Mapping(target = "trip", ignore = true)
     @Mapping(target = "assignedAt", ignore = true)
-    void updateEntity(assignmentCreateRequest createRequest, @MappingTarget Assignment assignment);
+    void updateEntity(assignmentUpdateRequest updateRequest, @MappingTarget Assignment assignment);
 
 
     //To DTO
     assignmentResponse toAssignmentDTO(Assignment entity);
     userDTO toUserDTO(User user);
     tripDTO toTripDTO(Trip trip);
-
 
 }

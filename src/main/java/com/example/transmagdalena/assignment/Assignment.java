@@ -39,6 +39,6 @@ public class Assignment {
 
     private boolean checkList;
 
-    private OffsetDateTime assignedAt =  OffsetDateTime.now();
+    private OffsetDateTime assignedAt;
 
 }

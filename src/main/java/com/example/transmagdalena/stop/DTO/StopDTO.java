@@ -33,6 +33,7 @@ public class StopDTO {
     ) implements Serializable{}
 
     public record stopResponse(
+            Long id,
 
             String name,
 
