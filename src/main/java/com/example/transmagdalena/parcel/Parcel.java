@@ -39,9 +39,7 @@ public class Parcel {
     @Column(nullable = false)
     private ParcelStatus status;
 
-    @Column(nullable = false)
     private String proofPhotoUrl;
 
-    @Column(nullable = false)
     private Integer deliveryOtp;
 }

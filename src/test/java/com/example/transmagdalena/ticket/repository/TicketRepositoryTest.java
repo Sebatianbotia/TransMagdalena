@@ -1,10 +1,16 @@
 package com.example.transmagdalena.ticket.repository;
 
 import com.example.transmagdalena.AbstractRepositoryPSQL;
+import com.example.transmagdalena.bus.Bus;
+import com.example.transmagdalena.bus.repository.BusRepository;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.route.repository.RouteRepository;
 import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.routeStop.repository.RouteStopRepository;
+import com.example.transmagdalena.seat.Seat;
+import com.example.transmagdalena.seat.repository.SeatRepository;
+import com.example.transmagdalena.seatHold.SeatHold;
+import com.example.transmagdalena.seatHold.repository.SeatHoldRepository;
 import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.stop.repository.StopRepository;
 import com.example.transmagdalena.ticket.Ticket;
@@ -42,10 +48,33 @@ class TicketRepositoryTest extends AbstractRepositoryPSQL {
     RouteStopRepository routeStopRepository;
     @Autowired
     RouteRepository routeRepository;
+    @Autowired
+    SeatRepository seatRepository;
+    @Autowired
+    BusRepository busRepository;
+    @Autowired
+    SeatHoldRepository seatHoldRepository;
 
     @Test
     @DisplayName("Encontrar ticket por usuario")
     void findTicketsByUser_Id(){
+
+        Bus bus = Bus.builder().status("hola").build();
+        bus = busRepository.save(bus);
+        Seat seat1 = Seat.builder().bus(bus).number(2).build();
+        seat1 = seatRepository.save(seat1);
+        Seat seat2 = Seat.builder().bus(bus).number(3).build();
+        seat2 = seatRepository.save(seat2);
+        Seat seat3 = Seat.builder().bus(bus).number(4).build();
+        seat3 = seatRepository.save(seat3);
+
+        SeatHold seatHold1 = SeatHold.builder().seat(seat1).build();
+        seatHold1 = seatHoldRepository.save(seatHold1);
+        SeatHold seatHold2 = SeatHold.builder().seat(seat2).build();
+        seatHold2 = seatHoldRepository.save(seatHold2);
+        SeatHold seatHold3 = SeatHold.builder().seat(seat3).build();
+        seatHold3 = seatHoldRepository.save(seatHold3);
+
         User usuario = new User();
         usuario.setName("Juan");
         usuario.setEmail("aaaa@gmail.com");
@@ -55,16 +84,16 @@ class TicketRepositoryTest extends AbstractRepositoryPSQL {
         User rol = userRepository.save(usuario);
         Ticket ticket = new Ticket();
         ticket.setUser(usuario);
-        ticket.setSeatNumber(23);
+        ticket.setSeatHold(seatHold1);
         ticketRepository.save(ticket);
         Ticket ticket1 = new Ticket();
         ticket1.setUser(usuario);
-        ticket1.setSeatNumber(23);
+        ticket1.setSeatHold(seatHold2);
         ticketRepository.save(ticket1);
 
         Ticket ticket2 = new Ticket();
         ticket2.setUser(usuario);
-        ticket2.setSeatNumber(23);
+        ticket2.setSeatHold(seatHold3);
         ticketRepository.save(ticket2);
 
 
