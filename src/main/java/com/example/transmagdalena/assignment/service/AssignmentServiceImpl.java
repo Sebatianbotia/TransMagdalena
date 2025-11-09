@@ -10,11 +10,17 @@ import com.example.transmagdalena.user.Service.UserService;
 import com.example.transmagdalena.user.Service.UserServiceImpl;
 import com.example.transmagdalena.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class AssignmentServiceImpl implements AssignmentService {
     AssignmentRepository assignmentRepository;
     AssignmentMapper assignmentMapper;
@@ -22,6 +28,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     TripServiceImpl tripService;
 
     @Override
+    @Transactional(readOnly = true)
     public AssignmentDTO.assignmentResponse save(AssignmentDTO.assignmentCreateRequest req) {
         Assignment assignment = assignmentMapper.toEntity(req);
         var driver = userService.getUser(req.driverId());
@@ -32,21 +39,23 @@ public class AssignmentServiceImpl implements AssignmentService {
         driver.getDriverAssignments().add(assignment);
 
         assignment.setDispatcher(dispatcher);
-        dispatcher.getDispatcherAssignments().add(assignment);
+        dispatcher.getDispatcherAssignments().add(assignment); //es necesario hacer el save o la bidireccionalidad se asigna automaticamente?
         assignment.setTrip(trip);
-        trip.getDispatcherAssignments().add(assignment);
+        trip.getDispatcherAssignments().add(assignment); //es necesario hacer el save o la bidireccionalidad se asigna automaticamente?
 
         assignmentRepository.save(assignment);
         return assignmentMapper.toAssignmentDTO(assignment);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public AssignmentDTO.assignmentResponse get(Long id) {
         var assignment = assignmentRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("assigment not found"));
         return assignmentMapper.toAssignmentDTO(assignment);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<AssignmentDTO.assignmentResponse> getAll(Integer page, Integer elementsPage) {
         PageRequest pageRequest1 = PageRequest.of(page, elementsPage);
         Page<Assignment> assignments = assignmentRepository.findAll(pageRequest1);

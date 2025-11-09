@@ -18,11 +18,10 @@ public class RouteDTO {
     ) implements Serializable {}
 
     public record routeUpdateRequest(
-            @NotBlank
+            @NotNull
+            Long id,
             String code,
-            @NotNull
             Long originId,
-            @NotNull
             Long destinationId
     ) implements Serializable {}
 

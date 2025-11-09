@@ -31,11 +31,8 @@ public class BusDTO {
     public record busUpdateRequest(
             @NotNull
             Long id,
-            @NotNull
             String plate,
-            @NotNull
             int capacity,
-            @NotBlank
             String status
     ) implements Serializable {}
 

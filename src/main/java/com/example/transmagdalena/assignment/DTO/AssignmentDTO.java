@@ -26,13 +26,9 @@ public class AssignmentDTO {
     public record assignmentUpdateRequest(
             @NotNull
             Long Id,
-            @NotNull
             Long tripId,
-            @NotNull
             Long driverId,
-            @NotNull
             Long dispatcherId,
-            @NotNull
             Boolean checkList
     ) implements Serializable {}
 
