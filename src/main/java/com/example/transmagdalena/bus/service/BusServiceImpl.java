@@ -1,8 +1,10 @@
 package com.example.transmagdalena.bus.service;
 
+import com.example.transmagdalena.bus.Bus;
 import com.example.transmagdalena.bus.DTO.BusDTO;
 import com.example.transmagdalena.bus.mapper.BusMapper;
 import com.example.transmagdalena.bus.repository.BusRepository;
+import com.example.transmagdalena.utilities.error.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,9 @@ import org.springframework.stereotype.Service;
 public class BusServiceImpl implements BusService {
 
     @Autowired
-    private BusRepository busRepository;
+    private final BusRepository busRepository;
     @Autowired
-    private BusMapper busMapper;
+    private final BusMapper busMapper;
 
     @Override
     public BusDTO.busResponse save(BusDTO.busCreateRequest request) {
@@ -41,7 +43,14 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public BusDTO.busResponse update(BusDTO.busUpdateRequest request) {
+    public BusDTO.busResponse update(BusDTO.busUpdateRequest request, Bus bus) {
         return null;
     }
+
+    @Override
+    public Bus getObject(Long id) {
+        return busRepository.findBusById(id).orElseThrow(() -> new NotFoundException("Bus not found"));
+    }
+
+
 }

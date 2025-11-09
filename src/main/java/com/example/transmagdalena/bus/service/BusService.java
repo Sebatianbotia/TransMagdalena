@@ -1,5 +1,6 @@
 package com.example.transmagdalena.bus.service;
 
+import com.example.transmagdalena.bus.Bus;
 import com.example.transmagdalena.bus.DTO.BusDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,5 +11,7 @@ public interface BusService {
     BusDTO.busResponse get(Long id);
     Page<BusDTO.busResponse> getAll(Pageable pageable);
     Boolean delete(Long id);
-    BusDTO.busResponse update(BusDTO.busUpdateRequest request);
+    BusDTO.busResponse update(BusDTO.busUpdateRequest request, Bus bus);
+    Bus getObject(Long id);
+
 }

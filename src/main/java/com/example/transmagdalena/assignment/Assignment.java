@@ -4,10 +4,7 @@ package com.example.transmagdalena.assignment;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 
@@ -18,9 +15,11 @@ import java.time.OffsetDateTime;
 @Builder
 @Entity
 @Table(name = "assignments")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

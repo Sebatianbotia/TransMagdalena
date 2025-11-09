@@ -6,10 +6,7 @@ import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.ticket.Ticket;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -20,9 +17,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Table(name = "trips")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

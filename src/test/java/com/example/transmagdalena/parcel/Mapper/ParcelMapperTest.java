@@ -15,7 +15,7 @@ class ParcelMapperTest {
 
     @Test
     void testToEntity() {
-        ParcelDTO.parcelCreteRequest createRequest = new ParcelDTO.parcelCreteRequest("PKG001", "Juan Perez", "3001234567", "Maria Lopez", "3007654321", new BigDecimal("50000.00"), ParcelStatus.DELIVERED, "http://photo.url", 1234);
+        ParcelDTO.parcelCreateRequest createRequest = new ParcelDTO.parcelCreateRequest("PKG001", "Juan Perez", "3001234567", "Maria Lopez", "3007654321", new BigDecimal("50000.00"), ParcelStatus.DELIVERED, "http://photo.url", 1234);
 
         Parcel parcel = parcelMapper.toEntity(createRequest);
 

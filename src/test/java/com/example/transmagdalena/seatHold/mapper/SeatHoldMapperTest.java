@@ -67,7 +67,6 @@ class SeatHoldMapperTest {
                 .build();
 
         SeatHoldDTO.seatHoldUpdateRequest updateRequest = new SeatHoldDTO.seatHoldUpdateRequest(
-                100L,
                 SeatHoldStatus.EXPIRED,
                 11L,
                 21L,

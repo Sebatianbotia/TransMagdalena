@@ -12,9 +12,8 @@ import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.trip.TripStatus;
 import com.example.transmagdalena.user.User;
 import com.example.transmagdalena.user.UserRols;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import jakarta.validation.constraints.NotBlank;
+import org.mapstruct.*;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -29,6 +28,7 @@ public interface TicketMapper {
     //UPDATE
     @Mapping(target = "origin", ignore = true)
     @Mapping(target = "destination", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(TicketDTO.ticketUpdateRequest ticketUpdateRequest, @MappingTarget Ticket ticket);
 
 

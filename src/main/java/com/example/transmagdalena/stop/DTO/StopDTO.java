@@ -19,15 +19,9 @@ public class StopDTO {
     ) implements Serializable {}
 
     public record stopUpdateRequest(
-            @NotNull
-            Long id,
-            @NotBlank
             String name,
-            @NotNull
             Long cityId,
-            @NotNull
             float lat,
-            @NotNull
             float lng
 
     ) implements Serializable{}
@@ -45,7 +39,6 @@ public class StopDTO {
     ) implements Serializable{}
 
     public record cityDto(
-            @NotBlank
             String name
     ) implements  Serializable{}
 
