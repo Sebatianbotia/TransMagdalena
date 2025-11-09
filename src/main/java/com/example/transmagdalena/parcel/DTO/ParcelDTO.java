@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 public class ParcelDTO {
 
-    public record parcelCreteRequest(@NotNull String code, @NotNull String senderName,
+    public record parcelCreateRequest(@NotNull String code, @NotNull String senderName,
                                      @NotNull String senderPhone, @NotNull String receiverName,
                                      @NotNull String receiverPhone, @NotNull BigDecimal price,
                                      @NotNull ParcelStatus status, String proofPhotoUrl,

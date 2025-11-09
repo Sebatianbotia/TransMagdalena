@@ -31,9 +31,9 @@ public class Bus {
     private String status;
 
     @OneToMany(mappedBy = "bus")
-    private List<Trip> trips;
+    private List<Trip> trips = new ArrayList<>();
 
     @OneToMany(mappedBy = "bus")
-    private Set<Seat> seats;
+    private Set<Seat> seats = new HashSet<>();
 
 }

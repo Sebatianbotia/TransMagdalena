@@ -16,8 +16,11 @@ public class RouteStopDTO {
 
     // Update
 
-    public record routeStopUpdateRequest(@NotNull int stopOrder, @NotNull Long originId, @NotNull Long destinationId,
-                                         @NotNull Long routeId, @NotNull fareRuleCreateRequest fareRule) implements Serializable{}
+    public record routeStopUpdateRequest(int stopOrder, Long originId, Long destinationId,
+                                         Long routeId, fareRuleUpdateRequest fareRule) implements Serializable{}
+
+    public record fareRuleUpdateRequest(Long routeId, BigDecimal basePrice,
+                                        boolean isDynamicPricing) implements Serializable {}
 
     // Response
     public record stopDTO(Long id, String name, float lat, float lng) implements Serializable{}

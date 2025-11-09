@@ -18,13 +18,8 @@ public class BaggageDTO {
     ) implements Serializable{}
 
     public record baggageUpdateRequest(
-            @NotNull
-            Long id,
-            @NotNull
             Integer weight,
-            @NotBlank
             String tagCode,
-            @NotNull
             BigDecimal fee
     ) implements Serializable{}
 

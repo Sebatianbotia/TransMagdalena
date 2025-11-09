@@ -13,4 +13,7 @@ public class FareRuleDTO {
     public record fareRuleResponse(Long id, RouteStopDTO.routeDTO route, BigDecimal basePrice,
                                    boolean isDynamicPricing
                                    ) implements Serializable {}
+
+    public record fareRuleUpdateRequest(Long routeId, BigDecimal basePrice,
+                                        boolean isDynamicPricing) implements Serializable {}
 }
