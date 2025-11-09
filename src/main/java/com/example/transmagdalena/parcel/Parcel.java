@@ -1,10 +1,7 @@
 package com.example.transmagdalena.parcel;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -14,9 +11,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Table(name = "parcels")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Parcel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String code;

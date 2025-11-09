@@ -5,10 +5,7 @@ import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.ticket.Ticket;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Set;
@@ -19,9 +16,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "stops")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Stop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String name;
@@ -52,13 +51,5 @@ public class Stop {
 
     @OneToMany(mappedBy = "destination")
     private Set<Route> destinationRoutes;
-
-
-
-
-
-
-
-
 
 }

@@ -4,11 +4,10 @@ import com.example.transmagdalena.seat.Seat;
 import com.example.transmagdalena.trip.Trip;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,9 +17,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name = "buses")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Bus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String plate;

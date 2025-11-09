@@ -5,10 +5,7 @@ import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -18,9 +15,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Table(name = "tickets")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -3,10 +3,7 @@ package com.example.transmagdalena.fareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.routeStop.RouteStop;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -17,9 +14,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name = "fare_rules")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class FareRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

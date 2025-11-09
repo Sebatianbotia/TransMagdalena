@@ -4,13 +4,9 @@ import com.example.transmagdalena.assignment.Assignment;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.ticket.Ticket;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,9 +15,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name = "users")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String name;
