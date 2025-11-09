@@ -32,7 +32,7 @@ public class Seat {
     private Bus bus;
 
     @OneToMany(mappedBy = "seat")
-    private Set<SeatHold> seatHolds = new HashSet<>();
+    private Set<SeatHold> seatHolds;
 
     public void addBus(Bus bus) {
         this.bus = bus;
