@@ -4,9 +4,8 @@ import com.example.transmagdalena.bus.Bus;
 import com.example.transmagdalena.seat.DTO.SeatDTO;
 import com.example.transmagdalena.seat.DTO.SeatDTO.*;
 import com.example.transmagdalena.seat.Seat;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import jakarta.validation.constraints.NotNull;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface SeatMapper {
@@ -16,6 +15,7 @@ public interface SeatMapper {
     Seat toEntity(seatCreateRequest seatCreateRequest);
 
     @Mapping(target = "bus", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE )
     void updateSeat(@MappingTarget Seat seat, SeatDTO.seatUpdateRequest seatDTO);
 
     seatResponse toSeatResponse(Seat seat);

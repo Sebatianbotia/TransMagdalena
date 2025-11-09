@@ -14,6 +14,11 @@ public class TripDTO {
                                   @NotNull TripStatus tripStatus
     ) implements Serializable {}
 
+
+    public record tripUpdateRequest(Long busId, Long routeId,  OffsetDateTime date,
+                                     OffsetDateTime departureAt,  OffsetDateTime arrivalAt,
+                                     TripStatus tripStatus) implements Serializable {}
+
     public record busDTO(Long id,
                              String plate,
                              int capacity,

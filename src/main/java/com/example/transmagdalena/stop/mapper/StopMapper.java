@@ -4,9 +4,7 @@ import com.example.transmagdalena.city.City;
 import com.example.transmagdalena.stop.DTO.StopDTO;
 import com.example.transmagdalena.stop.DTO.StopDTO.*;
 import com.example.transmagdalena.stop.Stop;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface StopMapper {
@@ -15,6 +13,7 @@ public interface StopMapper {
 
 
     @Mapping(source = "cityId", target = "city", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateStop(stopUpdateRequest request, @MappingTarget Stop stop);
 
     // response

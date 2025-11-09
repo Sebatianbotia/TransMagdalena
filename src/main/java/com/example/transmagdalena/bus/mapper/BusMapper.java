@@ -5,9 +5,7 @@ import com.example.transmagdalena.bus.Bus;
 import com.example.transmagdalena.bus.DTO.BusDTO;
 import com.example.transmagdalena.bus.DTO.BusDTO.*;
 import com.example.transmagdalena.seat.Seat;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,6 +20,7 @@ public interface BusMapper {
 
     @Mapping(target = "trips", ignore = true)
     @Mapping(target = "seats", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(busCreateRequest updateRequest, @MappingTarget Bus bus);
 
     @Mapping(target = "seats", source = "seats")

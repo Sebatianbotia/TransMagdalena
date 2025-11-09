@@ -42,7 +42,6 @@ class SeatMapperTest {
         existing.setBus(bus);
 
         SeatDTO.seatUpdateRequest updateRequest = new SeatDTO.seatUpdateRequest(
-                10L,
                 12,
                 SeatType.STANDARD,
                 2L

@@ -18,8 +18,6 @@ public class RouteDTO {
     ) implements Serializable {}
 
     public record routeUpdateRequest(
-            @NotNull
-            Long id,
             String code,
             Long originId,
             Long destinationId
@@ -34,11 +32,8 @@ public class RouteDTO {
 
 
     public record stopDto(
-            @NotBlank
             String name,
-            @NotNull
             float lat,
-            @NotNull
             float lng
     ) implements Serializable {}
 }

@@ -45,7 +45,6 @@ class StopMapperTest {
                 .build();
 
         StopDTO.stopUpdateRequest updateRequest = new StopDTO.stopUpdateRequest(
-                10L,
                 "New Stop Name",
                 7L,
                 9.87f,

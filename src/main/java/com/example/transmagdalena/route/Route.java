@@ -4,10 +4,7 @@ import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -17,10 +14,12 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "routes")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Route {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String code;

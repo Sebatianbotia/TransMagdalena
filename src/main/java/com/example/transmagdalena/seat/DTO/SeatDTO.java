@@ -20,13 +20,8 @@ public class SeatDTO {
     ) implements Serializable {}
 
     public record seatUpdateRequest(
-            @NotNull
-            Long id,
-            @NotNull
             int number,
-            @NotNull
             SeatType type,
-            @NotNull
             Long busId
     ) implements Serializable {}
 

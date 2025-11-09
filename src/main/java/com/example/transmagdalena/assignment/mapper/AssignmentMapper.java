@@ -7,10 +7,7 @@ import com.example.transmagdalena.assignment.DTO.AssignmentDTO.*;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.user.DTO.UserDTO;
 import com.example.transmagdalena.user.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 @Mapper (componentModel = "spring")
 public interface AssignmentMapper {
@@ -27,6 +24,7 @@ public interface AssignmentMapper {
     @Mapping(target = "dispatcher", ignore = true)
     @Mapping(target = "trip", ignore = true)
     @Mapping(target = "assignedAt", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(assignmentUpdateRequest updateRequest, @MappingTarget Assignment assignment);
 
 

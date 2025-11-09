@@ -49,7 +49,7 @@ class UserMapperTest {
                 "new@example.com",
                 "3111112222",
                 UserRols.ADMIN,
-                "newhash"
+                null
         );
 
         userMapper.update(updateRequest, existing);
@@ -59,7 +59,7 @@ class UserMapperTest {
         assertEquals("new@example.com", existing.getEmail());
         assertEquals("3111112222", existing.getPhone());
         assertEquals(UserRols.ADMIN, existing.getRol());
-        assertEquals("newhash", existing.getPasswordHash());
+        assertEquals(null, existing.getPasswordHash());
     }
 
     @Test
