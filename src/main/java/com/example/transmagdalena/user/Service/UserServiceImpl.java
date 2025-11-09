@@ -39,4 +39,8 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findAll();
         return users.stream().map(userMapper::toResponse).toList();
     }
+
+    public User getUser(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+    }
 }

@@ -23,7 +23,7 @@ public class BaggageServiceImpl implements BaggageService {
 
     @Override
     public BaggageDTO.baggageResponse save(BaggageDTO.baggageCreateRequest request) {
-
+    return null;
     }
 
     @Override
