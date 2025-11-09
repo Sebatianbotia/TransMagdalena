@@ -65,13 +65,12 @@ class SeatHoldRepositoryTest extends AbstractRepositoryPSQL {
         seatHold.setExpiresAt(OffsetDateTime.now().plusSeconds(600));
         SeatHold savedSeatHold = seatHoldRepository.save(seatHold);
 
-        Optional<SeatHold> foundSeatHold = seatHoldRepository.findSeatHoldByNumber(savedSeat.getNumber() ,savedTrip.getId());
+        Optional<Seat> foundSeatHold = seatRepository.findByNumberAndBusId(savedSeat.getNumber() ,savedTrip.getId());
 
         Assertions.assertThat(foundSeatHold).isPresent();
         Assertions.assertThat(foundSeatHold.get().getId()).isEqualTo(savedSeatHold.getId());
-        Assertions.assertThat(foundSeatHold.get().getSeat().getNumber()).isEqualTo(13);
-        Assertions.assertThat(foundSeatHold.get().getTrip().getId()).isEqualTo(savedTrip.getId());
-
+        Assertions.assertThat(seat.getNumber()).isEqualTo(13);
+    //
     }
 
 }

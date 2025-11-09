@@ -4,10 +4,7 @@ import com.example.transmagdalena.fareRule.FareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.stop.Stop;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
@@ -15,9 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "routeStops")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RouteStop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false)

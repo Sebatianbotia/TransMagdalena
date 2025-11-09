@@ -35,11 +35,41 @@ public class SeatHold {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
-    private OffsetDateTime expiresAt;
+    private OffsetDateTime expiresAt =  OffsetDateTime.now().plusMinutes(10);
 
     private SeatHoldStatus status;
 
     @OneToOne(mappedBy = "seatHold")
     private Ticket ticket;
+
+    public void addSeat(Seat seat){
+        this.seat = seat;
+        seat.getSeatHolds().add(this);
+    }
+
+    public void removeSeat(Seat seat){
+        this.seat = null;
+        seat.getSeatHolds().remove(this);
+    }
+
+    public void addUser(User user){
+        this.user = user;
+        user.getSeatHolds().add(this);
+    }
+
+    public void removeUser(User user){
+        this.user = null;
+        user.getSeatHolds().remove(this);
+    }
+
+    public void addTrip(Trip trip){
+        this.trip = trip;
+        trip.getSeatHolds().add(this);
+    }
+
+    public void removeTrip(Trip trip){
+        this.trip = null;
+        trip.getSeatHolds().remove(this);
+    }
 
 }
