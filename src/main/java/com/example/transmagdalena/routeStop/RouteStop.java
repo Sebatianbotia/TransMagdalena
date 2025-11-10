@@ -27,14 +27,38 @@ public class RouteStop {
     private Route route;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "originId")
+    @JoinColumn(name = "origin_Id")
     private Stop origin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destinationId")
+    @JoinColumn(name = "destination_Id")
     private Stop destination;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fareRuleId")
+    @JoinColumn(name = "fare_rule_Id")
     private FareRule fareRule;
+
+
+    public void addRoute(Route route) {
+        if(this.route != null) {
+            this.route.getRouteStops().remove(this);
+        }
+        this.route = route;
+        route.getRouteStops().add(this);
+    }
+
+    public void addOrigin(Stop origin) {
+        if(this.origin != null) {
+            this.origin.getOriginRouteStops().remove(this);
+        }
+        this.origin = origin;
+        origin.getOriginRouteStops().add(this);
+    }
+    public void addDestination(Stop destination) {
+        if(this.destination != null) {
+            this.destination.getDestinationRouteStops().remove(this);
+        }
+        this.destination = destination;
+        destination.getDestinationRouteStops().add(this);
+    }
 }

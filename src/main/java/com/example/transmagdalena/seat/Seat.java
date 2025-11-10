@@ -23,7 +23,7 @@ public class Seat {
     @EqualsAndHashCode.Include
     private Long id;
 
-    private int number;
+    private Integer number;
 
     private SeatType type;
 
@@ -34,13 +34,17 @@ public class Seat {
     @OneToMany(mappedBy = "seat")
     private Set<SeatHold> seatHolds = new HashSet<>();
 
-    public void addBus(Bus bus) {
+    public void setBus(Bus bus) {
+        if (this.bus == bus){return;}
+
+        Bus oldBus = this.bus;
+        if (oldBus != null) {
+            oldBus.getSeats().remove(this);
+        }
         this.bus = bus;
-        bus.getSeats().add(this);
-    }
-    public void removeBus(Bus bus) {
-        this.bus = null;
-        bus.getSeats().remove(this);
+        if (this.bus != null) {
+            this.bus.getSeats().add(this);
+        }
     }
 
 }

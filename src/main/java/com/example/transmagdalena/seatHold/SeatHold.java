@@ -35,41 +35,47 @@ public class SeatHold {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
-    private OffsetDateTime expiresAt =  OffsetDateTime.now().plusMinutes(10);
+    private OffsetDateTime expiresAt;
 
     private SeatHoldStatus status;
 
     @OneToOne(mappedBy = "seatHold")
     private Ticket ticket;
 
-    public void addSeat(Seat seat){
+    public void setSeat(Seat seat) {
+        if (this.seat == seat){return;}
+        Seat oldSeat = this.seat;
+        if (oldSeat != null){
+            oldSeat.getSeatHolds().remove(this);
+        }
         this.seat = seat;
-        seat.getSeatHolds().add(this);
+        if (this.seat != null){
+            this.seat.getSeatHolds().add(this);
+        }
     }
 
-    public void removeSeat(Seat seat){
-        this.seat = null;
-        seat.getSeatHolds().remove(this);
-    }
-
-    public void addUser(User user){
+    public void setUser(User user) {
+        if (this.user == user){return;}
+        User oldUser = this.user;
+        if (oldUser != null){
+            oldUser.getSeatHolds().remove(this);
+        }
         this.user = user;
-        user.getSeatHolds().add(this);
+        if (this.user != null){
+            this.user.getSeatHolds().add(this);
+        }
     }
 
-    public void removeUser(User user){
-        this.user = null;
-        user.getSeatHolds().remove(this);
-    }
-
-    public void addTrip(Trip trip){
+    public void setTrip(Trip trip) {
+        if (this.trip == trip){return;}
+        Trip oldTrip = this.trip;
+        if (oldTrip != null){
+            oldTrip.getSeatHolds().remove(this);
+        }
         this.trip = trip;
-        trip.getSeatHolds().add(this);
-    }
-
-    public void removeTrip(Trip trip){
-        this.trip = null;
-        trip.getSeatHolds().remove(this);
+        if (this.trip != null){
+            this.trip.getSeatHolds().add(this);
+        }
     }
 
 }

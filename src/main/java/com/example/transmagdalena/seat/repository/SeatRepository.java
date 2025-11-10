@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface SeatRepository extends JpaRepository<Seat, Long> {
-    Optional<Seat> findSeatById(Long id);
-    Optional<Seat> findByNumberAndBusId(int number, Long busId);
+    Optional<Seat> findById(Long id);
+    Optional<Seat> findByNumberAndBusId(Integer number, Long busId);
+    Integer countByBusId(Long busId);
 }
