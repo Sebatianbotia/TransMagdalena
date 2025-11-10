@@ -27,14 +27,14 @@ public class RouteStop {
     private Route route;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "originId")
+    @JoinColumn(name = "origin_Id")
     private Stop origin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destinationId")
+    @JoinColumn(name = "destination_Id")
     private Stop destination;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fareRuleId")
+    @JoinColumn(name = "fare_rule_Id")
     private FareRule fareRule;
 }
