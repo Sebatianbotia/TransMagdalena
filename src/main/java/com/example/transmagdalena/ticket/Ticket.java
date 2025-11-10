@@ -50,6 +50,42 @@ public class Ticket {
 
     private String qrCodeUrl;
 
+    public void  addTrip(Trip trip) {
+        if (this.trip != null) {
+            this.trip.getTickets().remove(this);
+        }
+        this.trip = trip;
+        trip.getTickets().add(this);
+    }
+
+    public void addSeatHold(SeatHold seatHold) {
+        this.seatHold = seatHold;
+        seatHold.setTicket(this);
+    }
+    public void addUser(User user) {
+        if(this.user != null) {
+            this.user.getTickets().remove(this);
+        }
+        this.user = user;
+        user.getTickets().add(this);
+    }
+
+    public void addDestination(Stop destination) {
+        if(this.destination != null) {
+            this.destination.getDestinationTickets().remove(this);
+        }
+        this.destination = destination;
+        destination.getDestinationTickets().add(this);
+    }
+
+    public void addOrigin(Stop origin) {
+        if(this.origin != null) {
+            this.origin.getDestinationTickets().remove(this);
+        }
+        this.origin = origin;
+        origin.getDestinationTickets().add(this);
+    }
+
 
 
 
