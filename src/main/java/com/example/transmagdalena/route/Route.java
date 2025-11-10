@@ -34,10 +34,20 @@ public class Route {
     private Stop destination;
 
     @OneToMany(mappedBy = "route")
-    private List<Trip> trips;//cambiar en repository y borrar acá
+    private List<Trip> trips = new ArrayList<>();
 
     @OneToMany(mappedBy = "route")
-    private List<RouteStop> routeStops;//cambiar en repository y borrar acá
+    private List<RouteStop> routeStops  = new ArrayList<>();
+
+    public void addOrigin(Stop origin) {
+        this.origin = origin;
+        origin.getOriginRoutes().add(this);
+    }
+
+    public void addDestination(Stop destination) {
+        this.destination = destination;
+        destination.getDestinationRoutes().add(this);
+    }
 
 
 }

@@ -2,6 +2,7 @@ package com.example.transmagdalena.trip;
 
 import com.example.transmagdalena.assignment.Assignment;
 import com.example.transmagdalena.bus.Bus;
+import com.example.transmagdalena.fareRule.FareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.ticket.Ticket;
@@ -51,8 +52,35 @@ public class Trip {
     private Set<Ticket> tickets;
 
     @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)
-    private Set<Assignment> dispatcherAssignments;
+    private Set<Assignment> assignments;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fare_rule_id")
+    private FareRule fareRule;
 
+    public void addBus(Bus bus){
+        if(this.bus != null){
+            this.bus.getTrips().remove(this);
+        }
+        this.bus = bus;
+        bus.getTrips().add(this);
+    }
+
+    public void addRoute(Route route){
+        if(this.route != null){
+            this.route.getTrips().remove(this);
+
+        }
+        this.route = route;
+        route.getTrips().add(this);
+    }
+
+    public void addFareRule(FareRule fareRule){
+        if(this.fareRule != null){
+            this.fareRule.getTrips().remove(this);
+        }
+        this.fareRule = fareRule;
+        fareRule.getTrips().add(this);
+    }
 
 }

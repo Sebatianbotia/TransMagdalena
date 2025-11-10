@@ -1,6 +1,7 @@
 package com.example.transmagdalena.stop;
 
 import com.example.transmagdalena.city.City;
+import com.example.transmagdalena.fareRule.FareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.ticket.Ticket;
@@ -51,5 +52,21 @@ public class Stop {
 
     @OneToMany(mappedBy = "destination")
     private Set<Route> destinationRoutes;
+
+    @OneToMany(mappedBy = "origin")
+    private Set<FareRule> originFareRules;
+
+    @OneToMany(mappedBy = "destination")
+    private Set<FareRule> destinationFareRules;
+
+    public void addCity(City city) {
+        this.city = city;
+        city.getStops().add(this);
+    }
+
+    public void removeCity(City city) {
+        this.city = null;
+        city.getStops().remove(this);
+    }
 
 }
