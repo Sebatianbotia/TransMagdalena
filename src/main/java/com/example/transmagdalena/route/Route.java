@@ -6,6 +6,7 @@ import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -33,9 +34,19 @@ public class Route {
     private Stop destination;
 
     @OneToMany(mappedBy = "route")
-    private List<Trip> trips;
+    private List<Trip> trips = new ArrayList<>();//cambiar en repository y borrar acá
 
     @OneToMany(mappedBy = "route")
-    private List<RouteStop> routeStops;
+    private List<RouteStop> routeStops  = new ArrayList<>();//cambiar en repository y borrar acá
+
+    public void addOrigin(Stop origin) {
+        this.origin = origin;//manejo de bidireccionalidad (borrar y poner en repository)
+        origin.getOriginRoutes().add(this);
+    }
+
+    public void addDestination(Stop destination) {
+        this.destination = destination;//manejo de bidireccionalidad (borrar y poner en repository)
+        destination.getDestinationRoutes().add(this);
+    }
 
 }

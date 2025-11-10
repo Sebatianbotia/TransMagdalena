@@ -38,12 +38,11 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public Boolean delete(Long id) {
-        return null;
+    public void delete(Long id) {
     }
 
     @Override
-    public BusDTO.busResponse update(BusDTO.busUpdateRequest request, Bus bus) {
+    public BusDTO.busResponse update(BusDTO.busUpdateRequest request, Long busId) {
         return null;
     }
 

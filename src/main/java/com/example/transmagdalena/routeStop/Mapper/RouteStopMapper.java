@@ -5,19 +5,24 @@ import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.routeStop.DTO.RouteStopDTO;
 import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.stop.Stop;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface RouteStopMapper {
 
     // Create
+    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "originId", target = "origin", ignore = true)
+    @Mapping(source = "destinationId", target = "destination", ignore = true)
+    @Mapping(source = "routeId", target = "route", ignore = true)
+
     RouteStop toEntity(RouteStopDTO.routeStopCreateRequest dto);
     FareRule toFareRuleEntity(RouteStopDTO.fareRuleCreateRequest dto);
 
     // UPDATE
+    @Mapping(source = "originId", target = "origin", ignore = true)
+    @Mapping(source = "destinationId", target = "destination", ignore = true)
+    @Mapping(source = "routeId", target = "route", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(RouteStopDTO.routeStopUpdateRequest request, @MappingTarget RouteStop route);
 

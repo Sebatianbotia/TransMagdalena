@@ -7,7 +7,9 @@ import java.math.BigDecimal;
 
 public class RouteStopDTO {
     // Create
+
     public record fareRuleCreateRequest(@NotNull BigDecimal basePrice, @NotNull Boolean isDynamicPricing) {}
+
     public record routeStopCreateRequest(@NotNull Integer stopOrder,
                                          @NotNull Long originId, //manejs la bidireccionalidad con el list de routestops en Stop(service)
                                          @NotNull Long destinationId,//lo mismoa ca
