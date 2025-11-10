@@ -5,12 +5,12 @@ import com.example.transmagdalena.city.DTO.CityDTO;
 import com.example.transmagdalena.city.Mapper.CityMapper;
 import com.example.transmagdalena.city.repository.CityRepository;
 import com.example.transmagdalena.utilities.error.NotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -30,9 +30,11 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    @Transactional
-    public CityDTO.cityResponse update(CityDTO.cityUpdateRequest cityUpdateRequest) {
-        return null;
+    @Transactional(readOnly = true)
+    public CityDTO.cityResponse update(CityDTO.cityUpdateRequest cityUpdateRequest, Long id) {
+        var s = getObject(id);
+        cityMapper.update(cityUpdateRequest, s);
+        return cityMapper.toDTO(s);
     }
 
     @Override
@@ -43,6 +45,12 @@ public class CityServiceImpl implements CityService {
     @Override
     public CityDTO.cityResponse get(Long id) {
         return cityMapper.toDTO(getObject(id));
+    }
+
+    @Override
+    public CityDTO.cityResponse get(String name) {
+       var s = cityRepository.findByName(name).orElseThrow(() -> new NotFoundException("City not found"));
+       return cityMapper.toDTO(s);
     }
 
     @Override
@@ -62,7 +70,8 @@ public class CityServiceImpl implements CityService {
         return check;
     }
 
-    private City getObject(Long id) {
+    @Override
+    public City getObject(Long id) {
         return cityRepository.findById(id).orElseThrow(() -> new NotFoundException("City not found"));
     }
 }

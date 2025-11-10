@@ -12,6 +12,7 @@ public interface UserService {
     UserDTO.userResponse save(UserDTO.userCreateRequest userCreateRequest);
     UserDTO.userResponse get(Long id);
     Page<UserDTO.userResponse> getAll(Pageable pageable);
+    UserDTO.userAssigmentResponse getAssigments(Long id);
     boolean delete(Long id);
     UserDTO.userResponse update(UserDTO.userUpdateRequest userUpdateRequest, Long id);
     User getObject(Long id);

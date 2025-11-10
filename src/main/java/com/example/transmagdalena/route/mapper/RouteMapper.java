@@ -8,6 +8,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface RouteMapper {
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "originId", target = "origin", ignore = true)
+    @Mapping(source = "destinationId", target = "origin", ignore = true)
     Route toEntity(routeCreateRequest request);
     //update
     @Mapping(source = "originId", target = "origin", ignore = true)

@@ -21,10 +21,10 @@ public class TripDTO {
 
     public record busDTO(Long id,
                              String plate,
-                             int capacity,
+                             Integer capacity,
                              String status) implements Serializable {}
 
-    public record stopDTO(Long id, String name, float lat, float lng) implements Serializable{}
+    public record stopDTO(Long id, String name, Float lat, Float lng) implements Serializable{}
     public record routeDTO(Long id, String code, stopDTO origin, stopDTO destination) implements Serializable{}
 
     public record tripResponse( Long id ,busDTO bus, routeDTO route, OffsetDateTime date,

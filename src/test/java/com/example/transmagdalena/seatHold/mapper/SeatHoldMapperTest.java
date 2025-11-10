@@ -22,7 +22,6 @@ class SeatHoldMapperTest {
     @Test
     void testToEntity() {
         SeatHoldDTO.seatHoldCreateRequest createRequest = new SeatHoldDTO.seatHoldCreateRequest(
-                SeatHoldStatus.HOLD,
                 10L,
                 20L,
                 30L

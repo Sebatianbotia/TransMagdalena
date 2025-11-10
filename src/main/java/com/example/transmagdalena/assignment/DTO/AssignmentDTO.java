@@ -3,6 +3,7 @@ package com.example.transmagdalena.assignment.DTO;
 import com.example.transmagdalena.user.UserRols;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -23,15 +24,9 @@ public class AssignmentDTO {
 
 
     public record assignmentUpdateRequest(
-            @NotNull
-            Long Id,
-            @NotNull
             Long tripId,
-            @NotNull
             Long driverId,
-            @NotNull
             Long dispatcherId,
-            @NotNull
             Boolean checkList
     ) implements Serializable {}
 

@@ -10,8 +10,8 @@ public interface BusService {
     BusDTO.busResponse save (BusDTO.busCreateRequest request);
     BusDTO.busResponse get(Long id);
     Page<BusDTO.busResponse> getAll(Pageable pageable);
-    Boolean delete(Long id);
-    BusDTO.busResponse update(BusDTO.busUpdateRequest request, Bus bus);
+    void delete(Long id);
+    BusDTO.busResponse update(BusDTO.busUpdateRequest request, Long busId);
     Bus getObject(Long id);
 
 }

@@ -13,4 +13,5 @@ public interface BaggageService {
     Page<BaggageDTO.baggageResponse> getAll(PageRequest pageRequest);
     boolean delete(Long id);
     BaggageDTO.baggageResponse update(BaggageDTO.baggageUpdateRequest request, Long id);
+    Baggage getObject(Long id);
 }

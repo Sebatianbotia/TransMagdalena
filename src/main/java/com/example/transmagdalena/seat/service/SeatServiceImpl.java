@@ -19,18 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SeatServiceImpl implements SeatService {
 
-    @Autowired
-    private SeatRepository seatRepository;
-    @Autowired
-    private SeatMapper seatMapper;
-
-    @Autowired
-    private BusService busService;
+    private final SeatRepository seatRepository;
+    private final SeatMapper seatMapper;
+    private final BusService busService;
 
     @Override
+    @Transactional
     public SeatDTO.seatResponse save(SeatDTO.seatCreateRequest seatDTO) {
         var f = seatMapper.toEntity(seatDTO);
-        f.addBus(busService.getObject(seatDTO.busId())); //
+        f.setBus(busService.getObject(seatDTO.busId()));
+        if (isSeatNumberFree(seatDTO.number(), f.getBus().getId())
+                && seatRepository.countByBusId(f.getBus().getId()) <= f.getBus().getCapacity() ){
+            f.setNumber(seatDTO.number());
+        }
         f = seatRepository.save(f);
         return seatMapper.toSeatResponse(f);
     }
@@ -39,45 +40,46 @@ public class SeatServiceImpl implements SeatService {
     @Transactional
     public SeatDTO.seatResponse update(SeatDTO.seatUpdateRequest seatUpdateRequest, Long id) {
         var f = getObject(id);
-        Bus bus = f.getBus();
-        if (f.getBus().getId() != seatUpdateRequest.busId()) {
-            f.removeBus(bus);
-            bus =  busService.getObject(seatUpdateRequest.busId());
-        }
         seatMapper.updateSeat(f, seatUpdateRequest);
-        f.addBus(bus);
+        f.setBus(busService.getObject(seatUpdateRequest.busId()));
+        if (seatUpdateRequest.number() != null && isSeatNumberFree(seatUpdateRequest.number(), f.getBus().getId())) {
+            f.setNumber(seatUpdateRequest.number());
+        }
         return seatMapper.toSeatResponse(f);
     }
 
     @Override
-    public boolean delete(Long id) {
-        var f = getObject(id);
-        var check = false;
-        if (f != null) {
-            f.removeBus(f.getBus());
-            seatRepository.deleteById(id);
-            check = true;
-        }
-        return check;
-    }
+    public void delete(Long id) {seatRepository.deleteById(id);}
+
 
     @Override
+    @Transactional(readOnly = true)
     public SeatDTO.seatResponse get(Long id) {
         return seatMapper.toSeatResponse(getObject(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<SeatDTO.seatResponse> getAll(Pageable pageable) {
         return seatRepository.findAll(pageable).map(seatMapper::toSeatResponse);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Seat getSeatByNumberAndBusId(int number, Long busId){
         return seatRepository.findByNumberAndBusId(number, busId).orElseThrow(()->new NotFoundException("Seat not found"));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Seat getObject(Long id){
         return seatRepository.findById(id).orElseThrow(() -> new NotFoundException("Seat not found"));
     }
+
+    private Boolean isSeatNumberFree(Integer number, Long busId){
+        var s = seatRepository.findByNumberAndBusId(number, busId);
+        if (s.isEmpty()) {return true;}
+        throw new IllegalArgumentException("numero de asiento ocupado");
+    }
+
 }
