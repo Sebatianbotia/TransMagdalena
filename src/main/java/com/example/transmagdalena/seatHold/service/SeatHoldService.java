@@ -9,7 +9,7 @@ public interface SeatHoldService {
     SeatHoldDTO.seatHoldResponse save(SeatHoldDTO.seatHoldCreateRequest seatHoldCreateRequest);
     SeatHoldDTO.seatHoldResponse get(Long id);
     Page<SeatHoldDTO.seatHoldResponse> getAll(Pageable pageable);
-    boolean delete(Long id);
+    void delete(Long id);
     SeatHoldDTO.seatHoldResponse update(SeatHoldDTO.seatHoldUpdateRequest seatHoldUpdateRequest, Long id);
     SeatHold getObject(Long id);
 }

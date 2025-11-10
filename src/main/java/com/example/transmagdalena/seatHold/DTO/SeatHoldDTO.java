@@ -15,8 +15,6 @@ public class SeatHoldDTO {
 
     public record seatHoldCreateRequest(
             @NotNull
-            SeatHoldStatus status,
-            @NotNull
             Long userId,
             @NotNull
             Long tripId,

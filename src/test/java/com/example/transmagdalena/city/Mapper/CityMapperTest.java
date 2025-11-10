@@ -40,7 +40,7 @@ class CityMapperTest {
     void testUpdate() {
         City existingCity = City.builder().id(1L).name("OldCity").lat(0.0f).lon(0.0f).build();
 
-        CityDTO.cityResponse updateResponse = new CityDTO.cityResponse(1L, "Santa Marta", 11.2404f, -74.2110f
+        CityDTO.cityUpdateRequest updateResponse = new CityDTO.cityUpdateRequest("Santa Marta", 11.2404f, -74.2110f
         );
 
         cityMapper.update(updateResponse, existingCity);

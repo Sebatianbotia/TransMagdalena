@@ -12,7 +12,7 @@ public class SeatDTO {
 
     public record seatCreateRequest(
             @NotNull
-            int number,
+            Integer number,
             @NotNull
             SeatType type,
             @NotNull
@@ -20,22 +20,20 @@ public class SeatDTO {
     ) implements Serializable {}
 
     public record seatUpdateRequest(
-            int number,
+            Integer number,
             SeatType type,
             Long busId
     ) implements Serializable {}
 
     public record seatResponse(
             Long id,
-            int number,
+            Integer number,
             SeatType type,
             busDto bus
     ) implements Serializable {}
 
     public record busDto(
-        @NotBlank
         String plate,
-        @NotBlank
         String status
     ) implements Serializable {}
 

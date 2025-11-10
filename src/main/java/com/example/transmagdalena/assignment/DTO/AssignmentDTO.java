@@ -24,8 +24,6 @@ public class AssignmentDTO {
 
 
     public record assignmentUpdateRequest(
-            @NotNull
-            Long Id,
             Long tripId,
             Long driverId,
             Long dispatcherId,

@@ -20,13 +20,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BaggageServiceImpl implements BaggageService {
 
-    @Autowired
     private BaggageRepository baggageRepository;
 
-    @Autowired
     private BaggageMapper baggageMapper;
 
     @Override
+    @Transactional
     public BaggageDTO.baggageResponse save(BaggageDTO.baggageCreateRequest request) {
         BigDecimal fee = BigDecimal.ZERO;
         if (request.weight() >= 5){
@@ -39,17 +38,20 @@ public class BaggageServiceImpl implements BaggageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaggageDTO.baggageResponse get(Long id) {
         return baggageMapper.toDto(getObject(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BaggageDTO.baggageResponse get(String tagCode) {
         var f = baggageRepository.findByTagCode(tagCode).orElseThrow(() -> new NotFoundException("Baggage not found"));
         return baggageMapper.toDto(f);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<BaggageDTO.baggageResponse> getAll(PageRequest pageRequest) {
         Page<Baggage> baggages = baggageRepository.findAll(pageRequest);
         return baggages.map(baggage -> baggageMapper.toDto(baggage));
@@ -67,14 +69,15 @@ public class BaggageServiceImpl implements BaggageService {
     }
 
     @Override
-    @Transactional
     public BaggageDTO.baggageResponse update(BaggageDTO.baggageUpdateRequest request, Long id) {
         var f =getObject(id);
         baggageMapper.updateEntity(request, f);
         return baggageMapper.toDto(f);
     }
 
-    private Baggage getObject(Long id){
+    @Override
+    @Transactional(readOnly = true)
+    public Baggage getObject(Long id){
         return baggageRepository.findById(id).orElseThrow(() -> new NotFoundException("baggage not found"));
     }
 }

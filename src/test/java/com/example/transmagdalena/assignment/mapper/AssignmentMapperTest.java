@@ -21,7 +21,7 @@ class AssignmentMapperTest {
         assignmentCreateRequest CreateRequest = new assignmentCreateRequest(12L, 13L, 14L, true, OffsetDateTime.now());
         Assignment assignment = Mapper.toEntity(CreateRequest);
         assertNotNull(assignment);
-        assertTrue(assignment.isCheckList());
+        assertTrue(assignment.getCheckList());
 
     }
     @Test
@@ -50,10 +50,10 @@ class AssignmentMapperTest {
         Trip trip = Trip.builder().id(6L).departureAt(OffsetDateTime.now()).arrivalAt(OffsetDateTime.now().plusHours(12)).build();
 
         Assignment ass = Assignment.builder().id(8L).driver(oldDriver).dispatcher(dispatcher).checkList(false).trip(trip).build();
-        var changes = new assignmentUpdateRequest(8L, 6L, 1L, 2L, true);
+        var changes = new assignmentUpdateRequest(8L, 6L, 1L,  true);
 
         Mapper.updateEntity(changes, ass);
-        assertTrue(ass.isCheckList());
+        assertTrue(ass.getCheckList());
     }
 
 

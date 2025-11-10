@@ -9,7 +9,7 @@ public interface SeatService {
 
     SeatDTO.seatResponse save(SeatDTO.seatCreateRequest seatDTO);
     SeatDTO.seatResponse update(SeatDTO.seatUpdateRequest seatUpdateRequest, Long id);
-    boolean delete(Long id);
+    void delete(Long id);
     SeatDTO.seatResponse get(Long id);
     Page<SeatDTO.seatResponse> getAll(Pageable pageable);
     Seat getSeatByNumberAndBusId(int number, Long busId);

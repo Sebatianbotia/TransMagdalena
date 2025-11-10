@@ -13,16 +13,16 @@ public class StopDTO {
             @NotNull
             Long cityId,
             @NotNull
-            float lat,
+            Float lat,
             @NotNull
-            float lng
+            Float lng
     ) implements Serializable {}
 
     public record stopUpdateRequest(
             String name,
             Long cityId,
-            float lat,
-            float lng
+            Float lat,
+            Float lng
 
     ) implements Serializable{}
 

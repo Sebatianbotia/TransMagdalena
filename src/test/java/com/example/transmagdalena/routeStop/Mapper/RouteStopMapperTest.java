@@ -34,7 +34,7 @@ class RouteStopMapperTest {
 
         assertNotNull(fareRule);
         assertEquals(new BigDecimal("75000.00"), fareRule.getBasePrice());
-        assertFalse(fareRule.isDynamicPricing());
+        assertFalse(fareRule.getIsDynamicPricing());
     }
 
     @Test

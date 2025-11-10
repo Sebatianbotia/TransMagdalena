@@ -3,44 +3,45 @@ package com.example.transmagdalena.seatHold.service;
 import com.example.transmagdalena.seat.service.SeatService;
 import com.example.transmagdalena.seatHold.DTO.SeatHoldDTO;
 import com.example.transmagdalena.seatHold.SeatHold;
+import com.example.transmagdalena.seatHold.SeatHoldStatus;
 import com.example.transmagdalena.seatHold.mapper.SeatHoldMapper;
 import com.example.transmagdalena.seatHold.repository.SeatHoldRepository;
 import com.example.transmagdalena.trip.service.TripService;
 import com.example.transmagdalena.user.Service.UserService;
 import com.example.transmagdalena.utilities.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.OffsetDateTime;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class SeatHoldImpl implements SeatHoldService {
 
-    @Autowired
     private final SeatHoldRepository seatHoldRepository;
 
-    @Autowired
     private final SeatHoldMapper seatHoldMapper;
 
-    @Autowired
     private final SeatService seatService;
 
-    @Autowired
     private final TripService tripService;
 
-    @Autowired
     private final UserService userService;
 
     @Override
-    public SeatHoldDTO.seatHoldResponse save(SeatHoldDTO.seatHoldCreateRequest seatHoldCreateRequest) {
-        var f = seatHoldMapper.toEntity(seatHoldCreateRequest);
-        f.addSeat(seatService.getObject(seatHoldCreateRequest.seatId()));
-        f.addTrip(tripService.getObject(seatHoldCreateRequest.tripId()));
-        f.addUser(userService.getObject(seatHoldCreateRequest.userId()));
+    public SeatHoldDTO.seatHoldResponse save(SeatHoldDTO.seatHoldCreateRequest request) {
+        var f = seatHoldMapper.toEntity(request);
+        f.setTrip(tripService.getObject(request.tripId()));
+        if (isSeatfree(request.seatId(), request.tripId())) {
+            f.setSeat(seatService.getObject(request.seatId()));
+            f.setStatus(SeatHoldStatus.HOLD);
+        }
+        f.setUser(userService.getObject(request.userId()));
+        f.setExpiresAt(OffsetDateTime.now().plusMinutes(10));
         return seatHoldMapper.toDTO(seatHoldRepository.save(f));
     }
 
@@ -55,38 +56,23 @@ public class SeatHoldImpl implements SeatHoldService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        var f = getObject(id);
-        boolean check = false;
-        if (f != null) {
-            f.removeSeat(f.getSeat());
-            f.removeTrip(f.getTrip());
-            f.removeUser(f.getUser());
-            seatHoldRepository.delete(f);
-            check = true;
-        }
-        return check;
+    public void delete(Long id) {
+      return;
     }
 
     @Override
     public SeatHoldDTO.seatHoldResponse update(SeatHoldDTO.seatHoldUpdateRequest seatHoldUpdateRequest, Long id) {
     var s = getObject(id);
-    var user = s.getUser();
-    var trip = s.getTrip();
-    var seat = s.getSeat();
     seatHoldMapper.updateEntity(seatHoldUpdateRequest, s);
 
-    if (user.getId() != seatHoldUpdateRequest.userId()) {
-        s.removeUser(user);
-        s.addUser(userService.getObject(seatHoldUpdateRequest.userId()));
+    if (seatHoldUpdateRequest.userId() != null) {
+        s.setUser(userService.getObject(seatHoldUpdateRequest.userId()));
     }
-    if (trip.getId() != seatHoldUpdateRequest.tripId()) {
-        s.removeTrip(trip);
-        s.addTrip(tripService.getObject(seatHoldUpdateRequest.tripId()));
+    if (seatHoldUpdateRequest.tripId() != null) {
+        s.setTrip(tripService.getObject(seatHoldUpdateRequest.tripId()));
     }
-    if (seat.getId() != seatHoldUpdateRequest.seatId()) {
-        s.removeSeat(seat);
-        s.addSeat(seatService.getObject(seatHoldUpdateRequest.seatId()));
+    if (seatHoldUpdateRequest.seatId() != null) {
+        s.setSeat(seatService.getObject(seatHoldUpdateRequest.seatId()));
     }
     return seatHoldMapper.toDTO(seatHoldRepository.save(s));
 
@@ -95,5 +81,13 @@ public class SeatHoldImpl implements SeatHoldService {
     @Override
     public SeatHold getObject(Long id) {
         return seatHoldRepository.findById(id).orElseThrow(() -> new NotFoundException("SeatHold not found"));
+    }
+
+    public boolean isSeatfree(Long seatId, Long tripId) {
+        var s = seatHoldRepository.findSeatHoldBySeat_IdAndTripIdAndStatus(seatId, tripId, SeatHoldStatus.HOLD);
+        if (s.isEmpty()) {
+            return true;
+        }
+        throw new IllegalArgumentException("Seat is not free");
     }
 }
