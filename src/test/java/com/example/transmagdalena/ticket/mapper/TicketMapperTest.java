@@ -29,9 +29,8 @@ public class TicketMapperTest {
     @Test
     @DisplayName("DTO TO ENTIDAD")
     public void toEntity() {
-        TicketDTO.ticketCreateRequest ticket = new TicketDTO.ticketCreateRequest(1L, 1L, 2L, "fundacion",
-                "santa marta", BigDecimal.valueOf(222), TicketStatus.SOLD, TicketPaymentMethod.CARD,
-                "hoggg"
+        TicketDTO.ticketCreateRequest ticket = new TicketDTO.ticketCreateRequest(1L, 1L, 2L, 6L,
+                8L, BigDecimal.valueOf(222), TicketStatus.SOLD, TicketPaymentMethod.CARD
                 );
 
 
@@ -39,7 +38,6 @@ public class TicketMapperTest {
         assertEquals(t.getStatus(), TicketStatus.SOLD);
         assertEquals(t.getPaymentMethod(), TicketPaymentMethod.CARD);
         assertEquals(t.getPrice(), BigDecimal.valueOf(222));
-        assertEquals(t.getQrCodeUrl(), ticket.qrCodeUrl());
     }
 
     @Test

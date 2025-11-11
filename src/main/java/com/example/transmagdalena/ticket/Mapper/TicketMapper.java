@@ -12,6 +12,7 @@ import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.trip.TripStatus;
 import com.example.transmagdalena.user.User;
 import com.example.transmagdalena.user.UserRols;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import org.mapstruct.*;
 
@@ -21,13 +22,23 @@ import java.time.OffsetDateTime;
 @Mapper(componentModel = "spring")
 public interface TicketMapper {
 
-    @Mapping(target = "origin", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user",  ignore = true)
+    @Mapping(target = "trip",  ignore = true)
+    @Mapping(target = "seatHold",  ignore = true)
+    @Mapping(target = "origin",  ignore = true)
     @Mapping(target = "destination", ignore = true)
+    @Mapping(target = "qrCodeUrl", ignore = true)
+
     Ticket toEntity(TicketDTO.ticketCreateRequest ticketDTO);
 
     //UPDATE
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "trip",  ignore = true)
+    @Mapping(target = "seatHold",  ignore = true)
     @Mapping(target = "origin", ignore = true)
     @Mapping(target = "destination", ignore = true)
+    @Mapping( target = "qrCodeUrl", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(TicketDTO.ticketUpdateRequest ticketUpdateRequest, @MappingTarget Ticket ticket);
 

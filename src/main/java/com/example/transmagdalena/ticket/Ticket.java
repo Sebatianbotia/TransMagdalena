@@ -48,6 +48,9 @@ public class Ticket {
 
     private TicketStatus status;
 
+    @Column(name = "ticket_code", unique = true, nullable = false, length = 20)
+    private String ticketCode;
+
     private String qrCodeUrl;
 
     public void  addTrip(Trip trip) {

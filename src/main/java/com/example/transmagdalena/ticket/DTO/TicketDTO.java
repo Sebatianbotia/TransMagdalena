@@ -16,15 +16,15 @@ import java.time.OffsetDateTime;
 
 public class TicketDTO {
 
-public record ticketCreateRequest(@NotNull Long tripId, @NotNull Long seatHoldId, @NotNull Long userId, @NotNull String origin,
-                                  @NotNull String destination, @NotNull BigDecimal price, @NotNull TicketStatus status,
-                                  @NotNull TicketPaymentMethod paymentMethod, @NotNull String qrCodeUrl
+public record ticketCreateRequest(@NotNull Long tripId, @NotNull Long seatHoldId, @NotNull Long userId, @NotNull Long originId,
+                                  @NotNull Long destinationId, @NotNull BigDecimal price, @NotNull TicketStatus status,
+                                  @NotNull TicketPaymentMethod paymentMethod
 )  implements Serializable {}
 
 
-    public record ticketUpdateRequest( Long tripId, Long seatHoldId, Long userId,  String origin,
-                                       String destination,  BigDecimal price,  TicketStatus status,
-                                       TicketPaymentMethod paymentMethod, String qrCodeUrl
+    public record ticketUpdateRequest( Long tripId, Long seatHoldId, Long userId,  Long originId,
+                                       Long destinationId,  BigDecimal price,  TicketStatus status,
+                                       TicketPaymentMethod paymentMethod
     )  implements Serializable {}
 
      // RESPONSE

@@ -30,7 +30,8 @@ class TripMapperTest {
                 date,
                 departure,
                 arrival,
-                TripStatus.SCHEDULED
+                TripStatus.SCHEDULED,
+                12L
         );
 
         Trip trip = tripMapper.toEntity(createRequest);

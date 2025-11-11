@@ -7,16 +7,19 @@ import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.DTO.TripDTO;
 import com.example.transmagdalena.trip.Trip;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface TripMapper {
-
+    @Mapping(target = "id", ignore= true)
+    @Mapping( target = "bus", ignore = true)
+    @Mapping( target = "route", ignore = true)
+    @Mapping( target = "fareRule", ignore = true)
     Trip toEntity(TripDTO.tripCreateRequest tripDTO);
 
+    @Mapping( target = "bus", ignore = true)
+    @Mapping( target = "route", ignore = true)
+    @Mapping( target = "fareRule", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(TripDTO.tripUpdateRequest tripUpdateRequest, @MappingTarget Trip trip);
 

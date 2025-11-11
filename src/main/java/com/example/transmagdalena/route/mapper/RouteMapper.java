@@ -9,12 +9,12 @@ import org.mapstruct.*;
 public interface RouteMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "originId", target = "origin", ignore = true)
-    @Mapping(source = "destinationId", target = "origin", ignore = true)
+    @Mapping( target = "origin", ignore = true)
+    @Mapping( target = "destination", ignore = true)
     Route toEntity(routeCreateRequest request);
     //update
-    @Mapping(source = "originId", target = "origin", ignore = true)
-    @Mapping(source = "destinationId", target = "destination", ignore = true)
+    @Mapping( target = "origin", ignore = true)
+    @Mapping( target = "destination", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void Update(routeUpdateRequest request, @MappingTarget Route route);
 

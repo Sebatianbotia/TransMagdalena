@@ -11,13 +11,13 @@ public class TripDTO {
 
     public record tripCreateRequest(@NotNull Long busId, @NotNull Long routeId, @NotNull OffsetDateTime date,
                                   @NotNull OffsetDateTime departureAt, @NotNull OffsetDateTime arrivalAt,
-                                  @NotNull TripStatus tripStatus
+                                  @NotNull TripStatus tripStatus, @NotNull Long fareRuleId
     ) implements Serializable {}
 
 
     public record tripUpdateRequest(Long busId, Long routeId,  OffsetDateTime date,
                                      OffsetDateTime departureAt,  OffsetDateTime arrivalAt,
-                                     TripStatus tripStatus) implements Serializable {}
+                                     TripStatus tripStatus, Long fareRuleId) implements Serializable {}
 
     public record busDTO(Long id,
                              String plate,

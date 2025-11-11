@@ -42,10 +42,10 @@ public class RouteServiceImpl implements RouteService {
             throw new IllegalArgumentException("origen y destino no pueden ser iguales");
         }
 
-        if( (request.destinationId()!=null) && ( (!request.destinationId().equals(route.getDestination().getId()) ) ) ){
+        if( request.destinationId()!=null ){
             route.addDestination(stopService.getObject(request.destinationId()));
         }
-        if( (request.originId()!=null) && ( (!request.originId().equals(route.getOrigin().getId()) ) ) ){
+        if( request.originId()!=null ){
             route.addOrigin(stopService.getObject(request.originId()));
         }
         return routeMapper.toDTO(routeRepository.save(route));
