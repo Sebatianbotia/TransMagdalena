@@ -1,9 +1,15 @@
 package com.example.transmagdalena.trip.service;
 
 import com.example.transmagdalena.bus.service.BusService;
+import com.example.transmagdalena.bus.service.BusServiceImpl;
 import com.example.transmagdalena.fareRule.Service.FareRuleService;
+import com.example.transmagdalena.fareRule.Service.FareRuleServiceImpl;
 import com.example.transmagdalena.route.service.RouteService;
+import com.example.transmagdalena.route.service.RouteServiceImpl;
 import com.example.transmagdalena.seatHold.SeatHold;
+import com.example.transmagdalena.seatHold.SeatHoldStatus;
+import com.example.transmagdalena.seatHold.service.SeatHoldImpl;
+import com.example.transmagdalena.seatHold.service.SeatHoldService;
 import com.example.transmagdalena.trip.DTO.TripDTO;
 import com.example.transmagdalena.trip.Mapper.TripMapper;
 import com.example.transmagdalena.trip.Trip;
@@ -29,9 +35,9 @@ public class TripServiceImpl implements TripService {
 
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
-    private final BusService busService;
-    private final FareRuleService fareRuleService;
-    private final RouteService routeService;
+    private final BusServiceImpl busService;
+    private final FareRuleServiceImpl fareRuleService;
+    private final RouteServiceImpl routeService;
 
 
     @Override
@@ -53,7 +59,7 @@ public class TripServiceImpl implements TripService {
         trip.addBus(bus);
         trip.addFareRule(fareRule);
         var saved = tripRepository.save(trip);
-        return tripMapper.toDTO(saved);
+        return tripMapper.tripResponse(saved);
     }
 
     @Override
@@ -82,7 +88,7 @@ public class TripServiceImpl implements TripService {
         }
 
 
-        return tripMapper.toDTO(tripRepository.save(trip));
+        return tripMapper.tripResponse(tripRepository.save(trip));
     }
 
     @Override
@@ -92,12 +98,12 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public TripDTO.tripResponse get(Long id) {
-        return tripMapper.toDTO(getObject(id));
+        return tripMapper.tripResponse(getObject(id));
     }
 
     @Override
     public Page<TripDTO.tripResponse> getAll(Pageable pageable) {
-        return  tripRepository.findAll(pageable).map(tripMapper::toDTO);
+        return  tripRepository.findAll(pageable).map(tripMapper::tripResponse);
     }
 
     @Override
@@ -107,7 +113,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Page<TripDTO.tripResponse> getTripsByOriginAndDestination(Pageable pageable, String origin, String destination) {
-        return tripRepository.findAllTripsBetweenOriginAndDestination(origin, destination, pageable).map(tripMapper::toDTO);
+        return tripRepository.findAllTripsBetweenOriginAndDestination(origin, destination, pageable).map(tripMapper::tripResponse);
     }
 
     @Override
@@ -118,6 +124,15 @@ public class TripServiceImpl implements TripService {
     @Override
     public List<SeatHold> findUnpaidSeatsHold(Long tripId) {
         return tripRepository.findUnpaidSeatHolds(tripId);
+    }
+
+    public TripDTO.tripResponseWithSeatAvailable getTripWithSeatAvailable(Long tripId) {
+        var trip = getObject(tripId);
+        Integer seats = trip.getSeatHolds().stream().filter(
+                f -> f.getStatus() == SeatHoldStatus.HOLD
+        ).toList().size();
+        seats = trip.getBus().getCapacity() - seats;
+        return new TripDTO.tripResponseWithSeatAvailable(tripMapper.tripResponse(trip), seats);
     }
 
 

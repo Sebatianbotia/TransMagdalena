@@ -1,10 +1,8 @@
 package com.example.transmagdalena.route.mapper;
 
-import com.example.transmagdalena.route.DTO.RouteDTO;
 import com.example.transmagdalena.route.DTO.RouteDTO.*;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.routeStop.RouteStop;
-import com.example.transmagdalena.stop.Stop;
 import org.mapstruct.*;
 
 import java.util.List;

@@ -23,9 +23,17 @@ public interface TripMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(TripDTO.tripUpdateRequest tripUpdateRequest, @MappingTarget Trip trip);
 
-    TripDTO.tripResponse toDTO(Trip trip);
+    default TripDTO.tripResponse tripResponse(Trip trip){
+        return new TripDTO.tripResponse(
+                trip.getId(), trip.getRoute().getOrigin().getName(),
+                trip.getRoute().getDestination().getName(),
+                trip.getDepartureAt().toString(), trip.getArrivalAt().toString(),
+                trip.getDate().toString(), trip.getFareRule().getBasePrice(), trip.getTripStatus(),
+                trip.getBus().getPlate()
+        );
+    }
 
-    TripDTO.stopDTO toStopDTO(Stop entity);
-    TripDTO.routeDTO toRouteDTO(Route entity);
-    TripDTO.busDTO toBusDTO(Bus entity);
+    default TripDTO.tripResponseWithSeatAvailable tripResponseWithAvailableSeat(Trip trip, Integer seatAvailable){
+        return new TripDTO.tripResponseWithSeatAvailable(tripResponse(trip), seatAvailable);
+    }
 }

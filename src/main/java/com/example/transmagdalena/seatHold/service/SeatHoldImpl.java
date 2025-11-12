@@ -90,4 +90,8 @@ public class SeatHoldImpl implements SeatHoldService {
         }
         throw new IllegalArgumentException("Seat is not free");
     }
+
+    public Integer seatsAvailableInTrip(Long tripId) {
+        return seatHoldRepository.findSeatHoldByTripIdAndStatusIs(tripId, SeatHoldStatus.HOLD);
+    }
 }
