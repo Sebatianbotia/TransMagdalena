@@ -16,7 +16,7 @@ import java.io.IOException;
 @Service
 public class QRCodeGenerator {
 
-    @Value("${qr.size:50}")
+    @Value("${qr.size}")
     private int size;
 
     //vamos a generar el QR como array de bytes (ya que el servicio que vamos a usar para subirlo a la nube necesita los bytes

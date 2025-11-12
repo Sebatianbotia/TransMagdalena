@@ -29,7 +29,7 @@ public class RouteServiceImpl implements RouteService {
         var destination = stopService.getObject(request.destinationId());
         route.addOrigin(origin);//este metodo se encarga de la bidireccionalidad
         route.addDestination(destination);//este metodo se encarga de la bidireccionalidad
-        return routeMapper.toDTO(routeRepository.save(route));
+        return routeMapper.toResponse(routeRepository.save(route));
     }
 
     @Override
@@ -48,18 +48,18 @@ public class RouteServiceImpl implements RouteService {
         if( request.originId()!=null ){
             route.addOrigin(stopService.getObject(request.originId()));
         }
-        return routeMapper.toDTO(routeRepository.save(route));
+        return routeMapper.toResponse(routeRepository.save(route));
     }
 
 
     @Override
     public RouteDTO.routeResponse get(Long id) {
-        return routeMapper.toDTO(getObject(id));
+        return routeMapper.toResponse(getObject(id));
     }
 
     @Override
     public Page<RouteDTO.routeResponse> getAll(Pageable pageable) {
-        return routeRepository.findAll(pageable).map(routeMapper::toDTO);
+        return routeRepository.findAll(pageable).map(routeMapper::toResponse);
     }
 
     @Override
@@ -70,6 +70,10 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public Route getObject(Long id) {
         return routeRepository.findById(id).orElseThrow(()-> new NotFoundException("Route not found"));
+    }
+
+    public RouteDTO.routeResponseStops getRouteStops(Long id) {
+        return routeMapper.toResponseStops(getObject(id));
     }
 
 

@@ -1,9 +1,14 @@
 package com.example.transmagdalena.route.DTO;
 
+import com.example.transmagdalena.routeStop.DTO.RouteStopDTO;
+import com.example.transmagdalena.routeStop.RouteStop;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 public class RouteDTO {
 
@@ -17,6 +22,7 @@ public class RouteDTO {
 
     ) implements Serializable {}
 
+
     public record routeUpdateRequest(
             String code,
             Long originId,
@@ -26,14 +32,19 @@ public class RouteDTO {
     public record routeResponse(
             Long id,
             String code,
-            stopDto origin,
-            stopDto destination
+            String origin,
+            String destination,
+            String distanceKm,
+            String durationTime
     ) implements Serializable {}
 
+    public record routeResponseStops(
+            routeResponse route,
+            List<routeStopDTO> routeStops
+    )implements Serializable {}
 
-    public record stopDto(
-            String name,
-            float lat,
-            float lng
-    ) implements Serializable {}
+    public record routeStopDTO(Long id, Integer stopOrder, String origin,
+                                    String destination, BigDecimal price, Boolean isDinamycPricing) implements Serializable {}
+
+
 }

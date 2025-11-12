@@ -61,7 +61,7 @@ public class SeatHoldDTO {
     ) implements Serializable {}
 
     public record seatDto(
-            int number,
+            Integer number,
             SeatType type
     ) implements Serializable {}
 }
