@@ -1,7 +1,9 @@
 package com.example.transmagdalena.trip.DTO;
 
+import com.example.transmagdalena.configuration.Configuration;
 import com.example.transmagdalena.routeStop.DTO.RouteStopDTO;
 import com.example.transmagdalena.trip.TripStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
@@ -20,17 +22,12 @@ public class TripDTO {
                                      OffsetDateTime departureAt,  OffsetDateTime arrivalAt,
                                      TripStatus tripStatus, Long fareRuleId) implements Serializable {}
 
-    public record busDTO(Long id,
-                             String plate,
-                             Integer capacity,
-                             String status) implements Serializable {}
-
-    public record stopDTO(Long id, String name, Float lat, Float lng) implements Serializable{}
-    public record routeDTO(Long id, String code, stopDTO origin, stopDTO destination) implements Serializable{}
 
     public record tripResponse(Long id, String origin, String destination,
-                               String departTime, String arriveTime,
-                               String date, BigDecimal price, TripStatus status,
+                               @JsonFormat(pattern = Configuration.HOUR_FORMAT) OffsetDateTime departTime,
+                               @JsonFormat(pattern = Configuration.HOUR_FORMAT) OffsetDateTime arriveTime,
+                               @JsonFormat(pattern = Configuration.DATE_FORMAT) OffsetDateTime date,
+                               BigDecimal price, TripStatus status,
                                String busPlate
                                ) implements Serializable {}
 

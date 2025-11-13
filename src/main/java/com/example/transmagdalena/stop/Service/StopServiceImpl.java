@@ -7,7 +7,6 @@ import com.example.transmagdalena.stop.mapper.StopMapper;
 import com.example.transmagdalena.stop.repository.StopRepository;
 import com.example.transmagdalena.utilities.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,28 +17,28 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class StopServiceImpl implements  StopService {
 
-    @Autowired
     private final StopRepository stopRepository;
 
-    @Autowired
     private final StopMapper stopMapper;
 
-    @Autowired
     private final CityServiceImpl cityService;
 
     @Override
+    @Transactional
     public StopDTO.stopResponse save(StopDTO.stopCreateRequest stopDTO) {
         var s = stopMapper.toEntity(stopDTO);
-        s.addCity(cityService.getObject(stopDTO.cityId()));
+        s.setCity(cityService.getObject(stopDTO.cityId()));
         return stopMapper.toDTO(stopRepository.save(s));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public StopDTO.stopResponse get(Long id) {
         return stopMapper.toDTO(getObject(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public StopDTO.stopResponse get(String name) {
         return stopMapper.toDTO(getObject(name));
     }
@@ -50,29 +49,20 @@ public class StopServiceImpl implements  StopService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Stop getObject(Long id) {
-        var s = stopRepository.findById(id).orElseThrow(() -> new NotFoundException("Stop not found"));
-        return s;
+        return stopRepository.findById(id).orElseThrow(() -> new NotFoundException("Stop not found"));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Stop getObject(String name) {
-        var s = stopRepository.findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Stop not found"));
-        return s;
+         return stopRepository.findByNameIgnoreCase(name).orElseThrow(() -> new NotFoundException("Stop not found"));
     }
 
     @Override
-    public boolean delete(Long id) {
-        var s = getObject(id);
-        stopRepository.delete(s);
-        return true;
-    }
-
-    @Override
-    public boolean delete(String name) {
-        var s = getObject(name);
-        stopRepository.delete(s);
-        return true;
+    public void delete(Long id) {
+        stopRepository.deleteById(id);
     }
 
     @Override
@@ -82,8 +72,7 @@ public class StopServiceImpl implements  StopService {
         var city = s.getCity();
         stopMapper.updateStop(stopDTO, s);
         if (!city.getId().equals(stopDTO.cityId()) && stopDTO.cityId() != null) {
-            s.removeCity(city);
-            s.addCity(cityService.getObject(stopDTO.cityId()));
+            s.setCity(cityService.getObject(stopDTO.cityId()));
         }
         return stopMapper.toDTO(s);
     }

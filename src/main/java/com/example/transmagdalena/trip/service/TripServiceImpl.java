@@ -6,24 +6,32 @@ import com.example.transmagdalena.fareRule.Service.FareRuleService;
 import com.example.transmagdalena.fareRule.Service.FareRuleServiceImpl;
 import com.example.transmagdalena.route.service.RouteService;
 import com.example.transmagdalena.route.service.RouteServiceImpl;
+import com.example.transmagdalena.routeStop.RouteStop;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.seatHold.SeatHoldStatus;
 import com.example.transmagdalena.seatHold.service.SeatHoldImpl;
 import com.example.transmagdalena.seatHold.service.SeatHoldService;
+import com.example.transmagdalena.ticket.repository.TicketRepository;
+import com.example.transmagdalena.ticket.service.TicketServiceImpl;
 import com.example.transmagdalena.trip.DTO.TripDTO;
 import com.example.transmagdalena.trip.Mapper.TripMapper;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.trip.TripStatus;
 import com.example.transmagdalena.trip.repository.TripRepository;
+import com.example.transmagdalena.tripQR.repository.TripQrRepository;
+import com.example.transmagdalena.user.User;
+import com.example.transmagdalena.user.UserRols;
 import com.example.transmagdalena.utilities.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -111,10 +119,6 @@ public class TripServiceImpl implements TripService {
         return tripRepository.findById(id).orElseThrow(() -> new NotFoundException("Trip not found"));
     }
 
-    @Override
-    public Page<TripDTO.tripResponse> getTripsByOriginAndDestination(Pageable pageable, String origin, String destination) {
-        return tripRepository.findAllTripsBetweenOriginAndDestination(origin, destination, pageable).map(tripMapper::tripResponse);
-    }
 
     @Override
     public List<Integer> findSeatsHold(Long tripId) {
@@ -126,14 +130,49 @@ public class TripServiceImpl implements TripService {
         return tripRepository.findUnpaidSeatHolds(tripId);
     }
 
-    public TripDTO.tripResponseWithSeatAvailable getTripWithSeatAvailable(Long tripId) {
+    public TripDTO.tripResponseWithSeatAvailable getTripWithSeatFree(Long tripId) {
         var trip = getObject(tripId);
-        Integer seats = trip.getSeatHolds().stream().filter(
+        return tripMapper.tripResponseWithAvailableSeat(trip, calculateFreeSeats(trip));
+    }
+
+    public int calculateFreeSeats(Trip trip) {
+        int seats = trip.getSeatHolds().stream().filter(
                 f -> f.getStatus() == SeatHoldStatus.HOLD
         ).toList().size();
         seats = trip.getBus().getCapacity() - seats;
-        return new TripDTO.tripResponseWithSeatAvailable(tripMapper.tripResponse(trip), seats);
+        return seats;
     }
+
+    public Page<TripDTO.tripResponseWithSeatAvailable> findTripsBetweenStops(Long origin, Long destination,
+                                                                             Pageable pageable, UserRols userRols) {
+        Page<Trip> foundtrips = tripRepository.findAllTripsBetweenOriginAndDestination(origin, destination, pageable);
+
+        return foundtrips.map(f ->{
+            BigDecimal price = calculatePrice(f, origin, destination, userRols);
+            return tripMapper.tripResponseWithAvailableSeat(f, calculateFreeSeats(f), price );
+        });
+
+    }
+
+    public BigDecimal calculatePrice(Trip trip, Long origin, Long destination, UserRols userRols) {
+        BigDecimal price;
+        if (trip.getRoute().getOrigin().getId().equals(origin) && trip.getRoute().getDestination().getId().equals(destination)) {
+            return trip.getFareRule().getBasePrice();
+        }
+        List<RouteStop> routeStops = tripRepository.findRouteStopsByUserId(origin, destination, trip.getId());
+         price =routeStops.stream().map(f -> {
+            BigDecimal priceTemp =  f.getFareRule().getBasePrice();
+            if (f.getFareRule().getIsDynamicPricing()){
+                System.out.println("Se aplica descuento");
+            }
+            return priceTemp;
+        }).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return price;
+    }
+
+
+
+
 
 
 }

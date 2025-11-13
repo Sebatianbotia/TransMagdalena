@@ -17,7 +17,6 @@ public interface TripService {
     Trip getObject(Long id);
 
     // hay que colocar sus queries
-    Page<TripDTO.tripResponse> getTripsByOriginAndDestination(Pageable pageable, String origin, String destination);
     List<Integer> findSeatsHold(Long tripId);
     List<SeatHold> findUnpaidSeatsHold(Long tripId);
 }

@@ -8,8 +8,11 @@ import com.example.transmagdalena.ticket.DTO.TicketDTO;
 import com.example.transmagdalena.ticket.Mapper.TicketMapper;
 import com.example.transmagdalena.ticket.Ticket;
 import com.example.transmagdalena.ticket.repository.TicketRepository;
+import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.trip.repository.TripRepository;
 import com.example.transmagdalena.trip.service.TripService;
+import com.example.transmagdalena.tripQR.TripQR;
+import com.example.transmagdalena.tripQR.repository.TripQrRepository;
 import com.example.transmagdalena.user.Service.UserService;
 import com.example.transmagdalena.utilities.QR.QRCodeGenerator;
 import com.example.transmagdalena.utilities.clodinary.CloudinaryStorageService;
@@ -25,19 +28,23 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
+
     private final TicketRepository ticketRepository;
+    private final TripQrRepository tripQrRepository;
     private final TicketMapper ticketMapper;
     private final TripService tripService;
     private final StopService stopService;
     private final UserService userService;
     private final QRCodeGenerator generator;
     private final CloudinaryStorageService storageService;
+    private final SeatHoldService seatHoldService;
 
     @Override
     public TicketDTO.ticketResponse create(TicketDTO.ticketCreateRequest request) {
@@ -49,6 +56,7 @@ public class TicketServiceImpl implements TicketService {
         var destination = stopService.getObject(request.destinationId());
         var user = userService.getObject(request.userId());
         var trip = tripService.getObject(request.tripId());
+        var seatHold =  seatHoldService.getObject(request.seatHoldId());
 
         //agregar QR aquí
         String ticketCode = generateTicketCode();
@@ -58,6 +66,8 @@ public class TicketServiceImpl implements TicketService {
         ticket.addDestination(destination);
         ticket.addUser(user);
         ticket.addTrip(trip);
+        ticket.addSeatHold(seatHold);
+
         var savedTicket = ticketRepository.save(ticket);
         // generar y subir QR
         // por que despues de guardar? porque necesitamos el id del ticket
@@ -77,6 +87,9 @@ public class TicketServiceImpl implements TicketService {
             // guardar URL en el ticket
             savedTicket.setQrCodeUrl(qrUrl);
             savedTicket = ticketRepository.save(savedTicket);
+            var ticketQr = TripQR.builder().qrSeed(qrContent).build();
+            ticketQr.setTrip(trip);
+            tripQrRepository.save(ticketQr);
 
         } catch (Exception e) {
             // Si falla el QR el ticket ya esta creado
@@ -138,8 +151,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<RouteStop> findRouteStopsByUserId(Long userId, Long tripId) {
-        return ticketRepository.findRouteStopsByUserId(userId, tripId);
+        return null;
     }
+
     private String generateTicketCode() {
         String date = OffsetDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String random = UUID.randomUUID().toString()
@@ -147,5 +161,12 @@ public class TicketServiceImpl implements TicketService {
                 .toUpperCase();
         return String.format("TKT-%s-%s", date, random);
     }
+
+    public Page<TicketDTO.ticketResponse> getTicketsById(Long userId, Pageable pageable) {
+        return ticketRepository.findTicketsByUser_Id(userId, pageable).map(ticketMapper::toDto);
+    }
+
+
+
 
 }

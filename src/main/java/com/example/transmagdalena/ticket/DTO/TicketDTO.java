@@ -28,15 +28,11 @@ public record ticketCreateRequest(@NotNull Long tripId, @NotNull Long seatHoldId
     )  implements Serializable {}
 
      // RESPONSE
-    public record ticketResponse(Long id, tripDTO trip, seatHoldDTO seatHold, userDTO user, stopDTO origin,
+    public record ticketResponse(Long id, seatHoldDTO seatHold, userDTO user, stopDTO origin,
                                  stopDTO destination, BigDecimal price, TicketStatus status,
                                  TicketPaymentMethod paymentMethod, String qrCodeUrl
                                  ) implements Serializable {}
 
-
-    public record tripDTO(Long id , TripDTO.busDTO bus, OffsetDateTime date,
-                          OffsetDateTime departureAt, OffsetDateTime arrivalAt,
-                          TripStatus tripStatus) implements Serializable{}
 
     public record userDTO(
             String name,
@@ -46,19 +42,15 @@ public record ticketCreateRequest(@NotNull Long tripId, @NotNull Long seatHoldId
     ) implements Serializable {}
 
 
-    public record stopDTO(Long id, String name, float lat, float lng) implements Serializable{}
+    public record stopDTO(Long id, String name, String city) implements Serializable{}
 
 
     public record seatHoldDTO(
             Long id,
             SeatHoldStatus status,
-            seatDto seat
-
-
-    ) implements Serializable {}
-
-    public record seatDto(
-            int number,
+            Integer seatNumber,
             SeatType type
+
     ) implements Serializable {}
+
 }

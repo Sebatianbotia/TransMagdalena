@@ -62,9 +62,8 @@ public class TicketMapperTest {
         assertEquals(ticketResponse.origin().id(), origin.getId());
         assertEquals(ticketResponse.seatHold().id(), seatHold.getId());
         assertEquals(ticketResponse.origin().name(), origin.getName());
-        assertEquals(ticketResponse.seatHold().seat().type(), seat.getType());
-        assertEquals(ticketResponse.seatHold().seat().number(), seat.getNumber());
-        assertEquals(ticketResponse.trip().id(), trip.getId());
+        assertEquals(ticketResponse.seatHold().type(), seat.getType());
+        assertEquals(ticketResponse.seatHold().seatNumber(), seat.getNumber());
         assertEquals(ticketResponse.destination().id(), destination.getId());
         assertEquals(ticketResponse.destination().name(), destination.getName());
 

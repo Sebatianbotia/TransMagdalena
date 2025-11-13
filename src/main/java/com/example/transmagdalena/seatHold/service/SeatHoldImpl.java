@@ -12,10 +12,14 @@ import com.example.transmagdalena.utilities.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 @Service
 @Transactional
@@ -31,18 +35,22 @@ public class SeatHoldImpl implements SeatHoldService {
     private final TripService tripService;
 
     private final UserService userService;
+    private final TaskScheduler  taskScheduler;
 
     @Override
+    @Transactional
     public SeatHoldDTO.seatHoldResponse save(SeatHoldDTO.seatHoldCreateRequest request) {
         var f = seatHoldMapper.toEntity(request);
         f.setTrip(tripService.getObject(request.tripId()));
         if (isSeatfree(request.seatId(), request.tripId())) {
             f.setSeat(seatService.getObject(request.seatId()));
-            f.setStatus(SeatHoldStatus.HOLD);
+            f.setStatus(SeatHoldStatus.EXPIRED);
         }
         f.setUser(userService.getObject(request.userId()));
         f.setExpiresAt(OffsetDateTime.now().plusMinutes(10));
-        return seatHoldMapper.toDTO(seatHoldRepository.save(f));
+        f = seatHoldRepository.save(f);
+        deleteExpiredSeatHolds(f);
+        return seatHoldMapper.toDTO(f);
     }
 
     @Override
@@ -57,7 +65,7 @@ public class SeatHoldImpl implements SeatHoldService {
 
     @Override
     public void delete(Long id) {
-      return;
+      seatHoldRepository.deleteById(id);
     }
 
     @Override
@@ -94,4 +102,18 @@ public class SeatHoldImpl implements SeatHoldService {
     public Integer seatsAvailableInTrip(Long tripId) {
         return seatHoldRepository.findSeatHoldByTripIdAndStatusIs(tripId, SeatHoldStatus.HOLD);
     }
+
+    @Transactional
+    public void deleteExpiredSeatHolds(SeatHold seatHold) {
+        Instant time = Instant.now().plus(10, ChronoUnit.SECONDS);
+
+        taskScheduler.schedule(() -> {
+            if (seatHold.getStatus().equals(SeatHoldStatus.EXPIRED)) {
+                delete(seatHold.getId());
+            }
+        }
+        ,Date.from(time));
+    }
+
+
 }

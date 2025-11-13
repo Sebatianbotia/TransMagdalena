@@ -12,8 +12,7 @@ public interface StopService {
     Page<StopDTO.stopResponse> getAll(Pageable pageable);
     Stop getObject(Long id);
     Stop getObject(String name);
-    boolean delete(Long id);
-    boolean delete(String name);
+    void delete(Long id);
     StopDTO.stopResponse updateStop(StopDTO.stopUpdateRequest stopDTO, Long id);
 
 

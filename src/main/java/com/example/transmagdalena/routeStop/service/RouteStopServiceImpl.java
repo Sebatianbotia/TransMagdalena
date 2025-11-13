@@ -55,38 +55,31 @@ public class RouteStopServiceImpl implements RouteStopService{
 
         var routeStop = getObject(id);
         routeStopMapper.update(request, routeStop);
-        //revisar validaciones
-        if((request.originId() != null)&&(request.destinationId() != null)){
-            if(request.originId().equals(request.destinationId())){
+            if(request.originId().equals(request.destinationId())) {
                 throw new IllegalArgumentException("origen y destino no pueden ser iguales");
             }
-        }
+            if (request.destinationId() != null){routeStop.addDestination(stopService.getObject(request.destinationId()));}
 
-        if( request.destinationId()!=null){
-            routeStop.addDestination(stopService.getObject(request.destinationId()));
-        }
+        if(request.originId()!=null ){routeStop.addOrigin(stopService.getObject(request.originId()));}
 
-        if(request.originId()!=null ){
-            routeStop.addOrigin(stopService.getObject(request.originId()));
-        }
-
-        if( request.routeId()!=null ){
-            routeStop.addRoute(routeService.getObject(request.routeId()));
-        }
+        if( request.routeId()!=null){routeStop.addRoute(routeService.getObject(request.routeId()));}
         return routeStopMapper.toDto(routeStopRepository.save(routeStop));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<RouteStopDTO.routeStopResponse> getAll(Pageable pageable) {
         return routeStopRepository.findAll(pageable).map(routeStopMapper::toDto);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RouteStopDTO.routeStopResponse get(Long id) {
         return  routeStopMapper.toDto(getObject(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RouteStop getObject(Long id) {
         return routeStopRepository.findById(id).orElseThrow(()-> new NotFoundException("RouteStop not found"));
     }

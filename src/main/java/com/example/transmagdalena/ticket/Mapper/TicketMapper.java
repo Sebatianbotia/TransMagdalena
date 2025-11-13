@@ -45,15 +45,18 @@ public interface TicketMapper {
 
     // RESPONSE
     TicketDTO.ticketResponse toDto(Ticket ticket);
-
-    TicketDTO.stopDTO toStopDTO(Stop stop);
-
-    TicketDTO.tripDTO toTripDTO(Trip trip);
-
     TicketDTO.userDTO toUserDTO(User user);
 
-    TicketDTO.seatHoldDTO toSeatHoldDTO(SeatHold seat);
+    default TicketDTO.stopDTO toStopDTO(Stop stop) {
+        return new TicketDTO.stopDTO(stop.getId(), stop.getName(), stop.getCity().getName());
+    }
 
-    TicketDTO.seatDto toSeatDto(Seat seat);
+    default TicketDTO.seatHoldDTO toSeatHoldDTO(SeatHold seatHold) {
+        return new TicketDTO.seatHoldDTO(seatHold.getId(), seatHold.getStatus(),
+                    seatHold.getSeat().getNumber(), seatHold.getSeat().getType()
+                );
+    }
+
+
 
 }
