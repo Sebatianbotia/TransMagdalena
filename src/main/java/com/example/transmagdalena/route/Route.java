@@ -34,10 +34,14 @@ public class Route {
     private Stop destination;
 
     @OneToMany(mappedBy = "route")
-    private List<Trip> trips = new ArrayList<>();
+    private List<Trip> trips;
 
     @OneToMany(mappedBy = "route")
-    private List<RouteStop> routeStops  = new ArrayList<>();
+    private List<RouteStop> routeStops;
+
+    private Float distanceKm;
+
+    private Float durationTime;
 
     public void addOrigin(Stop origin) {
         this.origin = origin;

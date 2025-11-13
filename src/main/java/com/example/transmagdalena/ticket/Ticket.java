@@ -3,6 +3,7 @@ package com.example.transmagdalena.ticket;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
+import com.example.transmagdalena.tripQR.TripQR;
 import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -52,6 +53,9 @@ public class Ticket {
     private String ticketCode;
 
     private String qrCodeUrl;
+
+    @OneToOne(mappedBy = "ticket")
+    private TripQR tripQR;
 
     public void  addTrip(Trip trip) {
         if (this.trip != null) {
