@@ -6,6 +6,7 @@ import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -33,10 +34,21 @@ public class Route {
     private Stop destination;
 
     @OneToMany(mappedBy = "route")
-    private List<Trip> trips;
+    private List<Trip> trips = new ArrayList<>();
 
     @OneToMany(mappedBy = "route")
-    private List<RouteStop> routeStops;
+    private List<RouteStop> routeStops  = new ArrayList<>();
+
+    public void addOrigin(Stop origin) {
+        this.origin = origin;
+        origin.getOriginRoutes().add(this);
+    }
+
+    public void addDestination(Stop destination) {
+        this.destination = destination;
+        destination.getDestinationRoutes().add(this);
+    }
+
 
     private Float distanceKm;
 
