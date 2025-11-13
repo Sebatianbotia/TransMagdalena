@@ -38,4 +38,27 @@ public class Route {
     @OneToMany(mappedBy = "route")
     private List<RouteStop> routeStops;
 
+    private Float distanceKm;
+
+    private Float durationTime;
+
+    public void setOrigin(Stop origin) {
+        if (origin == this.origin) {return;}
+        if (this.origin != null){
+            this.origin.getOriginRoutes().remove(this);
+        }
+        this.origin = origin;
+        this.origin.getOriginRoutes().add(this);
+    }
+
+    public void setDestination(Stop destination) {
+        if (destination == this.destination) {return;}
+        if (this.destination != null){
+            this.destination.getDestinationRoutes().remove(this);
+        }
+        this.destination = destination;
+        this.destination.getDestinationRoutes().add(this);
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.transmagdalena.ticket;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
+import com.example.transmagdalena.tripQR.TripQR;
 import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,7 +49,49 @@ public class Ticket {
 
     private TicketStatus status;
 
+    @Column(name = "ticket_code", unique = true, nullable = false, length = 20)
+    private String ticketCode;
+
     private String qrCodeUrl;
+
+    @OneToOne(mappedBy = "ticket")
+    private TripQR tripQR;
+
+    public void  addTrip(Trip trip) {
+        if (this.trip != null) {
+            this.trip.getTickets().remove(this);
+        }
+        this.trip = trip;
+        trip.getTickets().add(this);
+    }
+
+    public void addSeatHold(SeatHold seatHold) {
+        this.seatHold = seatHold;
+        seatHold.setTicket(this);
+    }
+    public void addUser(User user) {
+        if(this.user != null) {
+            this.user.getTickets().remove(this);
+        }
+        this.user = user;
+        user.getTickets().add(this);
+    }
+
+    public void addDestination(Stop destination) {
+        if(this.destination != null) {
+            this.destination.getDestinationTickets().remove(this);
+        }
+        this.destination = destination;
+        destination.getDestinationTickets().add(this);
+    }
+
+    public void addOrigin(Stop origin) {
+        if(this.origin != null) {
+            this.origin.getDestinationTickets().remove(this);
+        }
+        this.origin = origin;
+        origin.getDestinationTickets().add(this);
+    }
 
 
 

@@ -6,6 +6,8 @@ import com.example.transmagdalena.fareRule.FareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.ticket.Ticket;
+import com.example.transmagdalena.tripQR.TripQR;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,6 +60,32 @@ public class Trip {
     @JoinColumn(name = "fare_rule_id")
     private FareRule fareRule;
 
+    @OneToMany(mappedBy = "trip")
+    private Set<TripQR> tripQRs;
 
+    public void addBus(Bus bus){
+        if(this.bus != null){
+            this.bus.getTrips().remove(this);
+        }
+        this.bus = bus;
+        bus.getTrips().add(this);
+    }
+
+    public void addRoute(Route route){
+        if(this.route != null){
+            this.route.getTrips().remove(this);
+
+        }
+        this.route = route;
+        route.getTrips().add(this);
+    }
+
+    public void addFareRule(FareRule fareRule){
+        if(this.fareRule != null){
+            this.fareRule.getTrips().remove(this);
+        }
+        this.fareRule = fareRule;
+        fareRule.getTrips().add(this);
+    }
 
 }

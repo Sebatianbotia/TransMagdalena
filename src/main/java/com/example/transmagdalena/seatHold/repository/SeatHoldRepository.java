@@ -15,4 +15,6 @@ public interface SeatHoldRepository extends JpaRepository<SeatHold, Long> {
 
     Page<SeatHold> findAll(Pageable pageable);
     Optional<SeatHold> findSeatHoldBySeat_IdAndTripIdAndStatus(Long seatid, Long tripid, SeatHoldStatus status);
+
+    Integer findSeatHoldByTripIdAndStatusIs(Long tripId, SeatHoldStatus status);
 }
