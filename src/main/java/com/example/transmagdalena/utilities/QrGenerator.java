@@ -28,8 +28,5 @@ public class QrGenerator {
         }
         ImageIO.write(image, "PNG", qrCodeFile);
 
-
-
-
     }
 }

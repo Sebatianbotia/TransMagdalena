@@ -41,7 +41,8 @@ public class RouteStopServiceImpl implements RouteStopService{
         if(routeStop.getFareRule()!=null){
 
             routeStop.getFareRule().getRouteStops().add(routeStop);
-            //falta agregar el origen y destino (despues del merge)
+            routeStop.getFareRule().setOrigin(origin);
+            routeStop.getFareRule().setDestination(destination);
             //según como se construye la implementacion del mapstruct toca manejar la bidireccionalidad así (revisar)
         }
 
@@ -54,39 +55,31 @@ public class RouteStopServiceImpl implements RouteStopService{
 
         var routeStop = getObject(id);
         routeStopMapper.update(request, routeStop);
-        //revisar validaciones
-        if((request.originId() != null)&&(request.destinationId() != null)
-                && (request.originId().equals(request.destinationId()))){
-            throw new IllegalArgumentException("origen y destino no pueden ser iguales");
-        }
+            if(request.originId().equals(request.destinationId())) {
+                throw new IllegalArgumentException("origen y destino no pueden ser iguales");
+            }
+            if (request.destinationId() != null){routeStop.addDestination(stopService.getObject(request.destinationId()));}
 
-        if( (request.destinationId()!=null) &&
-                ( (!request.destinationId().equals(routeStop.getDestination().getId()) ) ) ){
-            routeStop.addDestination(stopService.getObject(request.destinationId()));
-        }
+        if(request.originId()!=null ){routeStop.addOrigin(stopService.getObject(request.originId()));}
 
-        if( (request.originId()!=null) &&
-                ( (!request.originId().equals(routeStop.getOrigin().getId()) ) ) ){
-            routeStop.addOrigin(stopService.getObject(request.originId()));
-        }
-
-        if( request.routeId()!=null && !request.routeId().equals(routeStop.getRoute().getId()) ){
-            routeStop.addRoute(routeService.getObject(request.routeId()));
-        }
+        if( request.routeId()!=null){routeStop.addRoute(routeService.getObject(request.routeId()));}
         return routeStopMapper.toDto(routeStopRepository.save(routeStop));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<RouteStopDTO.routeStopResponse> getAll(Pageable pageable) {
         return routeStopRepository.findAll(pageable).map(routeStopMapper::toDto);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RouteStopDTO.routeStopResponse get(Long id) {
         return  routeStopMapper.toDto(getObject(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RouteStop getObject(Long id) {
         return routeStopRepository.findById(id).orElseThrow(()-> new NotFoundException("RouteStop not found"));
     }

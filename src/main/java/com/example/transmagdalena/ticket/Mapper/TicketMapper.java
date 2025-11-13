@@ -12,6 +12,7 @@ import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.trip.TripStatus;
 import com.example.transmagdalena.user.User;
 import com.example.transmagdalena.user.UserRols;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import org.mapstruct.*;
 
@@ -21,28 +22,41 @@ import java.time.OffsetDateTime;
 @Mapper(componentModel = "spring")
 public interface TicketMapper {
 
-    @Mapping(target = "origin", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user",  ignore = true)
+    @Mapping(target = "trip",  ignore = true)
+    @Mapping(target = "seatHold",  ignore = true)
+    @Mapping(target = "origin",  ignore = true)
     @Mapping(target = "destination", ignore = true)
+    @Mapping(target = "qrCodeUrl", ignore = true)
+
     Ticket toEntity(TicketDTO.ticketCreateRequest ticketDTO);
 
     //UPDATE
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "trip",  ignore = true)
+    @Mapping(target = "seatHold",  ignore = true)
     @Mapping(target = "origin", ignore = true)
     @Mapping(target = "destination", ignore = true)
+    @Mapping( target = "qrCodeUrl", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(TicketDTO.ticketUpdateRequest ticketUpdateRequest, @MappingTarget Ticket ticket);
 
 
     // RESPONSE
     TicketDTO.ticketResponse toDto(Ticket ticket);
-
-    TicketDTO.stopDTO toStopDTO(Stop stop);
-
-    TicketDTO.tripDTO toTripDTO(Trip trip);
-
     TicketDTO.userDTO toUserDTO(User user);
 
-    TicketDTO.seatHoldDTO toSeatHoldDTO(SeatHold seat);
+    default TicketDTO.stopDTO toStopDTO(Stop stop) {
+        return new TicketDTO.stopDTO(stop.getId(), stop.getName(), stop.getCity().getName());
+    }
 
-    TicketDTO.seatDto toSeatDto(Seat seat);
+    default TicketDTO.seatHoldDTO toSeatHoldDTO(SeatHold seatHold) {
+        return new TicketDTO.seatHoldDTO(seatHold.getId(), seatHold.getStatus(),
+                    seatHold.getSeat().getNumber(), seatHold.getSeat().getType()
+                );
+    }
+
+
 
 }

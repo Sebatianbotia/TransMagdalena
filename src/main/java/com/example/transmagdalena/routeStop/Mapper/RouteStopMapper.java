@@ -12,17 +12,17 @@ public interface RouteStopMapper {
 
     // Create
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "originId", target = "origin", ignore = true)
-    @Mapping(source = "destinationId", target = "destination", ignore = true)
-    @Mapping(source = "routeId", target = "route", ignore = true)
+    @Mapping( target = "origin", ignore = true)
+    @Mapping( target = "destination", ignore = true)
+    @Mapping( target = "route", ignore = true)
 
     RouteStop toEntity(RouteStopDTO.routeStopCreateRequest dto);
     FareRule toFareRuleEntity(RouteStopDTO.fareRuleCreateRequest dto);
 
     // UPDATE
-    @Mapping(source = "originId", target = "origin", ignore = true)
-    @Mapping(source = "destinationId", target = "destination", ignore = true)
-    @Mapping(source = "routeId", target = "route", ignore = true)
+    @Mapping( target = "origin", ignore = true)
+    @Mapping( target = "destination", ignore = true)
+    @Mapping( target = "route", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(RouteStopDTO.routeStopUpdateRequest request, @MappingTarget RouteStop route);
 
