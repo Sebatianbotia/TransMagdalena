@@ -6,6 +6,8 @@ import com.example.transmagdalena.fareRule.FareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.ticket.Ticket;
+import com.example.transmagdalena.tripQR.TripQR;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,6 +59,9 @@ public class Trip {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fare_rule_id")
     private FareRule fareRule;
+
+    @OneToMany(mappedBy = "trip")
+    private Set<TripQR> tripQRs;
 
     public void addBus(Bus bus){
         if(this.bus != null){

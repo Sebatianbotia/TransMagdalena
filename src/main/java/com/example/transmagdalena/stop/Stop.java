@@ -59,14 +59,13 @@ public class Stop {
     @OneToMany(mappedBy = "destination")
     private Set<FareRule> destinationFareRules;
 
-    public void addCity(City city) {
+    public void setCity(City city) {
+        if (city == this.city) {return;}
+        if (this.city != null) {
+            this.city.getStops().remove(this);
+        }
         this.city = city;
-        city.getStops().add(this);
-    }
-
-    public void removeCity(City city) {
-        this.city = null;
-        city.getStops().remove(this);
+        this.city.getStops().add(this);
     }
 
 }
