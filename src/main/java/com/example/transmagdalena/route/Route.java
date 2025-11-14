@@ -54,10 +54,6 @@ public class Route {
     }
 
 
-    private Float distanceKm;
-
-    private Float durationTime;
-
     public void setOrigin(Stop origin) {
         if (origin == this.origin) {return;}
         if (this.origin != null){

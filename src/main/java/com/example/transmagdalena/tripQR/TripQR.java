@@ -27,6 +27,8 @@ public class TripQR {
     @Column(nullable = false, unique = true)
     private String qrSeed;
 
+    private TriQRStatus status;
+
 
     public void setTrip(Trip trip) {
         trip.getTripQRs().add(this);
