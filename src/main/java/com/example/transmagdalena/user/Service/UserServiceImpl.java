@@ -7,13 +7,16 @@ import com.example.transmagdalena.user.UserRols;
 import com.example.transmagdalena.user.repository.UserRepository;
 import com.example.transmagdalena.utilities.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Encoder;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,7 +26,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
     @Override
     @Transactional
     public UserDTO.userResponse save(UserDTO.userCreateRequest userCreateRequest) {
@@ -76,6 +78,8 @@ public class UserServiceImpl implements UserService {
     public User getObject(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     }
+
+
 
 
     public User getObject(Long id, UserRols rol) {

@@ -34,7 +34,7 @@ public class AssignmentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<AssignmentDTO.assignmentResponse>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+    public ResponseEntity<Page<AssignmentDTO.assignmentResponse>> getAll(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         var p = PageRequest.of(page, size, Sort.by("id").ascending());
         return ResponseEntity.ok(assignmentService.getAll(p));
     }
