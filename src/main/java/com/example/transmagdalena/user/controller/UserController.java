@@ -1,7 +1,10 @@
 package com.example.transmagdalena.user.controller;
 
+import com.example.transmagdalena.ticket.DTO.TicketDTO;
+import com.example.transmagdalena.ticket.service.TicketService;
 import com.example.transmagdalena.user.DTO.UserDTO;
 import com.example.transmagdalena.user.Service.UserService;
+import com.example.transmagdalena.user.UserRols;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserController {
 
     private final UserService userService;
+    private final TicketService ticketService;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO.userResponse> get(@PathVariable Long id) {
@@ -53,6 +57,27 @@ public class UserController {
     @PatchMapping("/update/{id}")
     public ResponseEntity<UserDTO.userResponse> update(@PathVariable Long id, @Valid @RequestBody UserDTO.userUpdateRequest userDTO) {
         return ResponseEntity.ok(userService.update(userDTO, id));
+    }
+
+    @GetMapping("/{id}/tickets")
+    public ResponseEntity<Page<TicketDTO.ticketResponse>> getTicketsById(@PathVariable Long id,
+                                                                         @RequestParam(defaultValue = "0") int page,
+                                                                         @RequestParam(defaultValue = "10") int size){
+        var pp =  PageRequest.of(page, size, Sort.by("id").ascending());
+        return ResponseEntity.ok(ticketService.getUserTickets(pp,id));
+    }
+
+    @GetMapping("/find/type")
+    public ResponseEntity<Page<UserDTO.userResponse>> getUsersByRol(@RequestParam UserRols rol,
+                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "10") int size){
+        var pp = PageRequest.of(page, size, Sort.by("id").ascending());
+        return ResponseEntity.ok(userService.getUsersByRol(rol,pp));
+    }
+
+    @GetMapping("/count/{type}")
+    public ResponseEntity<Integer> countUsers(@RequestParam UserRols type) {
+        return ResponseEntity.ok(userService.countUsersByRol(type));
     }
 
 

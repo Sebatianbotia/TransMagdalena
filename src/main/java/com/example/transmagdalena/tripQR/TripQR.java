@@ -29,6 +29,8 @@ public class TripQR {
 
     private TriQRStatus status;
 
+    private Boolean isUsed;
+
 
     public void setTrip(Trip trip) {
         trip.getTripQRs().add(this);

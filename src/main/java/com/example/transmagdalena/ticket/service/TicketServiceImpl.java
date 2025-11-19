@@ -7,6 +7,7 @@ import com.example.transmagdalena.stop.Service.StopService;
 import com.example.transmagdalena.ticket.DTO.TicketDTO;
 import com.example.transmagdalena.ticket.Mapper.TicketMapper;
 import com.example.transmagdalena.ticket.Ticket;
+import com.example.transmagdalena.ticket.TicketStatus;
 import com.example.transmagdalena.ticket.repository.TicketRepository;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.trip.repository.TripRepository;
@@ -130,7 +131,7 @@ public class TicketServiceImpl implements TicketService {
                 throw new NotFoundException("Ticket no encontrado");
             }
         }
-        ticketRepository.delete(ticket);
+        ticket.setStatus(TicketStatus.CANCELLED);
     }
 
     @Override
@@ -164,6 +165,11 @@ public class TicketServiceImpl implements TicketService {
 
     public Page<TicketDTO.ticketResponse> getTicketsById(Long userId, Pageable pageable) {
         return ticketRepository.findTicketsByUser_Id(userId, pageable).map(ticketMapper::toDto);
+    }
+
+    @Override
+    public Page<TicketDTO.ticketResponse> getUserTickets(Pageable pageable, Long id){
+        return ticketRepository.findTicketsByUser_Id(id, pageable).map(ticketMapper::toDto);
     }
 
 

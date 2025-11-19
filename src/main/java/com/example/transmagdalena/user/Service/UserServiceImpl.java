@@ -43,40 +43,54 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDTO.userAssigmentResponse getAssigments(Long id){
+    public UserDTO.userAssigmentResponse getAssigments(Long id) {
         var s = getObject(id);
         return userMapper.toResponseAssigment(s);
     }
 
 
     @Override
+    @Transactional(readOnly = true)
     public Page<UserDTO.userResponse> getAll(Pageable pageable) {
-        var users =  userRepository.findAll(pageable);
+        var users = userRepository.findAll(pageable);
         return users.map(userMapper::toResponse);
     }
 
     @Override
     public boolean delete(Long id) {
-         var f = getObject(id);
-         boolean check = false;
-         if (f!=null) {
-             userRepository.deleteById(id);
-             check = true;
-         }
-         return check;
+        var f = getObject(id);
+        boolean check = false;
+        if (f != null) {
+            userRepository.deleteById(id);
+            check = true;
+        }
+        return check;
     }
 
     @Override
     @Transactional
     public UserDTO.userResponse update(UserDTO.userUpdateRequest userUpdateRequest, Long id) {
-        var f =  getObject(id);
+        var f = getObject(id);
         userMapper.update(userUpdateRequest, f);
         return userMapper.toResponse(f);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getObject(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<UserDTO.userResponse> getUsersByRol(UserRols rol, Pageable pageable) {
+        return userRepository.findUserByRolIs(rol, pageable).map(userMapper::toResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer countUsersByRol(UserRols rol){
+        return userRepository.countUsersByRolIs(rol);
     }
 
 

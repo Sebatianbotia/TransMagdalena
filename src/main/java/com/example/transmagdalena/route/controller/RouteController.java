@@ -4,6 +4,7 @@ import com.example.transmagdalena.parcel.DTO.ParcelDTO;
 import com.example.transmagdalena.route.DTO.RouteDTO;
 import com.example.transmagdalena.route.service.RouteService;
 import com.example.transmagdalena.route.service.RouteServiceImpl;
+import com.example.transmagdalena.routeStop.DTO.RouteStopDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,17 +39,24 @@ public class RouteController {
         return ResponseEntity.ok(routeService.getAll(s));
     }
 
-//    @PostMapping("/create")
-//    public ResponseEntity<ParcelDTO.parcelResponse> create(@RequestBody @Valid ParcelDTO.parcelCreateRequest parcelDTO,
-//                                                           UriComponentsBuilder uriBuilder){
-//        var s = parcelService.save(parcelDTO);
-//        var location =  uriBuilder.path("/api/v1/parcel/{id)").buildAndExpand(s.id()).toUri();
-//        return ResponseEntity.created(location).body(s);
-//    }
-//
-//    @PatchMapping("update/{id}")
-//    public ResponseEntity<ParcelDTO.parcelResponse> update(@PathVariable Long id,
-//                                                           @Valid @RequestBody ParcelDTO.parcelUpdateRequest parcelUpdateRequest){
-//        return ResponseEntity.ok(parcelService.update(parcelUpdateRequest,id));
-//    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> count(){
+        return ResponseEntity.ok(routeService.count());
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<RouteDTO.routeResponse> create(@RequestBody @Valid RouteDTO.routeCreateRequest req,
+                                                           UriComponentsBuilder uriBuilder){
+        var s = routeService.save(req);
+        var location =  uriBuilder.path("/api/v1/route/{id)").buildAndExpand(s.id()).toUri();
+        return ResponseEntity.created(location).body(s);
+    }
+
+    @PatchMapping("update/{id}")
+    public ResponseEntity<RouteDTO.routeResponse> update(@PathVariable Long id,
+                                               @Valid @RequestBody RouteDTO.routeUpdateRequest req){
+        return ResponseEntity.ok(routeService.update(id, req));
+    }
+
+
 }

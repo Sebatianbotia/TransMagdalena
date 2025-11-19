@@ -6,6 +6,7 @@ import com.example.transmagdalena.bus.mapper.BusMapper;
 import com.example.transmagdalena.bus.repository.BusRepository;
 import com.example.transmagdalena.utilities.error.NotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.websocket.OnError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,28 +18,29 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BusServiceImpl implements BusService {
 
-    @Autowired
     private final BusRepository busRepository;
-    @Autowired
     private final BusMapper busMapper;
 
     @Override
     public BusDTO.busResponse save(BusDTO.busCreateRequest request) {
-        return null;
+        var entity = busMapper.toEntity(request);
+        entity.setIsDelete(false);
+        return busMapper.toBusDTO(busRepository.save(entity));
     }
 
     @Override
     public BusDTO.busResponse get(Long id) {
-        return null;
+        return busMapper.toBusDTO(getObject(id));
     }
 
     @Override
     public Page<BusDTO.busResponse> getAll(Pageable pageable) {
-        return null;
+        return  busRepository.findAll(pageable).map(busMapper::toBusDTO);
     }
 
     @Override
     public void delete(Long id) {
+        busRepository.delete(getObject(id));
     }
 
     @Override
@@ -49,6 +51,11 @@ public class BusServiceImpl implements BusService {
     @Override
     public Bus getObject(Long id) {
         return busRepository.findBusById(id).orElseThrow(() -> new NotFoundException("Bus not found"));
+    }
+
+    @Override
+    public Long countBuses(){
+        return busRepository.count();
     }
 
 

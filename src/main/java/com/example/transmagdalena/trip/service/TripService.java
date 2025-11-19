@@ -19,4 +19,5 @@ public interface TripService {
     // hay que colocar sus queries
     List<Integer> findSeatsHold(Long tripId);
     List<SeatHold> findUnpaidSeatsHold(Long tripId);
+
 }

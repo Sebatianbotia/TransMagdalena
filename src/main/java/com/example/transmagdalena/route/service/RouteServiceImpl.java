@@ -72,6 +72,11 @@ public class RouteServiceImpl implements RouteService {
         return routeRepository.findById(id).orElseThrow(()-> new NotFoundException("Route not found"));
     }
 
+    @Override
+    public Long count() {
+        return routeRepository.count();
+    }
+
     public RouteDTO.routeResponseStops getRouteStops(Long id) {
         return routeMapper.toResponseStops(getObject(id));
     }

@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface BusRepository extends JpaRepository<Bus, Integer> {
 
     Optional<Bus> findBusById(Long id);
+    long count();
 
 }
 

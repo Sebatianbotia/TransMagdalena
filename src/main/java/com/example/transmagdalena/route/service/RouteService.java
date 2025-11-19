@@ -15,5 +15,6 @@ public interface RouteService {
     Page<RouteDTO.routeResponse> getAll(Pageable pageable);
     void delete(Long id);
     Route getObject (Long id);
+    Long count();
     //RouteDTO.routeResponse getRouteByOriginAndDestination(Stop origin, Stop destination);
 }
