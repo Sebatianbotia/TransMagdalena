@@ -2,6 +2,7 @@ package com.example.transmagdalena.assignment.Controller;
 
 import com.example.transmagdalena.assignment.DTO.AssignmentDTO;
 import com.example.transmagdalena.assignment.service.AssignmentService;
+import com.example.transmagdalena.assignment.service.AssignmentServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Validated
 public class AssignmentController {
 
-    private final AssignmentService assignmentService;
+    private final AssignmentServiceImpl assignmentService;
 
     @GetMapping("/{id}")
     public ResponseEntity<AssignmentDTO.assignmentResponse> get(@PathVariable Long id) {

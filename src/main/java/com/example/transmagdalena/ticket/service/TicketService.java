@@ -17,5 +17,6 @@ public interface TicketService {
     TicketDTO.ticketResponse get(Long id);
     Page<TicketDTO.ticketResponse> getAll(Pageable pageable);
     List<RouteStop> findRouteStopsByUserId(Long userId, Long tripId);
+    Page<TicketDTO.ticketResponse> getUserTickets(Pageable pageable, Long id);
 
 }

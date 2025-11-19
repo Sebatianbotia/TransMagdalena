@@ -32,8 +32,8 @@ public class ParcelController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<ParcelDTO.parcelResponse>> getAll(@RequestParam int page,
-                                                                 @RequestParam int size){
+    public ResponseEntity<Page<ParcelDTO.parcelResponse>> getAll(@RequestParam (defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "10") int size){
         var s = PageRequest.of(page, size, Sort.by("id").ascending());
         return ResponseEntity.ok(parcelService.getAll(s));
     }

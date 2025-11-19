@@ -27,7 +27,7 @@ public class SeatHoldController {
         return ResponseEntity.ok(seatHoldService.get(id));
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<Page<SeatHoldDTO.seatHoldResponse>> getAll(@RequestParam int page,
                                                                      @RequestParam int size){
         var s = PageRequest.of(page, size, Sort.by("id").ascending());

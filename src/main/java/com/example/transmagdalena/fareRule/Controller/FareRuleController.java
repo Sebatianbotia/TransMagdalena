@@ -48,4 +48,10 @@ public class FareRuleController {
                                                        @PathVariable Long id){
         return ResponseEntity.ok(fareRuleService.update(request, id));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<FareRuleDTO.fareRuleResponse> delete(@PathVariable Long id){
+        fareRuleService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -11,4 +11,6 @@ public interface CityRepository extends JpaRepository<City, Long> {
     Optional<City> findByName(String name);
 
     Page<City> findAll(Pageable pageable);
+
+    long count();
 }

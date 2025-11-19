@@ -6,6 +6,8 @@ import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -17,6 +19,8 @@ import java.util.Set;
 @Builder
 @Table(name = "fare_rules")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@SQLDelete(sql = "update fare_rules set is_delete = true where id ?")
+@Where(clause = "is_delete = false")
 public class FareRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +46,8 @@ public class FareRule {
 
     @OneToMany(mappedBy = "fareRule")
     private Set<Trip> trips;
+
+    private Boolean isDelete;
 
     public void setOrigin(Stop origin) {
         if (this.origin == origin){return;}

@@ -2,6 +2,9 @@ package com.example.transmagdalena.city.Controller;
 
 import com.example.transmagdalena.city.DTO.CityDTO;
 import com.example.transmagdalena.city.service.CityService;
+import com.example.transmagdalena.stop.DTO.StopDTO;
+import com.example.transmagdalena.stop.Service.StopService;
+import com.example.transmagdalena.stop.Stop;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +16,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/city")
 @RequiredArgsConstructor
 @Validated
 public class CityController {
 
-    @Autowired
     private final CityService cityService;
+    private final StopService stopService;
 
     @GetMapping("/{id}")
     public ResponseEntity<CityDTO.cityResponse> get(@PathVariable Long id) {
@@ -50,6 +55,11 @@ public class CityController {
     public ResponseEntity<CityDTO.cityResponse> update(@Valid @RequestBody CityDTO.cityUpdateRequest cityUpdateRequest,
                                                        @PathVariable Long id){
         return ResponseEntity.ok(cityService.update(cityUpdateRequest, id));
+    }
+
+    @GetMapping("/{id}/stops")
+    public ResponseEntity<List<StopDTO.stopResponse>> getStops(@PathVariable Long id){
+        return ResponseEntity.ok(stopService.getStopsByCity(id));
     }
 
 }

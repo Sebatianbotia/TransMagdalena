@@ -27,8 +27,6 @@ public interface BusMapper {
     busResponse toBusDTO(Bus entity);
 
     seatResponseDto toSeatDTO(Seat entity);
-    //así debería funcionar, pruebalo por favor
-    // java.util.ConcurrentModificationException da ese error
     Set<seatResponseDto> toSeatsDTO(Set<Seat> entity);
 
 

@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Page<User> findAll(Pageable pageable);
 
     Optional<User> findUserByIdAndRolIs(Long id, UserRols rol);
+
+    Page<User> findUserByRolIs(UserRols rol, Pageable pageable);
+    Integer countUsersByRolIs(UserRols rol);
 }

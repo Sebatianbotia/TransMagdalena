@@ -2,6 +2,7 @@ package com.example.transmagdalena.trip.service;
 
 import com.example.transmagdalena.bus.service.BusService;
 import com.example.transmagdalena.bus.service.BusServiceImpl;
+import com.example.transmagdalena.config.Service.ConfigService;
 import com.example.transmagdalena.fareRule.Service.FareRuleService;
 import com.example.transmagdalena.fareRule.Service.FareRuleServiceImpl;
 import com.example.transmagdalena.route.service.RouteService;
@@ -46,6 +47,7 @@ public class TripServiceImpl implements TripService {
     private final BusServiceImpl busService;
     private final FareRuleServiceImpl fareRuleService;
     private final RouteServiceImpl routeService;
+    private final ConfigService configService;
 
 
     @Override
@@ -54,9 +56,9 @@ public class TripServiceImpl implements TripService {
             throw new IllegalArgumentException("la salida no puede ser antes de la llegada");
         }
 
-//        if (req.departureAt().isBefore(OffsetDateTime.now())) {
-//            throw new IllegalArgumentException("Departure time no pude ser en el pasado");
-//        }
+        if (req.departureAt().isBefore(OffsetDateTime.now())) {
+            throw new IllegalArgumentException("Departure time no pude ser en el pasado");
+        }
 
         var trip = tripMapper.toEntity(req);
         var bus = busService.getObject(req.busId());
@@ -101,7 +103,8 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public void delete(Long tripId) {
-        tripRepository.deleteById(tripId);
+        var update = new TripDTO.tripUpdateRequest(null,null,null,null,null,TripStatus.CANCELLED, null);
+        update(update,tripId);
     }
 
     @Override
@@ -163,7 +166,9 @@ public class TripServiceImpl implements TripService {
          price =routeStops.stream().map(f -> {
             BigDecimal priceTemp =  f.getFareRule().getBasePrice();
             if (f.getFareRule().getIsDynamicPricing()){
-                System.out.println("Se aplica descuento");
+                var discount = configService.get(userRols);
+                var discountValue = 1- discount.value();
+                priceTemp = priceTemp.multiply(new BigDecimal(discountValue));
             }
             return priceTemp;
         }).reduce(BigDecimal.ZERO, BigDecimal::add);

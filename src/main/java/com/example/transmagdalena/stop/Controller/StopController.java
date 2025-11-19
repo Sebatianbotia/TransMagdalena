@@ -27,7 +27,8 @@ public class StopController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<StopDTO.stopResponse>> getAll(@RequestParam Integer page, @RequestParam Integer size) {
+    public ResponseEntity<Page<StopDTO.stopResponse>> getAll(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "10") int size) {
         var p = PageRequest.of(page, size, Sort.by("id").ascending());
         return ResponseEntity.ok(stopService.getAll(p));
     }
@@ -43,6 +44,12 @@ public class StopController {
     @PatchMapping("/update/{id}")
     public ResponseEntity<StopDTO.stopResponse> update(@PathVariable Long id, @Valid @RequestBody StopDTO.stopUpdateRequest stopDTO) {
         return ResponseEntity.ok(stopService.updateStop(stopDTO, id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<StopDTO.stopResponse> delete(@PathVariable Long id) {
+        stopService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 
