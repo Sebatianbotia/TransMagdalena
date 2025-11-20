@@ -65,13 +65,13 @@ public class ConfigServiceImpl implements ConfigService {
     public ConfigDTO.configResponse get(UserRols type){
         ConfigType type1;
         if (UserRols.STUDENT.equals(type)) {
-            type1 = ConfigType.USER_DISCOUNT;
+            type1 = ConfigType.PASSENGER_DISCOUNT;
         }
         else if (UserRols.OLD_MAN.equals(type)) {
             type1 = ConfigType.AGED_DISCOUNT;
         }
         else {
-            throw new IllegalStateException("unrecognized type");
+            return new ConfigDTO.configResponse(null,null,0F);
         }
         return configMapper.toDTO(configRepository.findConfigByType(type1).orElseThrow(() -> new NotFoundException("config not found")));
     }

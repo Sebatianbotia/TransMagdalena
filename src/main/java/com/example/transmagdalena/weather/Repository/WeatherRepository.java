@@ -14,7 +14,7 @@ public interface WeatherRepository extends JpaRepository<Weather,Long> {
 
     @Query("""
     select w from Weather w
-    where w.date = :date and w.startTime <= :targetTime and w.endTime >= :targetTime and w.city = :city
+    where w.date = :date and w.startTime <= :targetTime and w.endTime >= :targetTime and w.city.id = :city
     order by w.startTime asc
 """)
     public Optional<Weather> getWeatherByDateAndTime(@Param("date") LocalDate date,
