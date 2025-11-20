@@ -7,6 +7,8 @@ import com.example.transmagdalena.tripQR.TripQR;
 import com.example.transmagdalena.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 
@@ -17,6 +19,8 @@ import java.math.BigDecimal;
 @Builder
 @Table(name = "tickets")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@SQLDelete(sql = "update tickets set status = 'CANCELLED' where id = ? ")
+@Where(clause = "status != 'CANCELLED'")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,7 +58,7 @@ public class Ticket {
 
     private String qrCodeUrl;
 
-    @OneToOne(mappedBy = "ticket")
+    @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL)
     private TripQR tripQR;
 
     public void  addTrip(Trip trip) {

@@ -46,7 +46,7 @@ public class SeatHoldImpl implements SeatHoldService {
         f.setTrip(tripService.getObject(request.tripId()));
         if (isSeatfree(request.seatId(), request.tripId())) {
             f.setSeat(seatService.getObject(request.seatId()));
-            f.setStatus(SeatHoldStatus.EXPIRED);
+            f.setStatus(null);
         }
         f.setUser(userService.getObject(request.userId()));
         f.setExpiresAt(LocalDateTime.now().plusMinutes(10));
@@ -101,17 +101,13 @@ public class SeatHoldImpl implements SeatHoldService {
         throw new IllegalArgumentException("Seat is not free");
     }
 
-    public Integer seatsAvailableInTrip(Long tripId) {
-        return seatHoldRepository.findSeatHoldByTripIdAndStatusIs(tripId, SeatHoldStatus.HOLD);
-    }
-
 
     @Transactional
     public void deleteExpiredSeatHolds(SeatHold seatHold) {
-        Instant time = Instant.now().plus(10, ChronoUnit.SECONDS);
+        Instant time = Instant.now().plus(10, ChronoUnit.MINUTES );
 
         taskScheduler.schedule(() -> {
-            if (seatHold.getStatus().equals(SeatHoldStatus.EXPIRED)) {
+            if (seatHold.getStatus() == null) {
                 delete(seatHold.getId());
             }
         }

@@ -1,11 +1,14 @@
 package com.example.transmagdalena.user;
 
 import com.example.transmagdalena.assignment.Assignment;
+import com.example.transmagdalena.configuration.Configuration;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.ticket.Ticket;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
@@ -24,12 +27,16 @@ public class User {
     private Long id;
 
     private String name;
+
+    @Column(unique = true)
     private String email;
+
     private String phone;
 
     private UserRols rol;
 
-    private String passwordHash;
+    @JsonFormat(pattern = Configuration.DATE_FORMAT)
+    private LocalDate bornDate;
 
     @Column(nullable = false) // este valor debe generarse al crearse la cuenta
     private LocalDateTime createdAt;

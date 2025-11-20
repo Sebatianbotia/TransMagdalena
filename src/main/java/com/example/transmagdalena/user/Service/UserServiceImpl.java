@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -84,6 +85,12 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public Page<UserDTO.userResponse> getUsersByRol(UserRols rol, Pageable pageable) {
         return userRepository.findUserByRolIs(rol, pageable).map(userMapper::toResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<UserDTO.userResponse> getPassengers(Pageable pageable) {
+        return userRepository.findPassengers(pageable, Set.of(UserRols.PASSENGER, UserRols.STUDENT, UserRols.OLD_MAN)).map(userMapper::toResponse);
     }
 
     @Override
