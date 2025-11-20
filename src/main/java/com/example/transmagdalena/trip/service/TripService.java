@@ -15,7 +15,7 @@ public interface TripService {
     TripDTO.tripResponse get(Long id);
     Page<TripDTO.tripResponse> getAll(Pageable pageable);
     Trip getObject(Long id);
-
+    List<Integer> getBusySeats(Long tripId, Long origin);
     // hay que colocar sus queries
     List<Integer> findSeatsHold(Long tripId);
     List<SeatHold> findUnpaidSeatsHold(Long tripId);

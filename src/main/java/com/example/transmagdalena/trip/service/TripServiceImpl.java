@@ -33,7 +33,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class TripServiceImpl implements TripService {
             throw new IllegalArgumentException("la salida no puede ser antes de la llegada");
         }
 
-        if (req.departureAt().isBefore(OffsetDateTime.now())) {
+        if (req.departureAt().isBefore(LocalTime.now())) {
             throw new IllegalArgumentException("Departure time no pude ser en el pasado");
         }
 
@@ -118,6 +120,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public List<Integer> getBusySeats(Long tripId, Long origin){
+        return tripRepository.findBusySeats(tripId, origin);
+    }
+
+    @Override
     public Trip getObject(Long id) {
         return tripRepository.findById(id).orElseThrow(() -> new NotFoundException("Trip not found"));
     }
@@ -133,27 +140,25 @@ public class TripServiceImpl implements TripService {
         return tripRepository.findUnpaidSeatHolds(tripId);
     }
 
-    public TripDTO.tripResponseWithSeatAvailable getTripWithSeatFree(Long tripId) {
-        var trip = getObject(tripId);
-        return tripMapper.tripResponseWithAvailableSeat(trip, calculateFreeSeats(trip));
-    }
 
-    public int calculateFreeSeats(Trip trip) {
-        int seats = trip.getSeatHolds().stream().filter(
-                f -> f.getStatus() == SeatHoldStatus.HOLD
-        ).toList().size();
-        seats = trip.getBus().getCapacity() - seats;
-        return seats;
+    public int calculateFreeSeats(Trip trip, Long origin) {
+        var busySeats = tripRepository.findBusySeats(trip.getId(), origin);
+        return trip.getBus().getCapacity() - busySeats.size();
+
     }
 
     public Page<TripDTO.tripResponseWithSeatAvailable> findTripsBetweenStops(Long origin, Long destination,
-                                                                             Pageable pageable, UserRols userRols) {
-        Page<Trip> foundtrips = tripRepository.findAllTripsBetweenOriginAndDestination(origin, destination, pageable);
+                                                                             Pageable pageable, UserRols userRols, LocalDate date) {
+        Page<Trip> foundtrips = tripRepository.findAllTripsBetweenOriginAndDestination(origin, destination, date, pageable);
 
-        return foundtrips.map(f ->{
+        List<TripDTO.tripResponseWithSeatAvailable> filterTrips = foundtrips.stream().filter(
+                f -> calculateFreeSeats(f, origin) > 0
+        ).map(f -> {
             BigDecimal price = calculatePrice(f, origin, destination, userRols);
-            return tripMapper.tripResponseWithAvailableSeat(f, calculateFreeSeats(f), price );
-        });
+            return tripMapper.tripResponseWithAvailableSeat(f, calculateFreeSeats(f, origin), price);
+        }).toList();
+
+        return new PageImpl<>(filterTrips, pageable, foundtrips.getTotalElements());
 
     }
 

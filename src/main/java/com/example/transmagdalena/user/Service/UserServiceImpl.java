@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDTO.userResponse save(UserDTO.userCreateRequest userCreateRequest) {
         var entity = userMapper.toEntity(userCreateRequest);
-        entity.setCreatedAt(OffsetDateTime.now());
+        entity.setCreatedAt(LocalDateTime.now());
         return userMapper.toResponse(userRepository.save(entity));
     }
 

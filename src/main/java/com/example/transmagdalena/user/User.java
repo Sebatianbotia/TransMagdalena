@@ -6,6 +6,7 @@ import com.example.transmagdalena.ticket.Ticket;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class User {
     private String passwordHash;
 
     @Column(nullable = false) // este valor debe generarse al crearse la cuenta
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
     private Set<Assignment> driverAssignments;

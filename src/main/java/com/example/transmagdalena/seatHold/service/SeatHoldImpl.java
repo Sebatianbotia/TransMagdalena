@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -47,7 +49,7 @@ public class SeatHoldImpl implements SeatHoldService {
             f.setStatus(SeatHoldStatus.EXPIRED);
         }
         f.setUser(userService.getObject(request.userId()));
-        f.setExpiresAt(OffsetDateTime.now().plusMinutes(10));
+        f.setExpiresAt(LocalDateTime.now().plusMinutes(10));
         f = seatHoldRepository.save(f);
         deleteExpiredSeatHolds(f);
         return seatHoldMapper.toDTO(f);
@@ -102,6 +104,7 @@ public class SeatHoldImpl implements SeatHoldService {
     public Integer seatsAvailableInTrip(Long tripId) {
         return seatHoldRepository.findSeatHoldByTripIdAndStatusIs(tripId, SeatHoldStatus.HOLD);
     }
+
 
     @Transactional
     public void deleteExpiredSeatHolds(SeatHold seatHold) {
