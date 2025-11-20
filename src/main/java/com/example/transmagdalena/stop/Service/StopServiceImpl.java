@@ -84,4 +84,8 @@ public class StopServiceImpl implements  StopService {
     public List<StopDTO.stopResponse> getStopsByCity(Long cityId){
         return stopRepository.findByCityId(cityId).stream().map(stopMapper::toDTO).toList();
     }
+
+    public List<StopDTO.stopResponse> getStops(){
+        return stopRepository.findAll().stream().map(stopMapper::toDTO).toList();
+    }
 }

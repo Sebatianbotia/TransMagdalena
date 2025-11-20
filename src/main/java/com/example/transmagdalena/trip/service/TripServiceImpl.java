@@ -8,6 +8,8 @@ import com.example.transmagdalena.fareRule.Service.FareRuleServiceImpl;
 import com.example.transmagdalena.route.service.RouteService;
 import com.example.transmagdalena.route.service.RouteServiceImpl;
 import com.example.transmagdalena.routeStop.RouteStop;
+import com.example.transmagdalena.seat.DTO.SeatDTO;
+import com.example.transmagdalena.seat.service.SeatService;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.seatHold.SeatHoldStatus;
 import com.example.transmagdalena.seatHold.service.SeatHoldImpl;
@@ -50,6 +52,7 @@ public class TripServiceImpl implements TripService {
     private final FareRuleServiceImpl fareRuleService;
     private final RouteServiceImpl routeService;
     private final ConfigService configService;
+    private final SeatService seatService;
 
 
     @Override
@@ -146,6 +149,11 @@ public class TripServiceImpl implements TripService {
         return trip.getBus().getCapacity() - busySeats.size();
 
     }
+    public List<SeatDTO.seatResponse> tripSeats(Long tripId){
+        var bus = getObject(tripId).getBus();
+        return bus.getSeats().stream().map(seat -> seatService.get(seat.getId())).toList();
+    }
+
 
     public Page<TripDTO.tripResponseWithSeatAvailable> findTripsBetweenStops(Long origin, Long destination,
                                                                              Pageable pageable, UserRols userRols, LocalDate date) {

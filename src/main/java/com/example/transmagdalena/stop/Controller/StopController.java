@@ -2,6 +2,7 @@ package com.example.transmagdalena.stop.Controller;
 
 import com.example.transmagdalena.stop.DTO.StopDTO;
 import com.example.transmagdalena.stop.Service.StopService;
+import com.example.transmagdalena.stop.Service.StopServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +14,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/stop")
 @RequiredArgsConstructor
 @Validated
 public class StopController {
 
-    private final StopService stopService;
+    private final StopServiceImpl stopService;
 
     @GetMapping("/{id}")
     public ResponseEntity<StopDTO.stopResponse> get(@PathVariable Long id) {
@@ -51,6 +54,12 @@ public class StopController {
         stopService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<StopDTO.stopResponse>> getStopsList() {
+        return ResponseEntity.ok(stopService.getStops());
+    }
+
 
 
 }
