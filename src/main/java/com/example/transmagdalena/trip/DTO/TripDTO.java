@@ -32,4 +32,5 @@ public class TripDTO {
                                ) implements Serializable {}
 
     public record tripResponseWithSeatAvailable(tripResponse trip, Integer seatAvailable) implements Serializable{}
+
 }

@@ -1,5 +1,7 @@
 package com.example.transmagdalena.trip.service;
 
+import com.example.transmagdalena.bus.Bus;
+import com.example.transmagdalena.bus.DTO.BusDTO;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.trip.DTO.TripDTO;
 import com.example.transmagdalena.trip.Trip;
@@ -19,5 +21,4 @@ public interface TripService {
     // hay que colocar sus queries
     List<Integer> findSeatsHold(Long tripId);
     List<SeatHold> findUnpaidSeatsHold(Long tripId);
-
 }

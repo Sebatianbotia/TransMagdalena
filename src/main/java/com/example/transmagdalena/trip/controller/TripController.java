@@ -3,6 +3,7 @@ package com.example.transmagdalena.trip.controller;
 import com.example.transmagdalena.incidents.DTO.IncidentDTO;
 import com.example.transmagdalena.incidents.EntityType;
 import com.example.transmagdalena.incidents.service.IncidentServiceImpl;
+import com.example.transmagdalena.seat.DTO.SeatDTO;
 import com.example.transmagdalena.trip.DTO.TripDTO;
 import com.example.transmagdalena.trip.Mapper.TripMapper;
 import com.example.transmagdalena.trip.Trip;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/trip")
@@ -51,6 +54,15 @@ public class TripController {
                                                 @RequestParam UserRols userRols) {
         var s = PageRequest.of(page, size);
         return ResponseEntity.ok(tripService.findTripsBetweenStops(origin, destination, s, userRols));
+    }
+
+    @GetMapping("/{id}/seats")
+    public ResponseEntity<List<SeatDTO.seatResponse>> getTripSeats(@PathVariable Long id){
+        return ResponseEntity.ok(tripService.tripSeats(id));
+    }
+    @GetMapping("/{id}/seatsHold")
+    public ResponseEntity<List<Integer>> getTripSeatsHold(@PathVariable Long id){
+        return ResponseEntity.ok(tripService.findSeatsHold(id));
     }
 
 
