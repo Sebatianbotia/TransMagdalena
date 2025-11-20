@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -35,7 +36,7 @@ public class SeatHold {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
-    private OffsetDateTime expiresAt;
+    private LocalDateTime expiresAt;
 
     private SeatHoldStatus status;
 

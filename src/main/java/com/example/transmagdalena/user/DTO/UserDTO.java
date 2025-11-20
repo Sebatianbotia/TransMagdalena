@@ -3,6 +3,8 @@ import com.example.transmagdalena.user.UserRols;
 import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
@@ -23,8 +25,8 @@ public class UserDTO {
 
     public record tripDTO(
             Long id,
-            OffsetDateTime arrivalAt,
-            OffsetDateTime departureAt,
+            LocalTime arrivalAt,
+            LocalTime departureAt,
             String origin,
             String destination
     ) implements Serializable {}

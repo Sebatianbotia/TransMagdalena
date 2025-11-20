@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -21,9 +24,10 @@ select rs.id d from RouteStop rs
 join RouteStop rs2 on rs2.route = rs.route
 where rs.origin.id = :origin and rs2.destination.id = :destination
 and rs2.stopOrder >= rs.stopOrder and t.route = rs.route
-) and t.bus.capacity >= (select count(*) from SeatHold sh where sh.trip = t)
+) and t.date >= :date
 """)
-    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param("origin") Long originId, @Param("destination") Long destinationId,  Pageable pageable);
+    Page<Trip> findAllTripsBetweenOriginAndDestination(@Param("origin") Long originId, @Param("destination") Long destinationId,
+                                                       @Param("date") LocalDate date, Pageable pageable);
 
     @Query("""
     select sh.seat.number from SeatHold sh
@@ -56,4 +60,17 @@ and rs2.stopOrder >= rs.stopOrder and t.route = rs.route
     List<RouteStop> findRouteStopsByUserId(@Param("origin") Long origin,
                                            @Param("destination") Long destination,
                                            @Param(value = "tripId") Long tripId);
+
+
+    @Query("""
+    select t.seatHold.seat.number from RouteStop rs
+    join Ticket t on rs.route = t.trip.route and t.trip.id = :trip
+    where rs.destination.id = t.destination.id
+    and rs.stopOrder >= (
+    select rs2.stopOrder from RouteStop rs2
+        where rs2.origin.id = :origin and rs2.route = t.trip.route
+    )
+""")
+    List<Integer> findBusySeats(@Param("trip") Long tripId,
+                                @Param("origin") Long originId);
 }

@@ -1,11 +1,15 @@
 package com.example.transmagdalena.incidents;
 
+import com.example.transmagdalena.configuration.Configuration;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -27,6 +31,7 @@ public class Incident {
 
     private String note;
 
-    private OffsetDateTime createdAt;
+    @JsonFormat(pattern = Configuration.DATE_TIME_FORMAT)
+    private LocalDateTime createdAt;
 
 }

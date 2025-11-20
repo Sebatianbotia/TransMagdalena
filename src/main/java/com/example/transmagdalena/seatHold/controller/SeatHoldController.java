@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Validated
 public class SeatHoldController {
 
-    private final SeatHoldImpl seatHoldService;
+    private final SeatHoldService seatHoldService;
 
     @GetMapping("/{id}")
     public ResponseEntity<SeatHoldDTO.seatHoldResponse> get(@PathVariable Long id){
@@ -47,6 +47,5 @@ public class SeatHoldController {
                                                                @Valid @RequestBody SeatHoldDTO.seatHoldUpdateRequest request){
         return ResponseEntity.ok(seatHoldService.update(request, id));
     }
-
 
 }

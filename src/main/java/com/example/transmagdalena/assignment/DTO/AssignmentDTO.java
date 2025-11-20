@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 
 public class AssignmentDTO {
@@ -52,8 +54,8 @@ public class AssignmentDTO {
 
     public record tripDTO(
             Long id,
-            OffsetDateTime arrivalAt,
-            OffsetDateTime departureAt
+            LocalTime arrivalAt,
+            LocalTime departureAt
     ) implements Serializable {}
 
 }

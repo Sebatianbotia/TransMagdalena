@@ -2,6 +2,7 @@ package com.example.transmagdalena.trip;
 
 import com.example.transmagdalena.assignment.Assignment;
 import com.example.transmagdalena.bus.Bus;
+import com.example.transmagdalena.configuration.Configuration;
 import com.example.transmagdalena.fareRule.FareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.seatHold.SeatHold;
@@ -10,7 +11,11 @@ import com.example.transmagdalena.tripQR.TripQR;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
@@ -36,13 +41,16 @@ public class Trip {
     private Route route;
 
     @Column(nullable = false)
-    private OffsetDateTime date;
+    @JsonFormat(pattern = Configuration.DATE_FORMAT)
+    private LocalDate date;
 
     @Column(nullable = false)
-    private OffsetDateTime departureAt;
+    @JsonFormat(pattern = Configuration.HOUR_FORMAT)
+    private LocalTime departureAt;
 
     @Column(nullable = false)
-    private OffsetDateTime arrivalAt;
+    @JsonFormat(pattern = Configuration.HOUR_FORMAT)
+    private LocalTime arrivalAt;
 
     @Column(nullable = false)
     private TripStatus tripStatus;
