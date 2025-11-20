@@ -54,7 +54,7 @@ public class TripController {
 //        return ResponseEntity.ok(tripService.getTripWithSeatFree(id));
 //    }
 
-    @GetMapping("/{id}/freeSeats")
+    @GetMapping("/{id}/busySeats")
     public ResponseEntity<List<Integer>> getBusySeatsNumbers(@PathVariable Long id,
                                                              @RequestParam Long origin){
         return ResponseEntity.ok(tripService.getBusySeats(id, origin));

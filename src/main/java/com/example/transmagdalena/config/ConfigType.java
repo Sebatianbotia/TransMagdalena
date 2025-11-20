@@ -1,6 +1,6 @@
 package com.example.transmagdalena.config;
 
 public enum ConfigType {
-    USER_DISCOUNT,
+    PASSENGER_DISCOUNT,
     AGED_DISCOUNT
 }

@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -172,7 +173,7 @@ public class TripServiceImpl implements TripService {
                 f -> calculateFreeSeats(f, origin) > 0
         ).map(f -> {
             BigDecimal price = calculatePrice(f, origin, destination, userRols);
-            return tripMapper.tripResponseWithAvailableSeat(f, calculateFreeSeats(f, origin), price);
+            return tripMapper.tripResponseWithAvailableSeat(f, calculateFreeSeats(f, origin), price.setScale(2,  BigDecimal.ROUND_HALF_UP));
         }).toList();
 
         return new PageImpl<>(filterTrips, pageable, foundtrips.getTotalElements());
@@ -187,10 +188,10 @@ public class TripServiceImpl implements TripService {
                 var city = trip.getRoute().getOrigin().getCity().getId();
                 var weatherDiscount = weatherService.get(trip.getDate(), trip.getDepartureAt(), city).discount();
                 var passengerDiscount = configService.get(userRols).value();
-                var discountValue = 1 - weatherDiscount -  passengerDiscount;
+                var discountValue = 1  -  passengerDiscount - weatherDiscount;
                 price = price.multiply(new BigDecimal(discountValue));
-                return price;
             }
+            return price;
         }
 
         List<RouteStop> routeStops = tripRepository.findRouteStopsByUserId(origin, destination, trip.getId());
@@ -200,7 +201,7 @@ public class TripServiceImpl implements TripService {
                 var passengerDiscount = configService.get(userRols).value();
                 var city = trip.getRoute().getOrigin().getCity().getId();
                 var weatherDiscount = weatherService.get(trip.getDate(), trip.getDepartureAt(), city).discount();
-                var discountValue = 1 - passengerDiscount -weatherDiscount ;
+                var discountValue = 1 - passengerDiscount - weatherDiscount  ;
                 priceTemp = priceTemp.multiply(new BigDecimal(discountValue));
             }
             return priceTemp;

@@ -37,8 +37,7 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public WeatherDTO.weatherRespose get(LocalDate date, LocalTime targetTime, Long cityId) {
         return weatherMapper.toDTO(
-                weatherRepository.getWeatherByDateAndTime(date, targetTime, cityId)
-                        .orElseThrow(() -> new NotFoundException("weather problems not founds")));
+                weatherRepository.getWeatherByDateAndTime(date, targetTime, cityId).orElse(Weather.builder().discount(0F).build()));
     }
 
     @Override
