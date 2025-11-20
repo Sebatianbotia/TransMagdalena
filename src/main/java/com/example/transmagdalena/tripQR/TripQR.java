@@ -4,6 +4,8 @@ import com.example.transmagdalena.ticket.Ticket;
 import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Data
@@ -11,6 +13,8 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "trip_qrs")
 @Builder
+@SQLDelete(sql = "update trip_qrs set status = 'CANCELLED' where id = ? ")
+@Where(clause = "status != 'CANCELLED'")
 public class TripQR {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +32,6 @@ public class TripQR {
     private String qrSeed;
 
     private TriQRStatus status;
-
-    private Boolean isUsed;
 
 
     public void setTrip(Trip trip) {

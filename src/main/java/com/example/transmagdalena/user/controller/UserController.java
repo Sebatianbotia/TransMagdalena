@@ -72,6 +72,9 @@ public class UserController {
                                                                     @RequestParam(defaultValue = "0") int page,
                                                                     @RequestParam(defaultValue = "10") int size){
         var pp = PageRequest.of(page, size, Sort.by("id").ascending());
+        if (rol == UserRols.PASSENGER){
+            return ResponseEntity.ok(userService.getPassengers(pp));
+        }
         return ResponseEntity.ok(userService.getUsersByRol(rol,pp));
     }
 

@@ -8,8 +8,7 @@ import com.example.transmagdalena.fareRule.Service.FareRuleServiceImpl;
 import com.example.transmagdalena.route.service.RouteService;
 import com.example.transmagdalena.route.service.RouteServiceImpl;
 import com.example.transmagdalena.routeStop.RouteStop;
-import com.example.transmagdalena.seat.DTO.SeatDTO;
-import com.example.transmagdalena.seat.service.SeatService;
+import com.example.transmagdalena.seat.Seat;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.seatHold.SeatHoldStatus;
 import com.example.transmagdalena.seatHold.service.SeatHoldImpl;
@@ -25,6 +24,8 @@ import com.example.transmagdalena.tripQR.repository.TripQrRepository;
 import com.example.transmagdalena.user.User;
 import com.example.transmagdalena.user.UserRols;
 import com.example.transmagdalena.utilities.error.NotFoundException;
+import com.example.transmagdalena.weather.Service.WeatherService;
+import com.example.transmagdalena.weather.Service.WeatherServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -48,11 +50,11 @@ public class TripServiceImpl implements TripService {
 
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
-    private final BusServiceImpl busService;
-    private final FareRuleServiceImpl fareRuleService;
-    private final RouteServiceImpl routeService;
+    private final BusService busService;
+    private final FareRuleService fareRuleService;
+    private final RouteService routeService;
     private final ConfigService configService;
-    private final SeatService seatService;
+    private final WeatherService weatherService;
 
 
     @Override
@@ -139,6 +141,13 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public Set<Seat> getTripSeats(Long tripId) {
+        var s = getObject(tripId);
+        return s.getBus().getSeats();
+    }
+
+
+    @Override
     public List<SeatHold> findUnpaidSeatsHold(Long tripId) {
         return tripRepository.findUnpaidSeatHolds(tripId);
     }
@@ -149,11 +158,6 @@ public class TripServiceImpl implements TripService {
         return trip.getBus().getCapacity() - busySeats.size();
 
     }
-    public List<SeatDTO.seatResponse> tripSeats(Long tripId){
-        var bus = getObject(tripId).getBus();
-        return bus.getSeats().stream().map(seat -> seatService.get(seat.getId())).toList();
-    }
-
 
     public Page<TripDTO.tripResponseWithSeatAvailable> findTripsBetweenStops(Long origin, Long destination,
                                                                              Pageable pageable, UserRols userRols, LocalDate date) {
@@ -173,14 +177,25 @@ public class TripServiceImpl implements TripService {
     public BigDecimal calculatePrice(Trip trip, Long origin, Long destination, UserRols userRols) {
         BigDecimal price;
         if (trip.getRoute().getOrigin().getId().equals(origin) && trip.getRoute().getDestination().getId().equals(destination)) {
-            return trip.getFareRule().getBasePrice();
+            price = trip.getFareRule().getBasePrice();
+            if (trip.getFareRule().getIsDynamicPricing()){
+                var city = trip.getRoute().getOrigin().getCity().getId();
+                var weatherDiscount = weatherService.get(trip.getDate(), trip.getDepartureAt(), city).discount();
+                var passengerDiscount = configService.get(userRols).value();
+                var discountValue = 1 - weatherDiscount -  passengerDiscount;
+                price = price.multiply(new BigDecimal(discountValue));
+                return price;
+            }
         }
+
         List<RouteStop> routeStops = tripRepository.findRouteStopsByUserId(origin, destination, trip.getId());
          price =routeStops.stream().map(f -> {
             BigDecimal priceTemp =  f.getFareRule().getBasePrice();
             if (f.getFareRule().getIsDynamicPricing()){
-                var discount = configService.get(userRols);
-                var discountValue = 1- discount.value();
+                var passengerDiscount = configService.get(userRols).value();
+                var city = trip.getRoute().getOrigin().getCity().getId();
+                var weatherDiscount = weatherService.get(trip.getDate(), trip.getDepartureAt(), city).discount();
+                var discountValue = 1 - passengerDiscount -weatherDiscount ;
                 priceTemp = priceTemp.multiply(new BigDecimal(discountValue));
             }
             return priceTemp;

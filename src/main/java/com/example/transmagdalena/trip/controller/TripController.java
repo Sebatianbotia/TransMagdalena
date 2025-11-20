@@ -4,7 +4,7 @@ import com.example.transmagdalena.assignment.DTO.AssignmentDTO;
 import com.example.transmagdalena.incidents.DTO.IncidentDTO;
 import com.example.transmagdalena.incidents.EntityType;
 import com.example.transmagdalena.incidents.service.IncidentServiceImpl;
-import com.example.transmagdalena.seat.DTO.SeatDTO;
+import com.example.transmagdalena.seat.Seat;
 import com.example.transmagdalena.seatHold.service.SeatHoldService;
 import com.example.transmagdalena.ticket.DTO.TicketDTO;
 import com.example.transmagdalena.trip.DTO.TripDTO;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1/trip")
@@ -69,6 +70,11 @@ public class TripController {
         return ResponseEntity.ok(tripService.findTripsBetweenStops(origin, destination, s, userRols,  date));
     }
 
+    @GetMapping("/{id}/seats")
+    public ResponseEntity<Set<Seat>> getTripSeats(@PathVariable Long id){
+        return  ResponseEntity.ok(tripService.getTripSeats(id));
+    }
+
     @GetMapping("/all")
     public ResponseEntity<Page<TripDTO.tripResponse>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         var p = PageRequest.of(page, size, Sort.by("id").ascending());
@@ -84,14 +90,6 @@ public class TripController {
     public ResponseEntity<TripDTO.tripResponse> cancel(@PathVariable Long id) {
         tripService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-    @GetMapping("/{id}/seats")
-    public ResponseEntity<List<SeatDTO.seatResponse>> getTripSeats(@PathVariable Long id){
-        return ResponseEntity.ok(tripService.tripSeats(id));
-    }
-    @GetMapping("/{id}/seatsHold")
-    public ResponseEntity<List<Integer>> getTripSeatsHold(@PathVariable Long id){
-        return ResponseEntity.ok(tripService.findSeatsHold(id));
     }
 
     @PostMapping("/create")

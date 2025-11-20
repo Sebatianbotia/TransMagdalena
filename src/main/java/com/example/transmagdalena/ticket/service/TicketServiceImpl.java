@@ -12,6 +12,8 @@ import com.example.transmagdalena.ticket.repository.TicketRepository;
 import com.example.transmagdalena.trip.Trip;
 import com.example.transmagdalena.trip.repository.TripRepository;
 import com.example.transmagdalena.trip.service.TripService;
+import com.example.transmagdalena.tripQR.Service.TripQRService;
+import com.example.transmagdalena.tripQR.TriQRStatus;
 import com.example.transmagdalena.tripQR.TripQR;
 import com.example.transmagdalena.tripQR.repository.TripQrRepository;
 import com.example.transmagdalena.user.Service.UserService;
@@ -39,6 +41,7 @@ public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
     private final TripQrRepository tripQrRepository;
+    private final TripQRService tripQRService;
     private final TicketMapper ticketMapper;
     private final TripService tripService;
     private final StopService stopService;
@@ -88,8 +91,7 @@ public class TicketServiceImpl implements TicketService {
             // guardar URL en el ticket
             savedTicket.setQrCodeUrl(qrUrl);
             savedTicket = ticketRepository.save(savedTicket);
-            var ticketQr = TripQR.builder().qrSeed(qrContent).build();
-            ticketQr.setTrip(trip);
+            var ticketQr = TripQR.builder().qrSeed(qrContent).trip(trip).ticket(savedTicket).status(TriQRStatus.PAYED).build();
             tripQrRepository.save(ticketQr);
 
         } catch (Exception e) {
@@ -131,7 +133,7 @@ public class TicketServiceImpl implements TicketService {
                 throw new NotFoundException("Ticket no encontrado");
             }
         }
-        ticket.setStatus(TicketStatus.CANCELLED);
+        ticketRepository.delete(ticket);
     }
 
     @Override
@@ -163,9 +165,6 @@ public class TicketServiceImpl implements TicketService {
         return String.format("TKT-%s-%s", date, random);
     }
 
-    public Page<TicketDTO.ticketResponse> getTicketsById(Long userId, Pageable pageable) {
-        return ticketRepository.findTicketsByUser_Id(userId, pageable).map(ticketMapper::toDto);
-    }
 
     @Override
     public Page<TicketDTO.ticketResponse> getUserTickets(Pageable pageable, Long id){

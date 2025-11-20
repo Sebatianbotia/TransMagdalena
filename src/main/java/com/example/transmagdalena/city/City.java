@@ -1,6 +1,7 @@
 package com.example.transmagdalena.city;
 
 import com.example.transmagdalena.stop.Stop;
+import com.example.transmagdalena.weather.Weather;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,5 +29,8 @@ public class City {
 
     @OneToMany(mappedBy = "city")
     private Set<Stop> stops;
+
+    @OneToMany(mappedBy = "city")
+    private Set<Weather> weathers;
 
 }
