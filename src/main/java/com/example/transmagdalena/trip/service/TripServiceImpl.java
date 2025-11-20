@@ -168,7 +168,7 @@ public class TripServiceImpl implements TripService {
                 f -> calculateFreeSeats(f, origin) > 0
         ).map(f -> {
             BigDecimal price = calculatePrice(f, origin, destination, userRols);
-            return tripMapper.tripResponseWithAvailableSeat(f, calculateFreeSeats(f, origin), price);
+            return tripMapper.tripResponseWithAvailableSeat(f, calculateFreeSeats(f, origin), price.setScale(2,  BigDecimal.ROUND_HALF_UP));
         }).toList();
 
         return new PageImpl<>(filterTrips, pageable, foundtrips.getTotalElements());
@@ -186,7 +186,7 @@ public class TripServiceImpl implements TripService {
                 var discountValue = 1  -  passengerDiscount - weatherDiscount;
                 price = price.multiply(new BigDecimal(discountValue));
             }
-            return price.setScale(2, RoundingMode.HALF_UP);
+            return price;
         }
 
         List<RouteStop> routeStops = tripRepository.findRouteStopsByUserId(origin, destination, trip.getId());
@@ -201,7 +201,7 @@ public class TripServiceImpl implements TripService {
             }
             return priceTemp;
         }).reduce(BigDecimal.ZERO, BigDecimal::add);
-        return price.setScale(2, RoundingMode.HALF_UP);
+        return price;
     }
 
 

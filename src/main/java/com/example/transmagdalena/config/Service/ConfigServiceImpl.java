@@ -46,6 +46,7 @@ public class ConfigServiceImpl implements ConfigService {
         return configMapper.toDTO(getObject(id));
     }
 
+
     @Override
     public Page<ConfigDTO.configResponse> getAll(Pageable pageable) {
         return  configRepository.findAll(pageable).map(configMapper::toDTO);
@@ -63,17 +64,14 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public ConfigDTO.configResponse get(UserRols type){
-        ConfigType type1;
+        ConfigType type1 = null;
         if (UserRols.STUDENT.equals(type)) {
             type1 = ConfigType.PASSENGER_DISCOUNT;
         }
         else if (UserRols.OLD_MAN.equals(type)) {
             type1 = ConfigType.AGED_DISCOUNT;
         }
-        else {
-            return new ConfigDTO.configResponse(null,null,0F);
-        }
-        return configMapper.toDTO(configRepository.findConfigByType(type1).orElseThrow(() -> new NotFoundException("config not found")));
+        return configMapper.toDTO(configRepository.findConfigByType(type1).orElse(new Config(null, null, 0F, null)));
     }
 
 }
