@@ -1,5 +1,6 @@
 package com.example.transmagdalena.Security.Domine.AppUser.DTO;
 
+import com.example.transmagdalena.user.DTO.UserDTO;
 import com.example.transmagdalena.user.UserRols;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,5 +16,5 @@ public class AuthDTO {
     }
     public record LoginRequest(@Email @NotBlank String email, @NotBlank String password) {}
 
-    public record AuthResponse(String accessToken, String tokenType, long expireInseconds) {}
+    public record AuthResponse(String accessToken, String tokenType, long expireInseconds, UserDTO.userResponse user) {}
 }

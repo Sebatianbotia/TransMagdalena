@@ -8,7 +8,10 @@ import com.example.transmagdalena.fareRule.Service.FareRuleServiceImpl;
 import com.example.transmagdalena.route.service.RouteService;
 import com.example.transmagdalena.route.service.RouteServiceImpl;
 import com.example.transmagdalena.routeStop.RouteStop;
+import com.example.transmagdalena.seat.DTO.SeatDTO;
 import com.example.transmagdalena.seat.Seat;
+import com.example.transmagdalena.seat.mapper.SeatMapper;
+import com.example.transmagdalena.seat.service.SeatService;
 import com.example.transmagdalena.seatHold.SeatHold;
 import com.example.transmagdalena.seatHold.SeatHoldStatus;
 import com.example.transmagdalena.seatHold.service.SeatHoldImpl;
@@ -55,6 +58,8 @@ public class TripServiceImpl implements TripService {
     private final RouteService routeService;
     private final ConfigService configService;
     private final WeatherService weatherService;
+    private final SeatService seatService;
+    private final SeatMapper seatMapper;
 
 
     @Override
@@ -141,9 +146,9 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Set<Seat> getTripSeats(Long tripId) {
+    public List<SeatDTO.seatResponse> getTripSeats(Long tripId) {
         var s = getObject(tripId);
-        return s.getBus().getSeats();
+        return s.getBus().getSeats().stream().map(seatMapper::toSeatResponse).toList();
     }
 
 

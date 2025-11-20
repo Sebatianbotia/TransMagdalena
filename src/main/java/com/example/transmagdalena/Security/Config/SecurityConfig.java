@@ -12,6 +12,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -38,6 +39,10 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPoint)
                         .accessDeniedHandler(accessDenied))
+                .headers(headers -> headers
+                        // Deshabilitar frame options para H2 console
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+                )
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
 //                        .requestMatchers("/api/v1/auth/**").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
@@ -57,7 +62,8 @@ public class SecurityConfig {
         configuration.setAllowedOriginPatterns(List.of(
                 "http://localhost:3000",  // React
                 "http://localhost:4200",  // Angular
-                "http://localhost:5173"   // Vite
+                "http://localhost:5173",// Vite
+                "http://localhost:8080"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));

@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @Table(name = "tickets")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @SQLDelete(sql = "update tickets set status = 'CANCELLED' where id = ? ")
-@Where(clause = "status != 'CANCELLED'")
+@Where(clause = "status != 1")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,6 +4,7 @@ import com.example.transmagdalena.assignment.DTO.AssignmentDTO;
 import com.example.transmagdalena.incidents.DTO.IncidentDTO;
 import com.example.transmagdalena.incidents.EntityType;
 import com.example.transmagdalena.incidents.service.IncidentServiceImpl;
+import com.example.transmagdalena.seat.DTO.SeatDTO;
 import com.example.transmagdalena.seat.Seat;
 import com.example.transmagdalena.seatHold.service.SeatHoldService;
 import com.example.transmagdalena.ticket.DTO.TicketDTO;
@@ -71,8 +72,13 @@ public class TripController {
     }
 
     @GetMapping("/{id}/seats")
-    public ResponseEntity<Set<Seat>> getTripSeats(@PathVariable Long id){
+    public ResponseEntity<List<SeatDTO.seatResponse>> getTripSeats(@PathVariable Long id){
         return  ResponseEntity.ok(tripService.getTripSeats(id));
+    }
+
+    @GetMapping("/{id}/seatsHold")
+    public ResponseEntity<List<Integer>> getTripSeatsHold(@PathVariable Long id){
+        return ResponseEntity.ok(tripService.findSeatsHold(id));
     }
 
     @GetMapping("/all")
