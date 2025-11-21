@@ -44,10 +44,10 @@ public class SeatHoldImpl implements SeatHoldService {
     public SeatHoldDTO.seatHoldResponse save(SeatHoldDTO.seatHoldCreateRequest request) {
         var f = seatHoldMapper.toEntity(request);
         f.setTrip(tripService.getObject(request.tripId()));
-        if (isSeatfree(request.seatId(), request.tripId())) {
-            f.setSeat(seatService.getObject(request.seatId()));
-            f.setStatus(null);
-        }
+
+        f.setSeat(seatService.getObject(request.seatId()));
+        f.setStatus(SeatHoldStatus.EXPIRED);
+
         f.setUser(userService.getObject(request.userId()));
         f.setExpiresAt(LocalDateTime.now().plusMinutes(10));
         f = seatHoldRepository.save(f);
@@ -91,14 +91,6 @@ public class SeatHoldImpl implements SeatHoldService {
     @Override
     public SeatHold getObject(Long id) {
         return seatHoldRepository.findById(id).orElseThrow(() -> new NotFoundException("SeatHold not found"));
-    }
-
-    public boolean isSeatfree(Long seatId, Long tripId) {
-        var s = seatHoldRepository.findSeatHoldBySeat_IdAndTripIdAndStatus(seatId, tripId, SeatHoldStatus.HOLD);
-        if (s.isEmpty()) {
-            return true;
-        }
-        throw new IllegalArgumentException("Seat is not free");
     }
 
 

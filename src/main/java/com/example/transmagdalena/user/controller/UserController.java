@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @GetMapping("/count/{type}")
-    public ResponseEntity<Integer> countUsers(@RequestParam UserRols type) {
+    public ResponseEntity<Integer> countUsers(@PathVariable UserRols type) {
         return ResponseEntity.ok(userService.countUsersByRol(type));
     }
 

@@ -8,7 +8,7 @@ public class ConfigDTO {
 
     public record configCreateRequest(ConfigType type, Float value) implements Serializable{}
     public record configUpdateRequest(ConfigType type, Float value) implements Serializable{}
-    public record configResponse(Long id, ConfigType type, Float value) implements Serializable{}
+    public record configResponse(Long id, ConfigType type, Float valu) implements Serializable{}
 
 
 }

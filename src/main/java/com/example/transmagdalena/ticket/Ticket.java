@@ -48,7 +48,6 @@ public class Ticket {
     private Stop destination;
 
     private BigDecimal price;
-
     private TicketPaymentMethod paymentMethod;
 
     private TicketStatus status;

@@ -18,15 +18,20 @@ public class RouteDTO {
             @NotNull
             Long originId,//manejar la bidireccionalidad con la lista de stops en el service
             @NotNull
-            Long destinationId//lo mismo acá
-
+            Long destinationId,//lo mismo acá
+            @NotNull
+            Float distanceKm,
+            @NotNull
+            Float durationTime
     ) implements Serializable {}
 
 
     public record routeUpdateRequest(
             String code,
             Long originId,
-            Long destinationId
+            Long destinationId,
+            Float distanceKm,
+            Float durationTime
     ) implements Serializable {}
 
     public record routeResponse(

@@ -40,13 +40,11 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPoint)
                         .accessDeniedHandler(accessDenied))
                 .headers(headers -> headers
-                        // Deshabilitar frame options para H2 console
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
                 )
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
 //                        .requestMatchers("/api/v1/auth/**").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
-//                        // ejemplo de permisos por rol
 //                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
 //                        .anyRequest().authenticated()
                 )
@@ -55,19 +53,18 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Configuración CORS para frontend
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(List.of(
-                "http://localhost:3000",  // React
-                "http://localhost:4200",  // Angular
-                "http://localhost:5173",// Vite
+                "http://localhost:3000",
+                "http://localhost:4200",
+                "http://localhost:5173",
                 "http://localhost:8080"
         ));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // ← Importante para cookies/tokens
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

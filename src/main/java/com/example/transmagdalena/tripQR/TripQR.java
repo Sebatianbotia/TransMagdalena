@@ -13,8 +13,6 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @Table(name = "trip_qrs")
 @Builder
-@SQLDelete(sql = "update trip_qrs set status = 'CANCELLED' where id = ? ")
-@Where(clause = "status != 'CANCELLED'")
 public class TripQR {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -24,7 +24,7 @@ public class Config {
 
     private ConfigType type;
 
-    private Float value;
+    private Float valu;
 
     private Boolean isDelete;
 }

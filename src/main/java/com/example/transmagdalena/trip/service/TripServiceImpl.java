@@ -187,7 +187,7 @@ public class TripServiceImpl implements TripService {
             if (trip.getFareRule().getIsDynamicPricing()){
                 var city = trip.getRoute().getOrigin().getCity().getId();
                 var weatherDiscount = weatherService.get(trip.getDate(), trip.getDepartureAt(), city).discount();
-                var passengerDiscount = configService.get(userRols).value();
+                var passengerDiscount = configService.get(userRols).valu();
                 var discountValue = 1  -  passengerDiscount - weatherDiscount;
                 price = price.multiply(new BigDecimal(discountValue));
             }
@@ -198,7 +198,7 @@ public class TripServiceImpl implements TripService {
          price =routeStops.stream().map(f -> {
             BigDecimal priceTemp =  f.getFareRule().getBasePrice();
             if (f.getFareRule().getIsDynamicPricing()){
-                var passengerDiscount = configService.get(userRols).value();
+                var passengerDiscount = configService.get(userRols).valu();
                 var city = trip.getRoute().getOrigin().getCity().getId();
                 var weatherDiscount = weatherService.get(trip.getDate(), trip.getDepartureAt(), city).discount();
                 var discountValue = 1 - passengerDiscount - weatherDiscount  ;

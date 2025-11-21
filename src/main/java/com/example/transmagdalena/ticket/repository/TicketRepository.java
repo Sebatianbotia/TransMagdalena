@@ -15,6 +15,5 @@ import java.util.Set;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Page<Ticket> findTicketsByUser_Id(Long userId, Pageable pageable);
-
     Long user(User user);
 }

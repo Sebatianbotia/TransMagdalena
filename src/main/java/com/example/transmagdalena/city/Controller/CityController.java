@@ -1,5 +1,6 @@
 package com.example.transmagdalena.city.Controller;
 
+import com.example.transmagdalena.bus.DTO.BusDTO;
 import com.example.transmagdalena.city.DTO.CityDTO;
 import com.example.transmagdalena.city.service.CityService;
 import com.example.transmagdalena.stop.DTO.StopDTO;
@@ -60,6 +61,12 @@ public class CityController {
     @GetMapping("/{id}/stops")
     public ResponseEntity<List<StopDTO.stopResponse>> getStops(@PathVariable Long id){
         return ResponseEntity.ok(stopService.getStopsByCity(id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<CityDTO.cityResponse> delete(@PathVariable Long id) {
+        cityService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
