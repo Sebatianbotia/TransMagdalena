@@ -42,11 +42,13 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
                 )
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
-//                        .requestMatchers("/api/v1/auth/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/api/v1/auth/**").permitAll()
+                                .requestMatchers("/api/v1/trip/find").permitAll()
+                                .requestMatchers("/api/v1/stop/list").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
 //                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-//                        .anyRequest().authenticated()
+                            .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

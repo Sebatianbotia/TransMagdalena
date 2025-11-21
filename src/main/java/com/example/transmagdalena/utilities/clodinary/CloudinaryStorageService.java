@@ -87,7 +87,7 @@ public class CloudinaryStorageService {
          * Public ID: qr-codes/qr-TKT-ABC
          */
         private String extractPublicId(String url) {
-            String[] parts = url.split("/");//esto es para  el elete
+            String[] parts = url.split("/");//esto es para  delelete
             String filename = parts[parts.length - 1].replace(".png", "");
             return "qr-codes/" + filename;
         }
