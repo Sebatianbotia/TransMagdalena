@@ -27,4 +27,18 @@ public class BaggageRepositoryTest extends AbstractRepositoryPSQL {
         Assertions.assertEquals(baggage.getTagCode(), optional.get().getTagCode());
 
     }
+
+    @Test
+    @DisplayName("buscar baggage por tagCode")
+    public void buscarBaggagePorTagCode(){
+
+        Baggage baggage = Baggage.builder().tagCode("ABC123").weight(22).build();
+        baggage = baggageRepository.save(baggage);
+
+        Optional<Baggage> optional = baggageRepository.findByTagCode(baggage.getTagCode());
+        Assertions.assertTrue(optional.isPresent());
+        Assertions.assertEquals(baggage.getId(), optional.get().getId());
+        Assertions.assertEquals(baggage.getTagCode(), optional.get().getTagCode());
+        Assertions.assertEquals(baggage.getWeight(), optional.get().getWeight());
+    }
 }

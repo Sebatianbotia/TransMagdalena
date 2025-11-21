@@ -11,6 +11,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -42,16 +43,16 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "driver", fetch = FetchType.LAZY)
-    private Set<Assignment> driverAssignments;
+    private Set<Assignment> driverAssignments = new HashSet<>();
 
     @OneToMany(mappedBy = "dispatcher", fetch = FetchType.LAZY)
-    private Set<Assignment> dispatcherAssignments;
+    private Set<Assignment> dispatcherAssignments = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<SeatHold> seatHolds;
+    private Set<SeatHold> seatHolds = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
 
 
 

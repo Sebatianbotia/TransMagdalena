@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface FareRuleRepository extends JpaRepository<FareRule, Long> {
 
-    Optional<FareRule> findFareRuleById(Long fareRuleId);
+    Optional<FareRule> findById(Long fareRuleId);
 }

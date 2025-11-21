@@ -53,9 +53,8 @@ public class FareRuleServiceImpl implements  FareRuleService {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public void delete(Long id) {
         fareRuleRepository.deleteById(id);
-        return true;
     }
 
     @Override

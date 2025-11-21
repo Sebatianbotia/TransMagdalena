@@ -5,6 +5,7 @@ import com.example.transmagdalena.weather.Weather;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,9 +29,9 @@ public class City {
     private float lon;
 
     @OneToMany(mappedBy = "city")
-    private Set<Stop> stops;
+    private Set<Stop> stops = new HashSet<>();
 
     @OneToMany(mappedBy = "city")
-    private Set<Weather> weathers;
+    private Set<Weather> weathers = new HashSet<>();
 
 }

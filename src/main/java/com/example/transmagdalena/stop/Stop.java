@@ -10,6 +10,8 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,28 +41,28 @@ public class Stop {
     private Float lng;
 
     @OneToMany(mappedBy = "origin")
-    private List<RouteStop> originRouteStops;
+    private List<RouteStop> originRouteStops = new ArrayList<>();
 
     @OneToMany(mappedBy = "destination")
-    private List<RouteStop> destinationRouteStops;
+    private List<RouteStop> destinationRouteStops = new ArrayList<>();
 
     @OneToMany(mappedBy = "origin")
-    private Set<Ticket> originTickets;
+    private Set<Ticket> originTickets = new HashSet<>();
 
     @OneToMany(mappedBy = "destination")
-    private Set<Ticket> destinationTickets;
+    private Set<Ticket> destinationTickets = new HashSet<>();
 
     @OneToMany(mappedBy = "origin")
-    private Set<Route> originRoutes;
+    private Set<Route> originRoutes = new HashSet<>();
 
     @OneToMany(mappedBy = "destination")
-    private Set<Route> destinationRoutes;
+    private Set<Route> destinationRoutes = new HashSet<>();
 
     @OneToMany(mappedBy = "origin")
-    private Set<FareRule> originFareRules;
+    private Set<FareRule> originFareRules = new HashSet<>();
 
     @OneToMany(mappedBy = "destination")
-    private Set<FareRule> destinationFareRules;
+    private Set<FareRule> destinationFareRules = new HashSet<>();
 
     private Boolean isDelete;
 

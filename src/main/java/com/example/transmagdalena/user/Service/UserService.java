@@ -20,4 +20,6 @@ public interface UserService {
     Page<UserDTO.userResponse> getUsersByRol(UserRols rol, Pageable pageable);
     Integer countUsersByRol(UserRols rol);
     Page<UserDTO.userResponse> getPassengers(Pageable pageable);
-}
+    User getObject(Long id, UserRols rol);
+
+    }

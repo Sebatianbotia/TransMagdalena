@@ -11,7 +11,7 @@ public interface FareRuleService {
     FareRuleDTO.fareRuleResponse get(Long id);
     Page<FareRuleDTO.fareRuleResponse> getAll(Pageable pageable);
     FareRule getObject(Long id);
-    boolean delete(Long id);
+    void delete(Long id);
     FareRuleDTO.fareRuleResponse update(FareRuleDTO.fareRuleUpdateRequest request, Long id);
 
 

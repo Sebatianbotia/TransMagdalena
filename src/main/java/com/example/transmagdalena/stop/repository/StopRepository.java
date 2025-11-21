@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface StopRepository extends JpaRepository<Stop, Long> {
 
     Optional<Stop> findByNameIgnoreCase(String name);
-    List<Stop> findByCityId(Long cityId);
+    List<Stop> findStStopsByCityId(Long cityId);
 }
