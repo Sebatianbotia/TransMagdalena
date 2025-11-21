@@ -3,6 +3,7 @@ package com.example.transmagdalena.trip.controller;
 import com.example.transmagdalena.assignment.DTO.AssignmentDTO;
 import com.example.transmagdalena.incidents.DTO.IncidentDTO;
 import com.example.transmagdalena.incidents.EntityType;
+import com.example.transmagdalena.incidents.service.IncidentService;
 import com.example.transmagdalena.incidents.service.IncidentServiceImpl;
 import com.example.transmagdalena.seat.DTO.SeatDTO;
 import com.example.transmagdalena.seat.Seat;
@@ -35,8 +36,8 @@ import java.util.Set;
 @Validated
 public class TripController {
 
-    private final TripServiceImpl tripService;
-    private final IncidentServiceImpl  incidentService;
+    private final TripService tripService;
+    private final IncidentService incidentService;
 
     @GetMapping("/{id}")
     public ResponseEntity<TripDTO.tripResponse> getTrip(@PathVariable Long id){

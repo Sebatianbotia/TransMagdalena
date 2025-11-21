@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -56,20 +57,20 @@ public class Trip {
     private TripStatus tripStatus;
 
     @OneToMany(mappedBy = "trip")
-    private Set<SeatHold> seatHolds;
+    private Set<SeatHold> seatHolds = new HashSet<>();
 
     @OneToMany(mappedBy = "trip")
-    private Set<Ticket> tickets;
+    private Set<Ticket> tickets = new HashSet<>();
 
     @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)
-    private Set<Assignment> assignments;
+    private Set<Assignment> assignments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fare_rule_id")
     private FareRule fareRule;
 
     @OneToMany(mappedBy = "trip")
-    private Set<TripQR> tripQRs;
+    private Set<TripQR> tripQRs = new HashSet<>();
 
     public void addBus(Bus bus){
         if(this.bus != null){

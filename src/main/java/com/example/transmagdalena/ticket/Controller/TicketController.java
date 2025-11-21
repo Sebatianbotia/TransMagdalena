@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class TicketController {
 
-    private final TicketServiceImpl ticketService;
+    private final TicketService ticketService;
 
     @PostMapping("/create")
     public ResponseEntity<TicketDTO.ticketResponse> create(@RequestBody TicketDTO.ticketCreateRequest ticketDTO) {

@@ -5,6 +5,7 @@ import com.example.transmagdalena.fareRule.FareRule;
 import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.routeStop.DTO.RouteStopDTO;
 import com.example.transmagdalena.routeStop.RouteStop;
+import com.example.transmagdalena.stop.Stop;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -19,5 +20,5 @@ public interface FareRuleMapper {
     void update(FareRuleDTO.fareRuleUpdateRequest fareRuleUpdateRequest,  @MappingTarget FareRule fareRule);
 
     FareRuleDTO.fareRuleResponse toDto(FareRule fareRule);
-    FareRuleDTO.stopDTO toStopDTO(RouteStop entity);
+    FareRuleDTO.stopDTO toStopDTO(Stop entity);
 }

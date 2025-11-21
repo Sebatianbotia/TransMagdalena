@@ -90,10 +90,10 @@ public class Ticket {
 
     public void addOrigin(Stop origin) {
         if(this.origin != null) {
-            this.origin.getDestinationTickets().remove(this);
+            this.origin.getOriginTickets().remove(this);
         }
         this.origin = origin;
-        origin.getDestinationTickets().add(this);
+        origin.getOriginTickets().add(this);
     }
 
 

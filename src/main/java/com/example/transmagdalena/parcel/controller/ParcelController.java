@@ -42,7 +42,7 @@ public class ParcelController {
     public ResponseEntity<ParcelDTO.parcelResponse> create(@RequestBody @Valid ParcelDTO.parcelCreateRequest parcelDTO,
                                                            UriComponentsBuilder uriBuilder){
         var s = parcelService.save(parcelDTO);
-        var location =  uriBuilder.path("/api/v1/parcel/{id)").buildAndExpand(s.id()).toUri();
+        var location =  uriBuilder.path("/api/v1/parcel/{id}").buildAndExpand(s.id()).toUri();
         return ResponseEntity.created(location).body(s);
     }
 

@@ -5,6 +5,7 @@ import com.example.transmagdalena.assignment.DTO.AssignmentDTO;
 import com.example.transmagdalena.assignment.mapper.AssignmentMapper;
 import com.example.transmagdalena.assignment.repository.AssignmentRepository;
 import com.example.transmagdalena.trip.repository.TripRepository;
+import com.example.transmagdalena.trip.service.TripService;
 import com.example.transmagdalena.trip.service.TripServiceImpl;
 import com.example.transmagdalena.user.Service.UserService;
 import com.example.transmagdalena.user.Service.UserServiceImpl;
@@ -26,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final AssignmentMapper assignmentMapper;
-    private final UserServiceImpl userService;
-    private final TripServiceImpl tripService;
+    private final UserService userService;
+    private final TripService tripService;
 
     @Override
     @Transactional

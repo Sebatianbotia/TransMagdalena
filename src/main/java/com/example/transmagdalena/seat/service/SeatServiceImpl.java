@@ -33,6 +33,7 @@ public class SeatServiceImpl implements SeatService {
             f.setNumber(seatDTO.number());
         }
         f = seatRepository.save(f);
+        f.setIsDelete(false);
         return seatMapper.toSeatResponse(f);
     }
 

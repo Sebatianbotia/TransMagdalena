@@ -30,6 +30,7 @@ public class StopServiceImpl implements  StopService {
     public StopDTO.stopResponse save(StopDTO.stopCreateRequest stopDTO) {
         var s = stopMapper.toEntity(stopDTO);
         s.setCity(cityService.getObject(stopDTO.cityId()));
+        s.setIsDelete(false);
         return stopMapper.toDTO(stopRepository.save(s));
     }
 
@@ -82,7 +83,7 @@ public class StopServiceImpl implements  StopService {
     @Override
     @Transactional(readOnly = true)
     public List<StopDTO.stopResponse> getStopsByCity(Long cityId){
-        return stopRepository.findByCityId(cityId).stream().map(stopMapper::toDTO).toList();
+        return stopRepository.findStStopsByCityId(cityId).stream().map(stopMapper::toDTO).toList();
     }
 
     public List<StopDTO.stopResponse> getStops(){

@@ -58,14 +58,8 @@ public class BaggageServiceImpl implements BaggageService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        var f = getObject(id);
-        var check = false;
-        if (f!=null){
-            baggageRepository.deleteById(id);
-            check = true;
-        }
-        return check;
+    public void delete(Long id) {
+        baggageRepository.deleteById(id);
     }
 
     @Override

@@ -33,6 +33,8 @@ public interface RouteStopMapper {
     RouteStopDTO.routeStopResponse toDto(RouteStop entity);
     RouteStopDTO.stopDTO toStopDTO(Stop entity);
     RouteStopDTO.routeDTO toRouteDTO(Route entity);
+
+    @Mapping(source = "isDynamicPricing", target = "isDynamicPricing")
     RouteStopDTO.fareRuleDTO toFareRuleDto(FareRule entity);
 
 }
