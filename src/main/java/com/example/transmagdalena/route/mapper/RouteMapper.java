@@ -24,8 +24,14 @@ public interface RouteMapper {
 
     //response
     default routeResponse toResponse(Route route) {
-        return new routeResponse(route.getId(), route.getCode(), route.getOrigin().getName(),
-                route.getDestination().getName(), route.getDistanceKm().toString(), route.getDurationTime().toString());
+        return new routeResponse(
+                route.getId(),
+                route.getCode(),
+                route.getOrigin().getName(),
+                route.getDestination().getName(),
+                String.valueOf(route.getDistanceKm()),
+                String.valueOf(route.getDurationTime())
+        );
     }
 
     default routeResponseStops toResponseStops(Route route){

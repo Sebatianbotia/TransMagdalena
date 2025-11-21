@@ -13,5 +13,6 @@ public interface BusService {
     void delete(Long id);
     BusDTO.busResponse update(BusDTO.busUpdateRequest request, Long busId);
     Bus getObject(Long id);
+    Long countBuses();
 
 }

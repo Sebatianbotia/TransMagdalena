@@ -5,6 +5,10 @@ import com.example.transmagdalena.trip.Trip;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DialectOverride;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLInsert;
+import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,6 +22,8 @@ import java.util.Set;
 @Builder
 @Table(name = "buses")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@SQLDelete(sql = "update buses set is_delete = true where id =?")
+@Where(clause = "is_delete = false")
 public class Bus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +34,14 @@ public class Bus {
 
     private int capacity;
 
-    private String status;
+    private BusStatus status;
 
     @OneToMany(mappedBy = "bus")
-    private List<Trip> trips = new ArrayList<>();
+    private List<Trip> trips;
 
-    @OneToMany(mappedBy = "bus")
-    private Set<Seat> seats = new HashSet<>();
+    @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
+    private Set<Seat> seats;
+
+    private Boolean isDelete;
 
 }

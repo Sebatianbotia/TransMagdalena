@@ -5,6 +5,8 @@ import com.example.transmagdalena.route.Route;
 import com.example.transmagdalena.stop.Stop;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Data
@@ -13,6 +15,8 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "routeStops")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@SQLDelete(sql = "update routeStops set is_delete = true where id = ?")
+@Where(clause = "is_delete = false")
 public class RouteStop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +41,8 @@ public class RouteStop {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fare_rule_Id")
     private FareRule fareRule;
+
+    private Boolean isDelete;
 
 
     public void addRoute(Route route) {

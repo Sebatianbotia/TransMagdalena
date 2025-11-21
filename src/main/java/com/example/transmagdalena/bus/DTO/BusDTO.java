@@ -1,5 +1,6 @@
 package com.example.transmagdalena.bus.DTO;
 
+import com.example.transmagdalena.bus.BusStatus;
 import com.example.transmagdalena.seat.SeatType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +17,7 @@ public class BusDTO {
         @NotNull
         int capacity,
         @NotBlank
-        String status,
+        BusStatus status,
         @NotNull
         Set<seatCreateRequest> seats
     ) implements Serializable {}
@@ -33,14 +34,14 @@ public class BusDTO {
             Long id,
             String plate,
             int capacity,
-            String status
+            BusStatus status
     ) implements Serializable {}
 
     public record busResponse(
             Long id,
             String plate,
             int capacity,
-            String status,
+            BusStatus status,
             Set<seatResponseDto> seats
     ) implements Serializable{}
 

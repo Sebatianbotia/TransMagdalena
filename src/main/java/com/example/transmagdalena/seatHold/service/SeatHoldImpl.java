@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -42,12 +44,12 @@ public class SeatHoldImpl implements SeatHoldService {
     public SeatHoldDTO.seatHoldResponse save(SeatHoldDTO.seatHoldCreateRequest request) {
         var f = seatHoldMapper.toEntity(request);
         f.setTrip(tripService.getObject(request.tripId()));
-        if (isSeatfree(request.seatId(), request.tripId())) {
-            f.setSeat(seatService.getObject(request.seatId()));
-            f.setStatus(SeatHoldStatus.EXPIRED);
-        }
+
+        f.setSeat(seatService.getObject(request.seatId()));
+        f.setStatus(SeatHoldStatus.EXPIRED);
+
         f.setUser(userService.getObject(request.userId()));
-        f.setExpiresAt(OffsetDateTime.now().plusMinutes(10));
+        f.setExpiresAt(LocalDateTime.now().plusMinutes(10));
         f = seatHoldRepository.save(f);
         deleteExpiredSeatHolds(f);
         return seatHoldMapper.toDTO(f);
@@ -91,24 +93,13 @@ public class SeatHoldImpl implements SeatHoldService {
         return seatHoldRepository.findById(id).orElseThrow(() -> new NotFoundException("SeatHold not found"));
     }
 
-    public boolean isSeatfree(Long seatId, Long tripId) {
-        var s = seatHoldRepository.findSeatHoldBySeat_IdAndTripIdAndStatus(seatId, tripId, SeatHoldStatus.HOLD);
-        if (s.isEmpty()) {
-            return true;
-        }
-        throw new IllegalArgumentException("Seat is not free");
-    }
-
-    public Integer seatsAvailableInTrip(Long tripId) {
-        return seatHoldRepository.findSeatHoldByTripIdAndStatusIs(tripId, SeatHoldStatus.HOLD);
-    }
 
     @Transactional
     public void deleteExpiredSeatHolds(SeatHold seatHold) {
-        Instant time = Instant.now().plus(10, ChronoUnit.SECONDS);
+        Instant time = Instant.now().plus(10, ChronoUnit.MINUTES );
 
         taskScheduler.schedule(() -> {
-            if (seatHold.getStatus().equals(SeatHoldStatus.EXPIRED)) {
+            if (seatHold.getStatus() == null) {
                 delete(seatHold.getId());
             }
         }

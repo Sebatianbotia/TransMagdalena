@@ -4,6 +4,8 @@ import com.example.transmagdalena.ticket.Ticket;
 import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Data
@@ -26,6 +28,8 @@ public class TripQR {
 
     @Column(nullable = false, unique = true)
     private String qrSeed;
+
+    private TriQRStatus status;
 
 
     public void setTrip(Trip trip) {

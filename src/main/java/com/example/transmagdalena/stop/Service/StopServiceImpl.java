@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -75,5 +77,15 @@ public class StopServiceImpl implements  StopService {
             s.setCity(cityService.getObject(stopDTO.cityId()));
         }
         return stopMapper.toDTO(s);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<StopDTO.stopResponse> getStopsByCity(Long cityId){
+        return stopRepository.findByCityId(cityId).stream().map(stopMapper::toDTO).toList();
+    }
+
+    public List<StopDTO.stopResponse> getStops(){
+        return stopRepository.findAll().stream().map(stopMapper::toDTO).toList();
     }
 }

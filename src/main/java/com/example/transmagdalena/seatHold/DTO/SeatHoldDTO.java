@@ -6,8 +6,11 @@ import com.example.transmagdalena.seatHold.SeatHoldStatus;
 import com.example.transmagdalena.user.UserRols;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 
 public class SeatHoldDTO {
@@ -56,8 +59,8 @@ public class SeatHoldDTO {
     public record tripDTO(
             Long id,
             routeDTO route,
-            OffsetDateTime arrivalAt,
-            OffsetDateTime departureAt
+            LocalTime arrivalAt,
+            LocalTime departureAt
     ) implements Serializable {}
 
     public record seatDto(

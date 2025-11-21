@@ -5,5 +5,7 @@ public enum UserRols {
     CLERK,
     DRIVER,
     DISPATCHER,
-    ADMIN
+    ADMIN,
+    STUDENT,
+    OLD_MAN
 }

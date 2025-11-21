@@ -5,6 +5,8 @@ import com.example.transmagdalena.stop.Stop;
 import com.example.transmagdalena.trip.Trip;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 @Entity
 @Table(name = "routes")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@SQLDelete(sql = "update routes set is_delete = true where id = ?")
+@Where(clause = "is_delete = false")
 public class Route {
 
     @Id
@@ -36,12 +40,14 @@ public class Route {
     @OneToMany(mappedBy = "route")
     private List<Trip> trips;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<RouteStop> routeStops;
 
     private Float distanceKm;
 
     private Float durationTime;
+
+    private Boolean isDelete;
 
     public void addOrigin(Stop origin) {
         this.origin = origin;
@@ -53,10 +59,6 @@ public class Route {
         destination.getDestinationRoutes().add(this);
     }
 
-
-    private Float distanceKm;
-
-    private Float durationTime;
 
     public void setOrigin(Stop origin) {
         if (origin == this.origin) {return;}
