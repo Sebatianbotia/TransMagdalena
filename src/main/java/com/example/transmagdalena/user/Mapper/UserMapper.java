@@ -20,14 +20,19 @@ public interface UserMapper {
 
     UserDTO.userAssigmentResponse toResponseAssigment(User user);
     Set<UserDTO.assignmentDTO> assignments(Set<Assignment> assignments);
+
+    @Mapping(target = "origin", source = "route", qualifiedByName = "originTrip")
+    @Mapping(target = "destination", source = "route", qualifiedByName = "destinationTrip")
     UserDTO.tripDTO trip(Trip trips);
 
+    @Named("originTrip") // se usa para nombrar esos metodos por default y se llamo arriba
     default String originTrip(Route route) {
         String origin = "";
         if (route != null){origin = route.getOrigin().getName();}
         return origin;
     }
 
+    @Named("destinationTrip")
     default String destinationTrip(Route route) {
         String destination = "";
         if (route != null){destination = route.getDestination().getName();}

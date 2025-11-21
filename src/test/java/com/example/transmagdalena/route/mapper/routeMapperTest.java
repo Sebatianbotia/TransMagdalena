@@ -46,7 +46,7 @@
 //        assertNotNull(response);
 //        assertEquals(1L, response.id());
 //        assertEquals("R999", response.code());
-//        assertEquals("Valledupar", response.destination().name());
+//        assertEquals("Valledupar", response.destination());
 //    }
 //
 //    @Test

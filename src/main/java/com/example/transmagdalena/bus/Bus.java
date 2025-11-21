@@ -37,10 +37,10 @@ public class Bus {
     private BusStatus status;
 
     @OneToMany(mappedBy = "bus")
-    private List<Trip> trips;
+    private List<Trip> trips = new ArrayList<>();
 
     @OneToMany(mappedBy = "bus", cascade = CascadeType.ALL)
-    private Set<Seat> seats;
+    private Set<Seat> seats = new HashSet<>();
 
     private Boolean isDelete;
 

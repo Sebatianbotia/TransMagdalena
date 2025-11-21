@@ -11,17 +11,17 @@ import java.time.LocalTime;
 public class WeatherDTO {
 
     public record weatherCreateRequest(
-            @NotNull WeatherType type, @NotNull Float discount, LocalDate date, LocalTime startTime,
+            @NotNull WeatherType weatherType, @NotNull Float discount, LocalDate date, LocalTime startTime,
             LocalTime endTime, Long cityId
     )implements Serializable {}
 
     public record weatherUpdateRequest(
-             WeatherType type, Float discount, LocalDate date, LocalTime startTime,
+             WeatherType weatherType, Float discount, LocalDate date, LocalTime startTime,
              LocalTime endTime, Long cityId
     ) implements Serializable {}
 
     public record weatherRespose(
-            Long id, WeatherType type, Float discount, LocalDate date, LocalTime startTime,
+            Long id, WeatherType weatherType, Float discount, LocalDate date, LocalTime startTime,
             LocalTime endTime, Long cityId
     ) implements Serializable {}
 }

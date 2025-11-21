@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     public User getObject(Long id, UserRols rol) {
         var s = getObject(id);
         if (s.getRol().equals(rol)) {

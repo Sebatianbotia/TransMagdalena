@@ -17,10 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ParcelServiceImpl implements ParcelService {
 
-    @Autowired
     private final ParcelRepository parcelRepository;
 
-    @Autowired
     private final ParcelMapper parcelMapper;
 
     @Override

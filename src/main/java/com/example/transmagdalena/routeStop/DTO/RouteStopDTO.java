@@ -27,6 +27,6 @@ public class RouteStopDTO {
     // Response
     public record stopDTO(Long id, String name, Float lat, Float lng) implements Serializable{}
     public record routeDTO(Long id, String code, stopDTO origin, stopDTO destination) implements Serializable{}
-    public record fareRuleDTO(Long id, BigDecimal basePrice, Boolean isDinamycPricing) implements Serializable{}
+    public record fareRuleDTO(Long id, BigDecimal basePrice, Boolean isDynamicPricing) implements Serializable{}
     public record routeStopResponse(Long id, Integer stopOrder, routeDTO route,stopDTO origin, stopDTO destination, fareRuleDTO fareRule) implements Serializable {}
 }

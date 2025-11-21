@@ -81,13 +81,13 @@ class RouteStopMapperTest {
 
     @Test
     void testToFareRuleDto() {
-        FareRule fareRule = FareRule.builder().id(1L).basePrice(new BigDecimal("90000.00")).isDynamicPricing(false).build();
+        FareRule fareRule = FareRule.builder().id(1L).basePrice(new BigDecimal("90000.00")).isDynamicPricing(true).build();
 
         RouteStopDTO.fareRuleDTO fareRuleDTO = routeStopMapper.toFareRuleDto(fareRule);
 
         assertNotNull(fareRuleDTO);
         assertEquals(1L, fareRuleDTO.id());
         assertEquals(new BigDecimal("90000.00"), fareRuleDTO.basePrice());
-        assertFalse(fareRuleDTO.isDinamycPricing());
+        assertTrue(fareRuleDTO.isDynamicPricing());
     }
 }

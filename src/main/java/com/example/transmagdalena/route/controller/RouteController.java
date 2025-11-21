@@ -48,7 +48,7 @@ public class RouteController {
     public ResponseEntity<RouteDTO.routeResponse> create(@RequestBody @Valid RouteDTO.routeCreateRequest req,
                                                            UriComponentsBuilder uriBuilder){
         var s = routeService.save(req);
-        var location =  uriBuilder.path("/api/v1/route/{id)").buildAndExpand(s.id()).toUri();
+        var location =  uriBuilder.path("/api/v1/route/{id}").buildAndExpand(s.id()).toUri();
         return ResponseEntity.created(location).body(s);
     }
 

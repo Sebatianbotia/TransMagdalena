@@ -1,5 +1,6 @@
 package com.example.transmagdalena.seat.DTO;
 
+import com.example.transmagdalena.bus.BusStatus;
 import com.example.transmagdalena.seat.SeatType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,7 +35,7 @@ public class SeatDTO {
 
     public record busDto(
         String plate,
-        String status
+        BusStatus status
     ) implements Serializable {}
 
 }

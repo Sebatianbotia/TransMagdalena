@@ -14,7 +14,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "trip_qrs")
 @Builder
 @SQLDelete(sql = "update trip_qrs set status = 'CANCELLED' where id = ? ")
-@Where(clause = "status != 'CANCELLED'")
+@Where(clause = "status != 1")
 public class TripQR {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +35,32 @@ public class TripQR {
 
 
     public void setTrip(Trip trip) {
-        trip.getTripQRs().add(this);
+        if (this.trip == trip) return;
+
+        if (this.trip != null) {
+            this.trip.getTripQRs().remove(this);
+        }
+
         this.trip = trip;
+
+        if (trip != null) {
+            trip.getTripQRs().add(this);
+        }
     }
 
-    public void removeTrip(Trip trip) {
-        trip.getTripQRs().remove(this);
-        this.trip = null;
+    public void setTicket(Ticket ticket) {
+        if (this.ticket == ticket) return;
+
+        Ticket old = this.ticket;
+        if (old != null) {
+            old.setTripQR(null); // si tu Ticket tiene referencia
+        }
+
+        this.ticket = ticket;
+
+        if (ticket != null) {
+            ticket.setTripQR(this);
+        }
     }
 
 

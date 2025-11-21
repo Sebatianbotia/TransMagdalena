@@ -17,10 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CityServiceImpl implements CityService {
 
-    @Autowired
-    private CityRepository cityRepository;
-    @Autowired
-    private CityMapper cityMapper;
+    private final CityRepository cityRepository;
+    private final CityMapper cityMapper;
 
 
     @Override

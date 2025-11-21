@@ -11,9 +11,9 @@ import java.util.Set;
 public class UserDTO {
 
     public record userCreateRequest(@NotBlank String name, @NotBlank String email,
-                                    @NotBlank String phone, @NotBlank UserRols rol, @NotBlank String passwordHash,
+                                    @NotBlank String phone, @NotBlank UserRols rol,
                                     @NotBlank LocalDate bornDate) implements Serializable{}
-    public record userUpdateRequest(String name, String email, String phone, UserRols rol, String passwordHash) implements Serializable{}
+    public record userUpdateRequest(String name, String email, String phone, UserRols rol) implements Serializable{}
     public record userResponse(Long id, String name, String email, String phone, UserRols rol, LocalDate bornDate) implements Serializable{}
     public record userAssigmentResponse(Long id, String name, String email, String phone, UserRols rol,
                                         Set<assignmentDTO> driverAssignments, Set<assignmentDTO> dispatcherAssignments

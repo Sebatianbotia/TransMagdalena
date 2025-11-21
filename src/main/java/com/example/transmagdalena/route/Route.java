@@ -38,10 +38,10 @@ public class Route {
     private Stop destination;
 
     @OneToMany(mappedBy = "route")
-    private List<Trip> trips;
+    private List<Trip> trips = new ArrayList<>();
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
-    private List<RouteStop> routeStops;
+    private List<RouteStop> routeStops = new ArrayList<>();
 
     private Float distanceKm;
 

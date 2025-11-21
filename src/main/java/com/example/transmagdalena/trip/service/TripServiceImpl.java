@@ -160,6 +160,7 @@ public class TripServiceImpl implements TripService {
 
     }
 
+    @Override
     public Page<TripDTO.tripResponseWithSeatAvailable> findTripsBetweenStops(Long origin, Long destination,
                                                                              Pageable pageable, UserRols userRols, LocalDate date) {
         Page<Trip> foundtrips = tripRepository.findAllTripsBetweenOriginAndDestination(origin, destination, date, pageable);
