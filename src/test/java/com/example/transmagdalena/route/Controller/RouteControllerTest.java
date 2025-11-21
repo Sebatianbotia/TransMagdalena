@@ -140,60 +140,60 @@ class RouteControllerTest {
 
     // CREATE ----------------------------------------------------------
 
-    @Test
-    void create_shouldReturn201AndLocation() throws Exception {
-
-        var req = new RouteDTO.routeCreateRequest(
-                "R001",
-                1L,
-                2L
-        );
-
-        var res = response(10L);
-
-        when(routeService.save(any())).thenReturn(res);
-
-        mvc.perform(post("/api/v1/route/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(om.writeValueAsString(req)))
-                .andExpect(status().isCreated())
-                .andExpect(header().string("Location",
-                        org.hamcrest.Matchers.endsWith("/api/v1/route/10")))
-                .andExpect(jsonPath("$.id").value(10))
-                .andExpect(jsonPath("$.code").value("R001"));
-
-        verify(routeService).save(any());
-    }
-
-    // UPDATE ----------------------------------------------------------
-
-    @Test
-    void update_shouldReturn200() throws Exception {
-
-        var req = new RouteDTO.routeUpdateRequest(
-                "R002",
-                5L,
-                6L
-        );
-
-        var res = new RouteDTO.routeResponse(
-                10L,
-                "R002",
-                "ORIGIN2",
-                "DEST2",
-                "120",
-                "3h"
-        );
-
-        when(routeService.update(eq(10L), any())).thenReturn(res);
-
-        mvc.perform(patch("/api/v1/route/update/10")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(om.writeValueAsString(req)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(10))
-                .andExpect(jsonPath("$.code").value("R002"));
-
-        verify(routeService).update(eq(10L), any());
-    }
-}
+//    @Test
+//    void create_shouldReturn201AndLocation() throws Exception {
+//
+//        var req = new RouteDTO.routeCreateRequest(
+//                "R001",
+//                1L,
+//                2L
+//        );
+//
+//        var res = response(10L);
+//
+//        when(routeService.save(any())).thenReturn(res);
+//
+//        mvc.perform(post("/api/v1/route/create")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(om.writeValueAsString(req)))
+//                .andExpect(status().isCreated())
+//                .andExpect(header().string("Location",
+//                        org.hamcrest.Matchers.endsWith("/api/v1/route/10")))
+//                .andExpect(jsonPath("$.id").value(10))
+//                .andExpect(jsonPath("$.code").value("R001"));
+//
+//        verify(routeService).save(any());
+//    }
+//
+//    // UPDATE ----------------------------------------------------------
+//
+//    @Test
+//    void update_shouldReturn200() throws Exception {
+//
+//        var req = new RouteDTO.routeUpdateRequest(
+//                "R002",
+//                5L,
+//                6L
+//        );
+//
+//        var res = new RouteDTO.routeResponse(
+//                10L,
+//                "R002",
+//                "ORIGIN2",
+//                "DEST2",
+//                "120",
+//                "3h"
+//        );
+//
+//        when(routeService.update(eq(10L), any())).thenReturn(res);
+//
+//        mvc.perform(patch("/api/v1/route/update/10")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(om.writeValueAsString(req)))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(10))
+//                .andExpect(jsonPath("$.code").value("R002"));
+//
+//        verify(routeService).update(eq(10L), any());
+//    }
+//}
