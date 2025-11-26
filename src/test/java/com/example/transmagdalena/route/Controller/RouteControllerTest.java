@@ -137,6 +137,7 @@ class RouteControllerTest {
 
         verify(routeService).count();
     }
+}
 
     // CREATE ----------------------------------------------------------
 

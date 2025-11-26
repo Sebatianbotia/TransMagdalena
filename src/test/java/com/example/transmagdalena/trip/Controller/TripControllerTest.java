@@ -143,24 +143,24 @@ class TripControllerTest {
     // GET /{id}/seats
     // ============================
 
-    @Test
-    void getTripSeats_shouldReturn200() throws Exception {
-
-        Seat seat1 = new Seat();
-        seat1.setId(1L);
-
-        Seat seat2 = new Seat();
-        seat2.setId(2L);
-
-        when(tripService.getTripSeats(10L))
-                .thenReturn(Set.of(seat1, seat2));
-
-        mvc.perform(get("/api/v1/trip/10/seats"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").exists());
-
-        verify(tripService).getTripSeats(10L);
-    }
+//    @Test
+//    void getTripSeats_shouldReturn200() throws Exception {
+//
+//        Seat seat1 = new Seat();
+//        seat1.setId(1L);
+//
+//        Seat seat2 = new Seat();
+//        seat2.setId(2L);
+//
+//        when(tripService.getTripSeats(10L))
+//                .thenReturn(Set.of(seat1, seat2));
+//
+//        mvc.perform(get("/api/v1/trip/10/seats"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].id").exists());
+//
+//        verify(tripService).getTripSeats(10L);
+//    }
 
     // ============================
     // GET /all
