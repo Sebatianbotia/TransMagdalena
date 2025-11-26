@@ -56,7 +56,7 @@ public class CloudinaryStorageService {
                         ObjectUtils.asMap(//creamos un map (llave- valor)
                                 "public_id", publicId,//"public_id", "tickets/qr-TKT-20241110-ABC123-a3f8b2c1" por ejemplo
                                 "folder", "qr-codes", // Carpeta en Cloudinary
-                                "resource_type", "image"//aja xd
+                                "resource_type", "image"//Carpeta
                         )
                 );// al final, uploadResult va a tener informacion del archivo suibido inclutendo dos url publicas, una http y otra https que es la que vamos a usar
                 //esar url publica es la que vamos a retornar

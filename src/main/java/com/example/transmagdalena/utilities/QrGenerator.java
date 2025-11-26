@@ -20,7 +20,7 @@ public class QrGenerator {
 
     public static void main(String[] args) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode("yeilin", BarcodeFormat.QR_CODE, 20, 20);
+        BitMatrix bitMatrix = qrCodeWriter.encode("https://axoncompany.com.co/", BarcodeFormat.QR_CODE, 20, 20);
         BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
         File qrCodeFile = new File("dhdh/qrcodess.jpg");
         if (!Files.exists(qrCodeFile.toPath())) {
